@@ -23,8 +23,9 @@
                     data-action="toggle-admin-sidebar"
                     aria-expanded="false"
                     aria-controls="admin-sidebar-nav"
+                    aria-label="Mở menu quản trị"
                 >
-                    Menu
+                    <i class="fa-solid fa-bars" aria-hidden="true"></i>
                 </button>
             </div>
 

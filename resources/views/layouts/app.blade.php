@@ -20,8 +20,9 @@
                     data-action="toggle-mobile-nav"
                     aria-expanded="false"
                     aria-controls="mobile-nav"
+                    aria-label="Mở menu"
                 >
-                    Menu
+                    <i class="fa-solid fa-bars" aria-hidden="true"></i>
                 </button>
             </div>
 
@@ -38,10 +39,12 @@
                     >
                     <button
                         type="submit"
-                        class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+                        class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
                         disabled
+                        aria-label="Tìm kiếm"
                     >
-                        Tìm
+                        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                        <span class="hidden sm:inline">Tìm</span>
                     </button>
                 </div>
             </form>
@@ -49,8 +52,14 @@
             <nav id="mobile-nav" class="hidden flex-col gap-2 text-sm sm:flex sm:flex-row sm:items-center sm:gap-4" data-mobile-nav>
                 <a href="{{ route('home') }}" class="text-gray-700 hover:text-blue-600">Trang chủ</a>
                 <span class="text-gray-400">Sản phẩm</span>
-                <span class="text-gray-400">Giỏ hàng (0)</span>
-                <span class="text-gray-400">Đăng nhập</span>
+                <span class="inline-flex items-center gap-1.5 text-gray-400" aria-label="Giỏ hàng, 0 sản phẩm">
+                    <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+                    <span>Giỏ hàng (0)</span>
+                </span>
+                <span class="inline-flex items-center gap-1.5 text-gray-400" aria-label="Tài khoản">
+                    <i class="fa-solid fa-user" aria-hidden="true"></i>
+                    <span>Đăng nhập</span>
+                </span>
             </nav>
         </div>
     </header>
