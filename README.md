@@ -1,69 +1,188 @@
-# Apple Store Cursor Kit
+# iStore — Apple Store Web App
 
-Bộ tài liệu này dùng để hướng dẫn Cursor xây dựng đồ án website bán điện thoại Apple theo hướng server-side rendering.
+Website bán điện thoại Apple (đồ án học tập), xây dựng bằng Laravel Blade + Tailwind CSS + jQuery.
 
-## Phạm vi đã chốt
+**Trạng thái:** Phase 0 hoàn thành — layout khách hàng/admin, trang chủ và dashboard placeholder.  
+**Task tiếp theo:** Task 0.2 trong [`docs/TASKS.md`](docs/TASKS.md) (enum, admin middleware, Pint).
 
-- Backend: PHP và Laravel.
-- Database: MySQL.
-- Giao diện: Laravel Blade và Tailwind CSS.
-- JavaScript: jQuery, chỉ dùng để nâng cấp trải nghiệm.
-- Có khu vực khách hàng và quản trị viên.
-- Có tìm kiếm, lọc, sắp xếp và phân trang sản phẩm.
-- Giỏ hàng lưu bằng session.
-- Đặt hàng đơn giản bằng COD.
-- Không có đánh giá hoặc bình luận sản phẩm.
-- Không có thanh toán trực tuyến.
-- Không dùng React, Vue, Livewire, Inertia hoặc SPA.
+---
 
-## Cấu trúc tài liệu
+## Stack
 
-- `AGENTS.md`: quy tắc gốc dành cho Cursor Agent.
-- `docs/SPEC.md`: đặc tả chức năng và tiêu chí nghiệm thu.
-- `docs/ARCHITECTURE.md`: kiến trúc và quy tắc tổ chức mã nguồn.
-- `docs/DATABASE.md`: thiết kế cơ sở dữ liệu.
-- `docs/ROUTES.md`: danh sách route và contract request/response.
-- `docs/UI_GUIDELINES.md`: định hướng giao diện và responsive.
-- `docs/IMAGE_STRATEGY.md`: chiến lược placeholder, ảnh demo và upload admin.
-- `docs/PROJECT_START_PROMPT.md`: prompt khởi động Phase 0 cho Cursor.
-- `docs/TASKS.md`: kế hoạch triển khai theo phase.
-- `docs/CURSOR_WORKFLOW.md`: cách dùng Cursor và prompt mẫu.
-- `docs/DEVELOPMENT_WINDOWS_LARAGON.md`: thiết lập và vận hành dự án trên Windows với Laragon.
-- `.cursor/rules/*.mdc`: các Project Rules bổ sung.
-- `.cursorignore`: các đường dẫn Cursor không nên đọc hoặc index.
-- `starter-assets/`: tài nguyên khởi tạo an toàn, gồm placeholder SVG.
+| Thành phần | Phiên bản |
+|---|---|
+| PHP | 8.3.x (Laragon) |
+| Laravel | 13.x |
+| MySQL | 8.x (Laragon) |
+| Tailwind CSS | 4.x (Vite) |
+| jQuery | 4.x |
+| Node.js | 22.x |
 
-## Môi trường development đã chốt
+Không dùng React, Vue, Livewire, Inertia, Alpine hay Bootstrap.
 
-- Hệ điều hành: Windows.
-- Local development environment: Laragon.
-- Terminal: PowerShell hoặc Laragon Terminal.
-- Web server và MySQL: do Laragon quản lý.
-- Project khuyến nghị đặt trong `C:\laragon\www\apple-store`.
+---
 
-Đọc `docs/DEVELOPMENT_WINDOWS_LARAGON.md` trước khi khởi tạo project.
+## Yêu cầu
 
-## Cách sử dụng
+- [Laragon](https://laragon.org/) (Apache/Nginx + MySQL + PHP 8.3)
+- Composer 2.x
+- Node.js 22.x và npm 10.x
+- Git (tùy chọn)
 
-1. Sao chép toàn bộ thư mục này vào root của repository.
-2. Đọc và chỉnh lại tên dự án trong `docs/SPEC.md` nếu cần.
-3. Đặt project trong thư mục `www` của Laragon và khởi tạo Laravel theo phiên bản mà nhóm đã thống nhất.
-4. Trong Cursor, yêu cầu Agent đọc `AGENTS.md` và tài liệu liên quan trước khi lập kế hoạch.
-5. Thực hiện từng phase trong `docs/TASKS.md`.
-6. Mỗi feature phải được review diff và chạy test trước khi commit.
+Kiểm tra nhanh:
 
-## Nguyên tắc quan trọng
+```powershell
+php --version
+composer --version
+mysql --version
+node --version
+npm --version
+```
 
-`AGENTS.md` là tài liệu chỉ dẫn chính. Các file `.cursor/rules` chỉ bổ sung chỉ dẫn theo loại file. Không đặt yêu cầu nghiệp vụ mới vào rule; hãy cập nhật `docs/SPEC.md`.
+---
 
-## Chiến lược hình ảnh
+## Cài đặt
 
-Ngay từ Phase 0, sao chép:
+Project đặt tại `C:\laragon\www\apple-store-web-app` (Laragon tự map hostname theo tên folder).
 
-    starter-assets/public/images/placeholders/product-placeholder.svg
+```powershell
+cd C:\laragon\www\apple-store-web-app
 
-đến:
+composer install
+npm install
 
-    public/images/placeholders/product-placeholder.svg
+Copy-Item .env.example .env
+php artisan key:generate
+```
 
-Không tìm hoặc hotlink ảnh bên ngoài trong giai đoạn khởi tạo. Xem chi tiết tại `docs/IMAGE_STRATEGY.md`.
+Chỉnh `.env` (file local, **không commit**):
+
+```dotenv
+APP_NAME="iStore"
+APP_URL=http://apple-store-web-app.test
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=apple_store
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Tạo database và chạy migration:
+
+```powershell
+mysql -u root -e "CREATE DATABASE IF NOT EXISTS apple_store CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+php artisan migrate
+npm run build
+```
+
+Trong Laragon: **Start All** → **Menu → Reload** nếu hostname `.test` chưa hoạt động.
+
+---
+
+## Chạy project
+
+### Laragon (khuyến nghị)
+
+| Trang | URL |
+|---|---|
+| Trang chủ | http://apple-store-web-app.test |
+| Admin | http://apple-store-web-app.test/admin |
+
+Document root trỏ vào `public/` — không cần cấu hình thêm.
+
+### Phát triển giao diện
+
+Mở terminal riêng và giữ chạy:
+
+```powershell
+npm run dev
+```
+
+### Dự phòng (`artisan serve`)
+
+```powershell
+php artisan serve
+npm run dev
+```
+
+Mở http://127.0.0.1:8000 — đặt `APP_URL=http://127.0.0.1:8000` nếu dùng lâu dài.
+
+---
+
+## Kiểm tra chất lượng
+
+```powershell
+php artisan about
+php artisan route:list
+php artisan test
+npm run build
+```
+
+Kỳ vọng: **4 tests passed**, build thành công. Chạy `npm run build` (hoặc `npm run dev`) trước khi test nếu chưa có `public/build/manifest.json`.
+
+---
+
+## Routes hiện tại
+
+| Method | URI | Name |
+|---|---|---|
+| GET | `/` | `home` |
+| GET | `/admin` | `admin.dashboard` |
+
+Chưa có middleware auth/admin.
+
+---
+
+## Tài liệu dự án
+
+| File | Mô tả |
+|---|---|
+| [`AGENTS.md`](AGENTS.md) | Quy tắc cho Cursor Agent |
+| [`docs/PROJECT_CONTEXT.md`](docs/PROJECT_CONTEXT.md) | Trạng thái triển khai và quyết định kỹ thuật |
+| [`docs/SPEC.md`](docs/SPEC.md) | Đặc tả chức năng |
+| [`docs/TASKS.md`](docs/TASKS.md) | Kế hoạch theo phase |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Kiến trúc mã nguồn |
+| [`docs/DATABASE.md`](docs/DATABASE.md) | Thiết kế cơ sở dữ liệu |
+| [`docs/ROUTES.md`](docs/ROUTES.md) | Danh sách route |
+| [`docs/DEVELOPMENT_WINDOWS_LARAGON.md`](docs/DEVELOPMENT_WINDOWS_LARAGON.md) | Hướng dẫn Laragon chi tiết |
+| [`docs/MOVE_TO_LARAGON_WWW.md`](docs/MOVE_TO_LARAGON_WWW.md) | Di chuyển project vào `www` |
+
+Prompt gợi ý khi tiếp tục với Cursor:
+
+```
+@AGENTS.md
+@docs/PROJECT_CONTEXT.md
+@docs/TASKS.md
+```
+
+---
+
+## Cấu trúc chính
+
+```
+app/Http/Controllers/
+├── HomeController.php
+└── Admin/DashboardController.php
+
+resources/views/
+├── layouts/          # app (khách) + admin
+├── components/       # flash-message, product-image
+├── home.blade.php
+└── admin/dashboard.blade.php
+
+routes/web.php
+resources/css/app.css
+resources/js/app.js
+tests/Feature/
+```
+
+---
+
+## Lưu ý
+
+- `.env` nằm trong `.gitignore` — không commit.
+- Test dùng SQLite in-memory (`phpunit.xml`); dev dùng MySQL.
+- Ảnh sản phẩm: placeholder tại `public/images/placeholders/product-placeholder.svg`.
+- Xử lý lỗi thường gặp: xem mục 10 trong [`docs/MOVE_TO_LARAGON_WWW.md`](docs/MOVE_TO_LARAGON_WWW.md).
