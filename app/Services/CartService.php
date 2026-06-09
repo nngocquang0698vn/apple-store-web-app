@@ -95,7 +95,7 @@ class CartService
 
         if (! array_key_exists($variantId, $items)) {
             throw ValidationException::withMessages([
-                'quantity' => 'Sản phẩm không có trong giỏ hàng.',
+                'quantity' => ['Sản phẩm không có trong giỏ hàng.'],
             ]);
         }
 
@@ -128,6 +128,66 @@ class CartService
         return (int) $this->getItems()->sum('line_subtotal');
     }
 
+    /**
+     * @return array{
+     *     cart_count: int,
+     *     cart_subtotal: int,
+     *     shipping_fee: int,
+     *     grand_total: int,
+     *     variant_id?: int,
+     *     quantity?: int,
+     *     unit_price?: int,
+     *     line_subtotal?: int,
+     *     stock_quantity?: int,
+     * }
+     */
+    public function buildSummary(?int $variantId = null, ?int $quantity = null): array
+    {
+        $items = $this->getItems();
+        $subtotal = (int) $items->sum('line_subtotal');
+        $shippingFee = ShippingFeeCalculator::calculate($subtotal);
+
+        $data = [
+            'cart_count' => $this->count(),
+            'cart_subtotal' => $subtotal,
+            'shipping_fee' => $shippingFee,
+            'grand_total' => $subtotal + $shippingFee,
+        ];
+
+        if ($variantId === null) {
+            return $data;
+        }
+
+        $variant = ProductVariant::query()->find($variantId);
+
+        if ($variant === null) {
+            return $data;
+        }
+
+        $lineQuantity = $quantity ?? ($this->rawItems()[$variantId]['quantity'] ?? null);
+
+        if ($lineQuantity === null) {
+            return $data;
+        }
+
+        $unitPrice = (int) $variant->sale_price;
+
+        return array_merge($data, [
+            'variant_id' => $variantId,
+            'quantity' => (int) $lineQuantity,
+            'unit_price' => $unitPrice,
+            'line_subtotal' => $unitPrice * (int) $lineQuantity,
+            'stock_quantity' => $variant->stock_quantity,
+        ]);
+    }
+
+    public function hasPurchasabilityConflict(): bool
+    {
+        return $this->getItems()->contains(
+            fn (array $line): bool => ! $line['is_purchasable']
+        );
+    }
+
     private function resolvePurchasableVariant(int $variantId): ProductVariant
     {
         $variant = ProductVariant::query()
@@ -136,13 +196,13 @@ class CartService
 
         if ($variant === null) {
             throw ValidationException::withMessages([
-                'variant_id' => 'Biến thể không tồn tại.',
+                'variant_id' => ['Biến thể không tồn tại.'],
             ]);
         }
 
         if (! $variant->is_active) {
             throw ValidationException::withMessages([
-                'variant_id' => 'Biến thể không khả dụng.',
+                'variant_id' => ['Biến thể không khả dụng.'],
             ]);
         }
 
@@ -150,7 +210,7 @@ class CartService
 
         if ($product === null || ! $product->is_active || $product->trashed()) {
             throw ValidationException::withMessages([
-                'variant_id' => 'Sản phẩm không khả dụng.',
+                'variant_id' => ['Sản phẩm không khả dụng.'],
             ]);
         }
 
@@ -161,13 +221,13 @@ class CartService
     {
         if ($variant->stock_quantity <= 0) {
             throw ValidationException::withMessages([
-                'quantity' => 'Sản phẩm đã hết hàng.',
+                'quantity' => ['Sản phẩm đã hết hàng.'],
             ]);
         }
 
         if ($quantity > $variant->stock_quantity) {
             throw ValidationException::withMessages([
-                'quantity' => 'Chỉ còn '.$variant->stock_quantity.' sản phẩm trong kho.',
+                'quantity' => ['Chỉ còn '.$variant->stock_quantity.' sản phẩm trong kho.'],
             ]);
         }
     }

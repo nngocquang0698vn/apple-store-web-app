@@ -9,17 +9,33 @@ use App\Models\Product;
 use App\Models\ProductSeries;
 use App\Models\StorageOption;
 use App\Queries\ProductQuery;
+use App\Support\ProductImageUrl;
 use App\Support\ProductVariantSelector;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class ProductController extends Controller
 {
-    public function index(ProductFilterRequest $request, ProductQuery $productQuery): View
+    public function index(ProductFilterRequest $request, ProductQuery $productQuery): View|Response
     {
         $filters = $request->filters();
+        $viewData = $this->productIndexViewData($productQuery, $filters);
 
-        return view('products.index', [
+        if ($request->ajax()) {
+            return response()->view('products._results', $viewData);
+        }
+
+        return view('products.index', $viewData);
+    }
+
+    /**
+     * @param  array<string, mixed>  $filters
+     * @return array<string, mixed>
+     */
+    private function productIndexViewData(ProductQuery $productQuery, array $filters): array
+    {
+        return [
             'products' => $productQuery->paginate($filters),
             'filters' => $filters,
             'categories' => Category::query()
@@ -41,7 +57,7 @@ class ProductController extends Controller
                 ->where('is_active', true)
                 ->orderBy('sort_order')
                 ->get(),
-        ]);
+        ];
     }
 
     public function show(Request $request, Product $product): View
@@ -70,12 +86,18 @@ class ProductController extends Controller
         $selectedColorId = $selectedVariant?->color_id;
         $availableStorages = $selector->storagesForColor($selectedColorId);
 
+        $primaryImage = $product->images->first();
+        $primaryImageUrl = $primaryImage
+            ? ProductImageUrl::resolve($primaryImage->path)
+            : asset('images/placeholders/product-placeholder.svg');
+
         return view('products.show', [
             'product' => $product,
             'selector' => $selector,
             'selectedVariant' => $selectedVariant,
             'availableStorages' => $availableStorages,
-            'variantPayload' => $selector->toClientPayload(),
+            'primaryImageUrl' => $primaryImageUrl,
+            'variantPayload' => $selector->toClientPayload($primaryImageUrl),
         ]);
     }
 }

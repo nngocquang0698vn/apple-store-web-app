@@ -9,6 +9,7 @@
 <form
     method="get"
     action="{{ route('products.index') }}"
+    data-product-filters
     {{ $attributes->merge(['class' => 'space-y-6']) }}
 >
     <div>
@@ -19,6 +20,7 @@
             name="q"
             value="{{ $filters['q'] ?? '' }}"
             placeholder="Tìm iPhone theo tên hoặc SKU"
+            data-filter-search
             class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
         >
     </div>
@@ -28,6 +30,7 @@
         <select
             id="filter-sort"
             name="sort"
+            data-filter-auto-submit
             class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
         >
             @foreach ([
@@ -48,7 +51,7 @@
         <p class="text-sm font-medium text-gray-700">Danh mục</p>
         <div class="mt-2 space-y-2">
             <label class="flex items-center gap-2 text-sm text-gray-700">
-                <input type="radio" name="category" value="" @checked(empty($filters['category']))>
+                <input type="radio" name="category" value="" data-filter-auto-submit @checked(empty($filters['category']))>
                 Tất cả
             </label>
             @foreach ($categories as $category)
@@ -57,6 +60,7 @@
                         type="radio"
                         name="category"
                         value="{{ $category->slug }}"
+                        data-filter-auto-submit
                         @checked(($filters['category'] ?? '') === $category->slug)
                     >
                     {{ $category->name }}
@@ -69,7 +73,7 @@
         <p class="text-sm font-medium text-gray-700">Dòng sản phẩm</p>
         <div class="mt-2 space-y-2">
             <label class="flex items-center gap-2 text-sm text-gray-700">
-                <input type="radio" name="series" value="" @checked(empty($filters['series']))>
+                <input type="radio" name="series" value="" data-filter-auto-submit @checked(empty($filters['series']))>
                 Tất cả
             </label>
             @foreach ($seriesList as $series)
@@ -78,6 +82,7 @@
                         type="radio"
                         name="series"
                         value="{{ $series->slug }}"
+                        data-filter-auto-submit
                         @checked(($filters['series'] ?? '') === $series->slug)
                     >
                     {{ $series->name }}
@@ -95,6 +100,7 @@
                         type="checkbox"
                         name="colors[]"
                         value="{{ $color->slug }}"
+                        data-filter-auto-submit
                         @checked(in_array($color->slug, (array) ($filters['colors'] ?? []), true))
                     >
                     {{ $color->name }}
@@ -112,6 +118,7 @@
                         type="checkbox"
                         name="storages[]"
                         value="{{ $storage->capacity_gb }}"
+                        data-filter-auto-submit
                         @checked(in_array($storage->capacity_gb, array_map('intval', (array) ($filters['storages'] ?? [])), true))
                     >
                     {{ $storage->label }}
@@ -158,6 +165,7 @@
                 type="checkbox"
                 name="in_stock"
                 value="1"
+                data-filter-auto-submit
                 @checked(! empty($filters['in_stock']))
             >
             Chỉ sản phẩm còn hàng
@@ -167,6 +175,7 @@
                 type="checkbox"
                 name="featured"
                 value="1"
+                data-filter-auto-submit
                 @checked(! empty($filters['featured']))
             >
             Chỉ sản phẩm nổi bật

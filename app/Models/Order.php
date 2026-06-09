@@ -54,4 +54,18 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    public function getRouteKeyName(): string
+    {
+        return 'order_code';
+    }
+
+    public function resolveRouteBinding($value, $field = null): ?static
+    {
+        $field = $field ?: $this->getRouteKeyName();
+
+        return static::query()
+            ->where($field, $value)
+            ->firstOrFail();
+    }
 }

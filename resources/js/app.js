@@ -1,4 +1,8 @@
 import jQuery from 'jquery';
+import { initCartHandlers } from './cart';
+import { initCheckoutSummary } from './checkout';
+import { initProductFilters } from './product-filters';
+import { initProductVariantSelector } from './product-variant';
 
 window.$ = window.jQuery = jQuery;
 
@@ -32,4 +36,9 @@ $(function () {
         $drawer.addClass('hidden');
         $('[data-action="toggle-filter-drawer"]').attr('aria-expanded', 'false');
     });
+
+    initProductVariantSelector();
+    initCartHandlers();
+    initCheckoutSummary();
+    initProductFilters();
 });

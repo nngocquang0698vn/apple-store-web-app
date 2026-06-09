@@ -113,7 +113,8 @@ class CartTest extends TestCase
         $response->assertSee('iPhone 16 Pro', false);
         $response->assertSee('IP16P-BLK-128', false);
         $response->assertSee('20.000.000', false);
-        $response->assertSee('Giỏ hàng (2)', false);
+        $response->assertSee('data-cart-badge', false);
+        $response->assertSee('2 sản phẩm trong giỏ', false);
     }
 
     public function test_can_update_cart_item_quantity(): void

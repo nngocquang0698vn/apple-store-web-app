@@ -92,18 +92,34 @@ final class ProductVariantSelector
     /**
      * @return list<array<string, mixed>>
      */
-    public function toClientPayload(): array
+    public function toClientPayload(?string $defaultImageUrl = null): array
     {
         return $this->variants
             ->map(fn (ProductVariant $variant) => [
                 'id' => $variant->id,
+                'sku' => $variant->sku,
                 'color_slug' => $variant->color?->slug,
+                'color_name' => $variant->color?->name,
                 'storage_gb' => $variant->storageOption?->capacity_gb,
+                'storage_label' => $variant->storageOption?->label,
                 'sale_price' => $variant->sale_price,
                 'original_price' => $variant->original_price,
                 'stock_quantity' => $variant->stock_quantity,
+                'image_url' => $defaultImageUrl,
             ])
             ->values()
             ->all();
+    }
+
+    public function hasCombination(?string $colorSlug, ?int $storageCapacityGb): bool
+    {
+        if ($colorSlug === null || $storageCapacityGb === null) {
+            return true;
+        }
+
+        return $this->variants->contains(
+            fn (ProductVariant $variant): bool => $variant->color?->slug === $colorSlug
+                && $variant->storageOption?->capacity_gb === $storageCapacityGb
+        );
     }
 }

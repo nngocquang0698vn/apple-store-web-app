@@ -53,11 +53,12 @@
                 <a href="{{ route('products.index') }}" class="text-gray-700 hover:text-blue-600">Sản phẩm</a>
                 <a
                     href="{{ route('cart.index') }}"
+                    data-cart-link
                     class="inline-flex items-center gap-1.5 text-gray-700 hover:text-blue-600"
                     aria-label="Giỏ hàng, {{ $cartCount ?? 0 }} sản phẩm"
                 >
                     <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
-                    <span>Giỏ hàng ({{ $cartCount ?? 0 }})</span>
+                    <span>Giỏ hàng (<span data-cart-badge>{{ $cartCount ?? 0 }}</span>)</span>
                 </a>
                 @auth
                     <a
@@ -92,7 +93,9 @@
     </header>
 
     <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <x-flash-message />
+        <div data-flash-container>
+            <x-flash-message />
+        </div>
         @yield('content')
     </main>
 
