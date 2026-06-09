@@ -26,21 +26,20 @@
                 </button>
             </div>
 
-            <form action="#" method="get" class="w-full max-w-xl sm:mx-4">
+            <form action="{{ route('products.index') }}" method="get" class="w-full max-w-xl sm:mx-4">
                 <label for="search" class="sr-only">Tìm kiếm sản phẩm</label>
                 <div class="flex gap-2">
                     <input
                         id="search"
                         type="search"
                         name="q"
+                        value="{{ request('q') }}"
                         placeholder="Tìm iPhone theo tên hoặc SKU"
                         class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                        disabled
                     >
                     <button
                         type="submit"
                         class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
-                        disabled
                         aria-label="Tìm kiếm"
                     >
                         <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
@@ -51,7 +50,7 @@
 
             <nav id="mobile-nav" class="hidden flex-col gap-2 text-sm sm:flex sm:flex-row sm:items-center sm:gap-4" data-mobile-nav>
                 <a href="{{ route('home') }}" class="text-gray-700 hover:text-blue-600">Trang chủ</a>
-                <span class="text-gray-400">Sản phẩm</span>
+                <a href="{{ route('products.index') }}" class="text-gray-700 hover:text-blue-600">Sản phẩm</a>
                 <span class="inline-flex items-center gap-1.5 text-gray-400" aria-label="Giỏ hàng, 0 sản phẩm">
                     <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
                     <span>Giỏ hàng (0)</span>

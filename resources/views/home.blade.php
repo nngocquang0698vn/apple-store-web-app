@@ -15,9 +15,12 @@
                     giỏ hàng và đặt hàng sẽ được triển khai ở các phase tiếp theo.
                 </p>
                 <div class="mt-6 flex flex-col gap-3 sm:flex-row">
-                    <span class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-5 py-3 text-sm font-medium text-white">
-                        Sản phẩm sắp ra mắt
-                    </span>
+                    <a
+                        href="{{ route('products.index') }}"
+                        class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-5 py-3 text-sm font-medium text-white hover:bg-blue-700"
+                    >
+                        Xem sản phẩm
+                    </a>
                     <a
                         href="{{ route('admin.dashboard') }}"
                         class="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50"

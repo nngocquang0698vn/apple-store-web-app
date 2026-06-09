@@ -20,4 +20,16 @@ $(function () {
         $nav.toggleClass('hidden block');
         $button.attr('aria-expanded', isExpanded ? 'false' : 'true');
     });
+
+    $('[data-action="toggle-filter-drawer"]').on('click', function () {
+        const $drawer = $('[data-filter-drawer]');
+        $drawer.removeClass('hidden');
+        $(this).attr('aria-expanded', 'true');
+    });
+
+    $('[data-action="close-filter-drawer"]').on('click', function () {
+        const $drawer = $('[data-filter-drawer]');
+        $drawer.addClass('hidden');
+        $('[data-action="toggle-filter-drawer"]').attr('aria-expanded', 'false');
+    });
 });
