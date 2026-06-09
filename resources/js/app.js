@@ -1,4 +1,8 @@
 import jQuery from 'jquery';
+import { initCartHandlers } from './cart';
+import { initCheckoutSummary } from './checkout';
+import { initProductFilters } from './product-filters';
+import { initProductVariantSelector } from './product-variant';
 
 window.$ = window.jQuery = jQuery;
 
@@ -20,4 +24,21 @@ $(function () {
         $nav.toggleClass('hidden block');
         $button.attr('aria-expanded', isExpanded ? 'false' : 'true');
     });
+
+    $('[data-action="toggle-filter-drawer"]').on('click', function () {
+        const $drawer = $('[data-filter-drawer]');
+        $drawer.removeClass('hidden');
+        $(this).attr('aria-expanded', 'true');
+    });
+
+    $('[data-action="close-filter-drawer"]').on('click', function () {
+        const $drawer = $('[data-filter-drawer]');
+        $drawer.addClass('hidden');
+        $('[data-action="toggle-filter-drawer"]').attr('aria-expanded', 'false');
+    });
+
+    initProductVariantSelector();
+    initCartHandlers();
+    initCheckoutSummary();
+    initProductFilters();
 });

@@ -11,6 +11,8 @@
             </p>
         </div>
 
+        <x-account-nav />
+
         <div class="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
             <h2 class="text-lg font-semibold text-gray-900">Thông tin cá nhân</h2>
             <p class="mt-1 text-sm text-gray-500">

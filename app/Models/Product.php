@@ -60,4 +60,19 @@ class Product extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    public function resolveRouteBinding($value, $field = null): ?static
+    {
+        $field = $field ?: $this->getRouteKeyName();
+
+        return static::query()
+            ->where($field, $value)
+            ->where('is_active', true)
+            ->firstOrFail();
+    }
 }
