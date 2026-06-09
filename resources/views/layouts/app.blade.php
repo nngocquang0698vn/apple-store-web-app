@@ -56,7 +56,11 @@
                     <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
                     <span>Giỏ hàng (0)</span>
                 </span>
-                <span class="inline-flex items-center gap-1.5 text-gray-400" aria-label="Tài khoản">
+                <a href="{{ route('register') }}" class="inline-flex items-center gap-1.5 text-gray-700 hover:text-blue-600">
+                    <i class="fa-solid fa-user-plus" aria-hidden="true"></i>
+                    <span>Đăng ký</span>
+                </a>
+                <span class="inline-flex items-center gap-1.5 text-gray-400" aria-label="Đăng nhập">
                     <i class="fa-solid fa-user" aria-hidden="true"></i>
                     <span>Đăng nhập</span>
                 </span>
