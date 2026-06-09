@@ -100,7 +100,9 @@
 
         <p class="mt-6 text-center text-sm text-gray-600">
             Đã có tài khoản?
-            <span class="text-gray-400">Đăng nhập (sắp ra mắt)</span>
+            <a href="{{ route('login') }}" class="font-medium text-blue-600 hover:text-blue-700">
+                Đăng nhập
+            </a>
         </p>
     </section>
 @endsection

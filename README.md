@@ -85,29 +85,67 @@ Trong Laragon: **Start All** → **Menu → Reload** nếu hostname `.test` chư
 
 ### Laragon (khuyến nghị)
 
+1. Laragon → **Start All** (Apache/Nginx + MySQL).
+2. Mở site qua hostname Laragon:
+
 | Trang | URL |
 |---|---|
 | Trang chủ | http://apple-store-web-app.test |
 | Admin | http://apple-store-web-app.test/admin |
 
-Document root trỏ vào `public/` — không cần cấu hình thêm.
+Document root trỏ vào `public/` — không cần `php artisan serve`.
 
-### Phát triển giao diện
+### Vite dev server (khi sửa CSS/JS)
 
-Mở terminal riêng và giữ chạy:
+Dùng khi đang chỉnh `resources/css`, `resources/js` hoặc Blade có class Tailwind — Vite tự reload (HMR), không cần `npm run build` sau mỗi lần sửa.
+
+Mở **terminal riêng**, giữ chạy:
 
 ```powershell
+cd C:\laragon\www\apple-store-web-app
 npm run dev
 ```
+
+Kỳ vọng:
+
+```
+VITE v8.x  ready in ... ms
+➜  Local:   http://localhost:5173/
+➜  APP_URL: http://apple-store-web-app.test
+```
+
+- Truy cập website vẫn qua **Laragon** (`http://apple-store-web-app.test`), không mở `localhost:5173` trực tiếp.
+- Dừng server: `Ctrl+C` trong terminal đang chạy `npm run dev`.
+
+Chỉ xem/chạy app, không sửa giao diện:
+
+```powershell
+npm run build
+```
+
+Lệnh này tạo file tĩnh trong `public/build/` — đủ cho production hoặc khi không cần hot reload.
 
 ### Dự phòng (`artisan serve`)
 
+Khi không dùng Laragon, chạy **hai terminal**:
+
 ```powershell
+# Terminal 1 — Laravel
+cd C:\laragon\www\apple-store-web-app
 php artisan serve
+
+# Terminal 2 — Vite
+cd C:\laragon\www\apple-store-web-app
 npm run dev
 ```
 
-Mở http://127.0.0.1:8000 — đặt `APP_URL=http://127.0.0.1:8000` nếu dùng lâu dài.
+Mở http://127.0.0.1:8000 — đặt `APP_URL=http://127.0.0.1:8000` trong `.env` nếu dùng lâu dài.
+
+Hoặc gộp một lệnh (serve + queue + log + Vite):
+
+```powershell
+composer dev
+```
 
 ---
 
