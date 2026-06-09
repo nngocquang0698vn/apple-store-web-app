@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Account\OrderController;
 use App\Http\Controllers\Account\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
@@ -46,6 +47,8 @@ Route::prefix('account')->name('account.')->middleware(['auth', 'active'])->grou
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::patch('/password', [ProfileController::class, 'updatePassword'])->name('password.update');
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order:order_code}', [OrderController::class, 'show'])->name('orders.show');
 });
 
 Route::prefix('admin')->name('admin.')->middleware('admin')->group(function (): void {

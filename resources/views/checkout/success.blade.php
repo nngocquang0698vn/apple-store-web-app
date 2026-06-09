@@ -66,8 +66,14 @@
 
         <div class="mt-8 flex flex-wrap justify-center gap-3">
             <a
-                href="{{ route('products.index') }}"
+                href="{{ route('account.orders.show', $order) }}"
                 class="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+            >
+                Xem đơn hàng của tôi
+            </a>
+            <a
+                href="{{ route('products.index') }}"
+                class="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
             >
                 Tiếp tục mua sắm
             </a>

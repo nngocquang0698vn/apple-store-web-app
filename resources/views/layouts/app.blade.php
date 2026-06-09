@@ -62,6 +62,13 @@
                 </a>
                 @auth
                     <a
+                        href="{{ route('account.orders.index') }}"
+                        class="inline-flex items-center gap-1.5 text-gray-700 hover:text-blue-600"
+                    >
+                        <i class="fa-solid fa-receipt" aria-hidden="true"></i>
+                        <span>Đơn hàng</span>
+                    </a>
+                    <a
                         href="{{ route('account.profile.edit') }}"
                         class="inline-flex items-center gap-1.5 text-gray-700 hover:text-blue-600"
                     >
