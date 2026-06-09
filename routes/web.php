@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Account\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -18,6 +19,12 @@ Route::middleware('guest')->group(function (): void {
 Route::post('/logout', [LoginController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
+
+Route::prefix('account')->name('account.')->middleware('auth')->group(function (): void {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/password', [ProfileController::class, 'updatePassword'])->name('password.update');
+});
 
 Route::prefix('admin')->name('admin.')->middleware('admin')->group(function (): void {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');

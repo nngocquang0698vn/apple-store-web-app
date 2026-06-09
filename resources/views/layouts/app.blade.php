@@ -57,10 +57,13 @@
                     <span>Giỏ hàng (0)</span>
                 </span>
                 @auth
-                    <span class="inline-flex items-center gap-1.5 text-gray-700">
+                    <a
+                        href="{{ route('account.profile.edit') }}"
+                        class="inline-flex items-center gap-1.5 text-gray-700 hover:text-blue-600"
+                    >
                         <i class="fa-solid fa-user" aria-hidden="true"></i>
                         <span>{{ auth()->user()->name }}</span>
-                    </span>
+                    </a>
                     <form method="post" action="{{ route('logout') }}" class="inline">
                         @csrf
                         <button
