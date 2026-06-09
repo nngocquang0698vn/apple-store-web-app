@@ -1,0 +1,33 @@
+---
+description: Testing and security checklist
+globs:
+  - "app/**/*.php"
+  - "routes/**/*.php"
+  - "resources/views/**/*.blade.php"
+  - "tests/**/*.php"
+alwaysApply: false
+---
+
+Before completing a feature, check:
+
+- Authentication
+- Authorization
+- CSRF
+- XSS
+- SQL injection
+- Mass assignment
+- Session handling
+- File upload validation
+- Price tampering
+- Inventory race conditions
+- Order ownership
+- Admin route protection
+- N+1 queries
+
+Important feature work must include tests.
+
+Checkout must use a transaction, lock inventory rows, re-read prices and stock, create immutable order item snapshots, and clear the cart only after commit.
+
+Order cancellation must restore inventory no more than once.
+
+Do not disable tests or weaken security middleware to make a task pass.

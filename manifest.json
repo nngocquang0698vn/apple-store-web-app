@@ -1,0 +1,42 @@
+{
+  "project": "Apple Store Cursor Kit",
+  "scope": "Laravel Blade SSR, MySQL, Tailwind CSS, jQuery, search/filter, session cart, COD order, admin",
+  "excluded": [
+    "reviews",
+    "comments",
+    "online payment",
+    "SPA",
+    "external search engine",
+    "external image hotlinks"
+  ],
+  "files": [
+    ".cursor/rules/00-project-core.mdc",
+    ".cursor/rules/05-windows-laragon.mdc",
+    ".cursor/rules/10-laravel-backend.mdc",
+    ".cursor/rules/20-blade-tailwind-jquery.mdc",
+    ".cursor/rules/30-testing-security.mdc",
+    ".cursorignore",
+    "AGENTS.md",
+    "README.md",
+    "docs/ARCHITECTURE.md",
+    "docs/CURSOR_WORKFLOW.md",
+    "docs/DATABASE.md",
+    "docs/DEVELOPMENT_WINDOWS_LARAGON.md",
+    "docs/IMAGE_STRATEGY.md",
+    "docs/PROJECT_START_PROMPT.md",
+    "docs/ROUTES.md",
+    "docs/SPEC.md",
+    "docs/TASKS.md",
+    "docs/UI_GUIDELINES.md",
+    "starter-assets/public/images/placeholders/product-placeholder.svg"
+  ],
+  "markdown_fences_validated": true,
+  "development_environment": {
+    "os": "Windows",
+    "local_stack": "Laragon",
+    "terminal": "PowerShell or Laragon Terminal",
+    "database": "MySQL managed by Laragon"
+  },
+  "version": "2.0-image-strategy",
+  "image_strategy": "local SVG placeholder -> optional local demo images -> validated admin upload"
+}

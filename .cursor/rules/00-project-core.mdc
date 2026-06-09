@@ -1,0 +1,22 @@
+---
+description: Core project constraints for the Apple phone store
+alwaysApply: true
+---
+
+Read the root `AGENTS.md` before non-trivial work.
+
+This is a Laravel Blade SSR project using MySQL, Tailwind CSS, and jQuery.
+
+The official development environment is Windows with Laragon and PowerShell.
+
+Use PowerShell-compatible commands. Do not require Docker, WSL, Linux, or macOS tooling.
+
+Do not hard-code absolute Windows paths in application code.
+
+Do not add React, Vue, Livewire, Inertia, Alpine.js, a separate frontend API, a search engine, online payment, reviews, comments, or a generic EAV system.
+
+Keep the scope suitable for a university project.
+
+Do not modify unrelated files.
+
+For non-trivial tasks, plan first, implement a small vertical slice, run tests, and review the diff.
