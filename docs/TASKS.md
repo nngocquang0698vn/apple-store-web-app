@@ -35,11 +35,11 @@ Acceptance:
 
 ### Task 0.2: Coding foundation
 
-- Tạo enum role, user status và order status nếu chọn dùng enum.
-- Tạo middleware admin.
-- Tạo flash message component.
-- Thiết lập format code.
-- Xác định PHPUnit hoặc Pest.
+- [x] Tạo enum role, user status và order status nếu chọn dùng enum.
+- [x] Tạo middleware admin.
+- [x] Tạo flash message component.
+- [x] Thiết lập format code.
+- [x] Xác định PHPUnit hoặc Pest.
 
 ## Phase 1: Authentication
 
