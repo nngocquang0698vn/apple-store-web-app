@@ -2,8 +2,8 @@
 
 Website bán điện thoại Apple (đồ án học tập), xây dựng bằng Laravel Blade + Tailwind CSS + jQuery.
 
-**Trạng thái:** Phase 0 hoàn thành — layout khách hàng/admin, trang chủ và dashboard placeholder.  
-**Task tiếp theo:** Task 0.2 trong [`docs/TASKS.md`](docs/TASKS.md) (enum, admin middleware, Pint).
+**Trạng thái:** Phase 0 hoàn thành — layout khách hàng/admin, coding foundation, enum, admin middleware và Pint.
+**Task tiếp theo:** Task 1.1 trong [`docs/TASKS.md`](docs/TASKS.md) (register).
 
 ---
 
@@ -120,18 +120,18 @@ php artisan test
 npm run build
 ```
 
-Kỳ vọng: **4 tests passed**, build thành công. Chạy `npm run build` (hoặc `npm run dev`) trước khi test nếu chưa có `public/build/manifest.json`.
+Kỳ vọng: **9 tests passed**, build thành công.
 
 ---
 
 ## Routes hiện tại
 
-| Method | URI | Name |
-|---|---|---|
-| GET | `/` | `home` |
-| GET | `/admin` | `admin.dashboard` |
+| Method | URI | Name | Middleware |
+|---|---|---|---|
+| GET | `/` | `home` | `web` |
+| GET | `/admin` | `admin.dashboard` | `web`, `admin` |
 
-Chưa có middleware auth/admin.
+Middleware `admin` chỉ cho user role `admin` đang `active` truy cập. Chưa có form login/register.
 
 ---
 
