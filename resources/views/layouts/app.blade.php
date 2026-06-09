@@ -51,10 +51,14 @@
             <nav id="mobile-nav" class="hidden flex-col gap-2 text-sm sm:flex sm:flex-row sm:items-center sm:gap-4" data-mobile-nav>
                 <a href="{{ route('home') }}" class="text-gray-700 hover:text-blue-600">Trang chủ</a>
                 <a href="{{ route('products.index') }}" class="text-gray-700 hover:text-blue-600">Sản phẩm</a>
-                <span class="inline-flex items-center gap-1.5 text-gray-400" aria-label="Giỏ hàng, 0 sản phẩm">
+                <a
+                    href="{{ route('cart.index') }}"
+                    class="inline-flex items-center gap-1.5 text-gray-700 hover:text-blue-600"
+                    aria-label="Giỏ hàng, {{ $cartCount ?? 0 }} sản phẩm"
+                >
                     <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
-                    <span>Giỏ hàng (0)</span>
-                </span>
+                    <span>Giỏ hàng ({{ $cartCount ?? 0 }})</span>
+                </a>
                 @auth
                     <a
                         href="{{ route('account.profile.edit') }}"

@@ -9,7 +9,8 @@ use App\Models\Product;
 use App\Models\ProductSeries;
 use App\Models\StorageOption;
 use App\Queries\ProductQuery;
-use Illuminate\Http\Response;
+use App\Support\ProductVariantSelector;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ProductController extends Controller
@@ -43,8 +44,38 @@ class ProductController extends Controller
         ]);
     }
 
-    public function show(Product $product): Response
+    public function show(Request $request, Product $product): View
     {
-        abort(404);
+        $product->load([
+            'category',
+            'productSeries',
+            'images' => fn ($query) => $query->orderBy('sort_order')->orderBy('id'),
+            'variants' => fn ($query) => $query
+                ->where('is_active', true)
+                ->with(['color', 'storageOption'])
+                ->orderBy('sale_price'),
+        ]);
+
+        $selector = new ProductVariantSelector($product);
+
+        if (! $selector->hasVariants()) {
+            abort(404);
+        }
+
+        $selectedVariant = $selector->resolve(
+            $request->query('color'),
+            $request->filled('storage') ? $request->integer('storage') : null,
+        );
+
+        $selectedColorId = $selectedVariant?->color_id;
+        $availableStorages = $selector->storagesForColor($selectedColorId);
+
+        return view('products.show', [
+            'product' => $product,
+            'selector' => $selector,
+            'selectedVariant' => $selectedVariant,
+            'availableStorages' => $availableStorages,
+            'variantPayload' => $selector->toClientPayload(),
+        ]);
     }
 }
