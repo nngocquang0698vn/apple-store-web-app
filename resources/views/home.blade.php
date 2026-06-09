@@ -1,0 +1,53 @@
+@extends('layouts.app')
+
+@section('title', 'Trang chủ - ' . config('app.name'))
+
+@section('content')
+    <section class="rounded-2xl bg-white p-6 shadow-sm sm:p-10">
+        <div class="grid gap-8 lg:grid-cols-2 lg:items-center">
+            <div>
+                <p class="text-sm font-medium text-blue-600">Chào mừng đến với iStore</p>
+                <h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                    Cửa hàng điện thoại Apple cho đồ án web
+                </h1>
+                <p class="mt-4 text-base text-gray-600">
+                    Website đang trong giai đoạn khởi tạo. Các tính năng tìm kiếm, lọc sản phẩm,
+                    giỏ hàng và đặt hàng sẽ được triển khai ở các phase tiếp theo.
+                </p>
+                <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+                    <span class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-5 py-3 text-sm font-medium text-white">
+                        Sản phẩm sắp ra mắt
+                    </span>
+                    <a
+                        href="{{ route('admin.dashboard') }}"
+                        class="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                    >
+                        Vào khu vực quản trị
+                    </a>
+                </div>
+            </div>
+
+            <div class="mx-auto w-full max-w-sm">
+                <x-product-image alt="Minh họa sản phẩm điện thoại tạm thời" :lazy="false" />
+                <p class="mt-3 text-center text-sm text-gray-500">
+                    Placeholder cục bộ dùng khi sản phẩm chưa có ảnh.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <article class="rounded-xl border border-gray-200 bg-white p-5">
+            <h2 class="text-base font-semibold text-gray-900">Giao hàng nhanh</h2>
+            <p class="mt-2 text-sm text-gray-600">Hỗ trợ giao hàng COD trên toàn quốc.</p>
+        </article>
+        <article class="rounded-xl border border-gray-200 bg-white p-5">
+            <h2 class="text-base font-semibold text-gray-900">Bảo hành rõ ràng</h2>
+            <p class="mt-2 text-sm text-gray-600">Thông tin bảo hành minh bạch cho từng sản phẩm.</p>
+        </article>
+        <article class="rounded-xl border border-gray-200 bg-white p-5 sm:col-span-2 lg:col-span-1">
+            <h2 class="text-base font-semibold text-gray-900">Sản phẩm chính hãng</h2>
+            <p class="mt-2 text-sm text-gray-600">Tập trung vào các dòng iPhone phổ biến.</p>
+        </article>
+    </section>
+@endsection

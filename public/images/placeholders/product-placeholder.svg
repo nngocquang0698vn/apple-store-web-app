@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-labelledby="title desc">
+  <title id="title">Ảnh sản phẩm điện thoại tạm thời</title>
+  <desc id="desc">Hình minh họa điện thoại trung tính dùng khi sản phẩm chưa có ảnh.</desc>
+  <rect width="800" height="800" rx="64" fill="#f3f4f6"/>
+  <rect x="250" y="110" width="300" height="580" rx="48" fill="#ffffff" stroke="#9ca3af" stroke-width="18"/>
+  <rect x="280" y="165" width="240" height="430" rx="18" fill="#e5e7eb"/>
+  <rect x="345" y="132" width="110" height="14" rx="7" fill="#9ca3af"/>
+  <circle cx="400" cy="642" r="20" fill="#d1d5db"/>
+  <path d="M330 420l55-65 50 48 35-38 60 70H300z" fill="#cbd5e1"/>
+  <circle cx="355" cy="310" r="28" fill="#d1d5db"/>
+</svg>
