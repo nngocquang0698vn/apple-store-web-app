@@ -18,7 +18,8 @@
 - Cấu hình Vite.
 - Cấu hình Tailwind.
 - Cài jQuery.
-- Tạo layout ban đầu.
+- Cài Font Awesome Free qua npm và Vite.
+- Tạo customer layout thân thiện và admin layout cơ bản.
 - Thêm tài liệu Cursor.
 - Tạo `.env.example`.
 - Sao chép placeholder SVG cục bộ từ `starter-assets` vào `public/images/placeholders`.
@@ -30,6 +31,7 @@ Acceptance:
 - Kết nối database.
 - Placeholder sản phẩm cục bộ tồn tại.
 - Không có external image hotlink.
+- Font Awesome icon hiển thị được ở vị trí như cart.
 - `npm run build` thành công.
 - Test mặc định chạy.
 
@@ -99,7 +101,7 @@ Acceptance:
 - Factories.
 - Seeders.
 - Admin account.
-- Demo catalog.
+- Demo catalog có iPhone, iPad, iPod và phụ kiện sạc.
 - Seed data fallback được khi chưa có ảnh demo thật.
 
 Acceptance:
@@ -155,6 +157,7 @@ Không làm dashboard trước khi catalog hoạt động.
 - Minimum price.
 - Pagination.
 - Product card component.
+- Money formatter hoặc Blade component cho VNĐ.
 - Product image component và placeholder fallback.
 - Eager load ảnh hiển thị để tránh N+1.
 - Tests.
@@ -240,16 +243,24 @@ Chỉ bắt đầu sau khi Phase 4 và 5 ổn định.
 
 ### Task 6.1: Variant selector
 
-- Update price.
-- Update stock.
+- Update price động.
+- Update stock động.
+- Update ảnh variant khi có.
 - Disable invalid combination.
+- Server vẫn validate.
 - SSR fallback giữ nguyên.
 
 ### Task 6.2: AJAX cart
 
-- Add/update/remove.
+- Add, update và remove.
 - CSRF.
 - Header cart count.
+- Loading state.
+- Server-returned unit price.
+- Server-returned line subtotal.
+- Server-returned cart subtotal.
+- Server-returned shipping fee và grand total.
+- Price và stock conflict handling.
 - Error handling.
 - Non-AJAX fallback.
 
@@ -264,6 +275,16 @@ Chỉ bắt đầu sau khi Phase 4 và 5 ổn định.
 - SSR fallback.
 
 Nếu task này tốn quá nhiều thời gian, giữ filter SSR và bỏ AJAX filter.
+
+### Task 6.4: Dynamic checkout summary
+
+- Reuse CartService và pricing logic.
+- Thêm summary endpoint nếu thật sự cần.
+- Return integer VNĐ totals.
+- Refresh summary bằng jQuery.
+- Handle price và stock changes.
+- Không tin DOM hoặc hidden totals.
+- Checkout POST vẫn là authoritative operation.
 
 ## Phase 7: Checkout
 
@@ -441,3 +462,19 @@ Không cần chart nếu thiếu thời gian.
 - `feat: add session cart`
 - `feat: place order in database transaction`
 - `fix: prevent duplicate inventory restock`
+
+## Frontend dependency rule
+
+- jQuery là mặc định.
+- Font Awesome Free đã được phê duyệt.
+- Mọi thư viện JavaScript khác chỉ được proposal.
+- Không cài hoặc sửa lock file trước khi human xác nhận.
+
+## UX checklist cuối
+
+- Search, account và cart dễ thấy.
+- Navigation có iPhone, iPad, iPod và phụ kiện sạc.
+- Icon có accessible label khi cần.
+- Giá hiển thị VNĐ nhất quán.
+- Cart và checkout cập nhật động.
+- Mobile flow mua hàng sử dụng được.

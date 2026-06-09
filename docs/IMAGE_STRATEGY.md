@@ -27,7 +27,7 @@ Khi khởi tạo dự án, sao chép file mẫu vào đúng thư mục `public`.
 Yêu cầu placeholder:
 
 - Tỷ lệ vuông 1:1.
-- Hình minh họa điện thoại trung tính.
+- Hình minh họa sản phẩm công nghệ trung tính.
 - Không có logo Apple.
 - Không có nhãn hiệu bên thứ ba.
 - Phù hợp nền sáng.
@@ -227,3 +227,9 @@ Không để seeder thất bại chỉ vì thiếu file ảnh demo.
 - Không có external hotlink.
 - Upload admin từ chối file không hợp lệ.
 - Database chỉ lưu relative path.
+
+## 13. Placeholder theo danh mục
+
+MVP chỉ bắt buộc một placeholder chung.
+
+Sau này có thể bổ sung placeholder cho iPhone, iPad, iPod và phụ kiện sạc nếu thực sự giúp UX. Cursor không tự tạo thêm trước khi có nhu cầu rõ ràng.

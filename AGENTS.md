@@ -2,7 +2,7 @@
 
 ## Project identity
 
-This repository contains a university web development project: a server-side rendered e-commerce website specializing in Apple mobile phones.
+This repository contains a university web development project: a server-side rendered e-commerce website specializing in Apple products, including iPhone, iPad, iPod, and charging accessories.
 
 The canonical project documents are:
 
@@ -12,6 +12,7 @@ The canonical project documents are:
 - `docs/ROUTES.md`
 - `docs/UI_GUIDELINES.md`
 - `docs/IMAGE_STRATEGY.md`
+- `docs/DYNAMIC_UI.md`
 - `docs/TASKS.md`
 
 Read the relevant documents before planning or editing code.
@@ -25,7 +26,8 @@ Use:
 - MySQL
 - Laravel Blade
 - Tailwind CSS
-- jQuery
+- jQuery as the default JavaScript library
+- Font Awesome Free for approved UI icons
 - Vite
 - Laravel session authentication
 - PHPUnit or Pest, following the existing repository
@@ -50,13 +52,34 @@ Do not introduce:
 
 Do not change the framework version or add a package unless the task explicitly requires it and the benefit is documented.
 
+## Dependency approval policy
+
+jQuery is the default JavaScript library.
+
+The agent may suggest another JavaScript library only when a concrete requirement cannot be solved reasonably with jQuery, vanilla JavaScript, HTML, CSS, or server-side rendering.
+
+Before suggesting a library, provide:
+
+- The exact problem.
+- The solution using the existing stack.
+- Package name and proposed version range.
+- License.
+- Bundle impact.
+- Maintenance and security impact.
+- Files and features affected.
+- Removal or rollback strategy.
+
+Do not install the package, modify `package.json`, modify a lock file, or write code that depends on it until a human explicitly approves.
+
+Font Awesome Free is already approved. Do not add another icon library.
+
 ## Scope rules
 
 The MVP includes:
 
 - Customer and administrator roles
 - Authentication and profile management
-- Product catalog
+- Product catalog for iPhone, iPad, iPod, and charging accessories
 - Product variants by color and storage
 - Product search
 - Product filtering and sorting
@@ -112,10 +135,22 @@ Rules:
 - Do not use route closures for application features.
 - Prefer clear code over clever abstractions.
 
+## Currency rules
+
+The only storefront currency is Vietnamese đồng.
+
+- Store prices and totals as integer VND values.
+- Never use float or double for money.
+- Do not store formatted price strings.
+- Format customer-facing values such as `19.990.000 ₫`.
+- Use one reusable money formatter or Blade component.
+- Recalculate all authoritative totals on the server.
+- Do not implement currency conversion in the MVP.
+
 ## Product catalog rules
 
-- A product is a model such as `iPhone 16 Pro`.
-- A product variant is the purchasable unit such as `iPhone 16 Pro / Black / 256 GB`.
+- A product is a model such as `iPhone 16 Pro`, `iPad Air`, `iPod touch`, or `Apple 20W USB-C Power Adapter`.
+- A product variant is the purchasable unit. Color and storage are optional because charging accessories may not have storage.
 - Cart items reference product variants, not products.
 - SKU must be unique.
 - Product slugs must be unique.
@@ -145,6 +180,30 @@ Core requirements:
 - Use eager loading and aggregate subqueries when appropriate.
 
 jQuery may progressively enhance the filter form, but the server-rendered flow remains canonical.
+
+## Dynamic website rules
+
+The project is server-side rendered but must provide a dynamic customer experience through jQuery and AJAX.
+
+Use jQuery for:
+
+- Product variant selection.
+- Dynamic price, image, and stock display.
+- Product search, filtering, sorting, and pagination enhancement.
+- Add-to-cart.
+- Cart quantity updates and item removal.
+- Cart badge updates.
+- Checkout summary refresh.
+
+Rules:
+
+- Core flows must retain normal HTML form and SSR fallbacks.
+- JavaScript may calculate an immediate preview, but that preview is never authoritative.
+- Cart and checkout UI should replace previews with canonical values returned by Laravel.
+- AJAX and non-AJAX requests must call the same Services, Actions, and Query objects.
+- Do not duplicate price, stock, cart, shipping, or order logic in JavaScript.
+- Handle loading, success, validation, conflict, session expiry, and server error states.
+- Disable repeated UI actions while a request is pending, while also protecting duplicate operations on the server.
 
 ## Cart rules
 
@@ -180,6 +239,18 @@ On failure:
 - Return a useful Vietnamese error message.
 
 Order cancellation must restore inventory at most once.
+
+## Customer experience and icon rules
+
+The customer storefront must be friendly, clear, and task-oriented.
+
+- Keep category navigation, search, account, and cart easy to find.
+- Use responsive layouts with clear visual hierarchy.
+- Show useful empty, loading, success, and error states.
+- Use Font Awesome Free for appropriate icons such as cart, search, account, filter, menu, quantity controls, and order status.
+- Icons support comprehension; they do not replace necessary text.
+- Icon-only controls require an accessible name.
+- Do not use Apple brand icons or visual claims that imply official affiliation.
 
 ## Security requirements
 

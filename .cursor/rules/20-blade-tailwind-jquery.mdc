@@ -26,3 +26,15 @@ alwaysApply: false
 - Use lazy loading for listing images.
 - Do not query image relationships from Blade.
 - Do not use external image hotlinks.
+
+- Build a friendly customer layout with visible search, account, categories, and cart.
+- Use Font Awesome Free for appropriate icons.
+- Do not add another icon library.
+- Icon-only controls require accessible names.
+- Format prices consistently as Vietnamese đồng.
+- Dynamically enhance variants, search, filters, cart, and checkout summary with jQuery.
+- Authoritative prices and totals must come from Laravel responses.
+- JavaScript-calculated amounts are previews only.
+- Update cart badge and totals without full reload when practical.
+- Keep SSR and form fallbacks.
+- Do not install another JavaScript library without human approval.

@@ -1,4 +1,4 @@
-# HƯỚNG DẪN GIAO DIỆN
+# HƯỚNG DẪN GIAO DIỆN THÂN THIỆN VỚI KHÁCH HÀNG
 
 ## 1. Định hướng
 
@@ -11,6 +11,19 @@ Giao diện:
 - Tiếng Việt rõ ràng.
 - Không sao chép nguyên bản website Apple.
 - Không tự nhận là đại lý chính thức nếu không có căn cứ.
+
+## 1.1. Mục tiêu trải nghiệm
+
+Khách hàng phải dễ:
+
+- Nhận biết cửa hàng bán iPhone, iPad, iPod và phụ kiện sạc.
+- Tìm sản phẩm.
+- Truy cập danh mục.
+- Hiểu giá và biến thể.
+- Nhìn thấy giỏ hàng.
+- Hoàn thành checkout.
+
+Ưu tiên hành trình mua hàng hơn hiệu ứng trang trí.
 
 ## 2. Màu sắc
 
@@ -63,6 +76,19 @@ Không dùng quá nhiều màu nhấn.
 - Flash message.
 - Table hoặc card responsive.
 
+## 5.1. Customer header
+
+Header nên có:
+
+- Tên hoặc logo chữ.
+- Navigation danh mục.
+- Search.
+- Account.
+- Cart với Font Awesome icon và cart count.
+- Mobile menu.
+
+Không làm navigation quá dày.
+
 ## 6. Responsive
 
 ### Mobile
@@ -84,6 +110,15 @@ Không dùng quá nhiều màu nhấn.
 - Product grid 3 đến 4 cột.
 - Filter sidebar và result area.
 - Admin dùng table.
+
+## 6.1. Font Awesome
+
+Dùng Font Awesome Free cho cart, search, account, filter, menu, chevron, trash, plus, minus, loading và order status khi phù hợp.
+
+- Icon hỗ trợ text.
+- Icon-only button có `aria-label`.
+- Dùng nhất quán một style.
+- Không dùng thêm icon library.
 
 ## 7. Component cần có
 
@@ -136,6 +171,15 @@ Card phải có chiều cao nội dung tương đối đồng nhất.
 - Không làm layout thay đổi mạnh khi ảnh tải xong.
 - Không thêm logo Apple vào placeholder.
 - Xem `docs/IMAGE_STRATEGY.md`.
+
+## 8.2. Hiển thị giá VNĐ
+
+- Hiển thị `19.990.000 ₫`.
+- Không có số thập phân.
+- Giá bán nổi bật hơn giá niêm yết.
+- Giá cũ có thể gạch ngang.
+- Dùng helper hoặc Blade component chung.
+- Không hard-code chuỗi giá ở nhiều view.
 
 ## 9. Search và filter UI
 
@@ -252,6 +296,27 @@ Có thông báo khi giá hoặc tồn kho thay đổi.
 - Không dùng div thay button.
 - Contrast đủ đọc.
 
+## 14.1. Trạng thái tương tác động
+
+Mỗi thao tác jQuery cần có trạng thái:
+
+- Idle.
+- Loading.
+- Success.
+- Validation error.
+- Price hoặc stock conflict.
+- Session expiry.
+- Server error.
+
+Ví dụ:
+
+- Disable add-to-cart khi request đang chạy.
+- Dùng Font Awesome spinner khi phù hợp.
+- Update cart count và tổng tiền không reload.
+- Khôi phục control khi request lỗi.
+- Không hiển thị thao tác thành công trước khi server xác nhận.
+- Luôn giữ form fallback.
+
 ## 15. jQuery convention
 
 HTML:
@@ -271,3 +336,15 @@ Không dùng:
     onclick="addToCart(...)"
 
 Không nhúng business data nhạy cảm hoặc tin cậy vào DOM.
+
+## 16. Layout trang chủ
+
+Thứ tự đề xuất:
+
+1. Header có search và cart.
+2. Hero hoặc thông điệp chính.
+3. Danh mục iPhone, iPad, iPod và phụ kiện sạc.
+4. Sản phẩm nổi bật.
+5. Sản phẩm mới.
+6. Chính sách giao hàng và bảo hành.
+7. Footer.

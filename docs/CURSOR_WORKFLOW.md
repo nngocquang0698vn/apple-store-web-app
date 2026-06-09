@@ -36,6 +36,12 @@ Ví dụ:
 
 Không attach toàn bộ repository nếu không cần.
 
+## 2.1. Proposal thư viện JavaScript
+
+Nếu Cursor thấy cần thư viện mới, chỉ tạo proposal theo `docs/JS_LIBRARY_PROPOSAL_TEMPLATE.md`.
+
+Không chạy npm install và không sửa package hoặc lock file trước khi human xác nhận.
+
 ## 3. Workflow 4 bước
 
 ### Bước 1: Explore
@@ -423,3 +429,49 @@ Chỉ dùng sau khi Product và ProductImage đã tồn tại.
     - No SVG upload.
     - No image processing package.
     - No external image URL field.
+
+## Prompt dynamic cart
+
+    Read:
+    @AGENTS.md
+    @docs/SPEC.md
+    @docs/ARCHITECTURE.md
+    @docs/ROUTES.md
+    @docs/UI_GUIDELINES.md
+    @docs/DYNAMIC_UI.md
+
+    Progressively enhance the existing SSR cart with jQuery and AJAX.
+
+    Requirements:
+    - Keep normal HTML form fallbacks.
+    - Reuse CartService.
+    - Do not calculate authoritative totals in JavaScript.
+    - Return integer VND unit price, line subtotal, cart subtotal, shipping fee, and grand total.
+    - Update cart badge and visible totals without full reload.
+    - Handle 419, 422, 409, and generic server errors.
+    - Disable repeated actions while requests are pending.
+    - Use Font Awesome Free for appropriate cart or loading icons.
+    - Do not add another JavaScript library.
+    - Add feature tests for JSON and server-side recalculation.
+
+## Prompt dynamic checkout summary
+
+    Enhance checkout summary with jQuery while keeping final order creation server-authoritative.
+
+    Requirements:
+    - Reuse CartService and pricing logic.
+    - Add a summary endpoint only when needed.
+    - Return canonical integer VND totals.
+    - Update the visible summary without full reload.
+    - Recalculate price, shipping, stock, and totals inside the final transaction.
+    - Ignore client subtotal, shipping fee, and grand total.
+    - Handle price and stock changes with Vietnamese messages.
+    - Keep non-JavaScript checkout functional.
+
+## Prompt UX and icon review
+
+    Review customer-facing UI against @docs/UI_GUIDELINES.md and @docs/SPEC.md.
+
+    Check navigation, search visibility, category access, cart visibility, Font Awesome consistency, accessibility, mobile usability, VND formatting, dynamic states, and unnecessary visual complexity.
+
+    Do not edit files. Report findings by severity and file path.

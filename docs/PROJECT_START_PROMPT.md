@@ -15,6 +15,7 @@ Hãy đọc kỹ:
 - @docs/ROUTES.md
 - @docs/UI_GUIDELINES.md
 - @docs/IMAGE_STRATEGY.md
+- @docs/DYNAMIC_UI.md
 - @docs/TASKS.md
 - @docs/CURSOR_WORKFLOW.md
 
@@ -42,6 +43,7 @@ Mục tiêu hiện tại là hoàn thành duy nhất Phase 0 trong @docs/TASKS.m
    - Vite.
    - Tailwind CSS.
    - jQuery qua npm và Vite.
+   - Font Awesome Free qua npm và Vite.
    - MySQL qua `.env.example`.
    - Locale giao diện tiếng Việt.
    - Timezone Việt Nam.
@@ -56,6 +58,7 @@ Mục tiêu hiện tại là hoàn thành duy nhất Phase 0 trong @docs/TASKS.m
    - Frontend framework khác.
    - Search engine ngoài.
    - Package xử lý ảnh.
+   - Thư viện JavaScript mới ngoài jQuery khi chưa được human duyệt.
 
 6. Tạo nền tảng giao diện:
    - Customer layout.
@@ -63,6 +66,7 @@ Mục tiêu hiện tại là hoàn thành duy nhất Phase 0 trong @docs/TASKS.m
    - Header.
    - Footer.
    - Admin sidebar cơ bản.
+   - Customer header có search, account và cart icon.
    - Flash message component.
    - Trang chủ placeholder.
    - Admin dashboard placeholder.
@@ -95,6 +99,23 @@ Mục tiêu hiện tại là hoàn thành duy nhất Phase 0 trong @docs/TASKS.m
    - CRUD admin.
    - Review hoặc comment.
    - Thanh toán online.
+
+## Dynamic website foundation
+
+Phase 0 chỉ chuẩn bị nền tảng:
+
+- Import jQuery bằng Vite.
+- Import Font Awesome Free bằng Vite.
+- Có CSRF meta tag.
+- Có vị trí rõ ràng cho jQuery modules.
+- Có loading và flash-message UI.
+- Header khách hàng có search, account và cart icon phù hợp.
+
+Không triển khai cart AJAX hoặc checkout AJAX trong Phase 0.
+
+Các feature sau phải gọi Laravel endpoint, nhận giá và tổng tiền chuẩn từ server, cập nhật DOM không reload khi phù hợp, và vẫn giữ SSR fallback.
+
+Nếu Cursor muốn thêm thư viện JavaScript mới, chỉ proposal và chờ human xác nhận.
 
 ## Quy trình
 

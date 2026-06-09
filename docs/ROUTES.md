@@ -270,6 +270,42 @@ Khuyến nghị:
 - User status blocked bị chặn khỏi authenticated business flow.
 - Không tin việc ẩn link trên Blade là authorization.
 
+## 9.1. Dynamic cart và checkout summary
+
+Cart mutation hỗ trợ hai loại response:
+
+- Request thường: redirect với flash message.
+- AJAX: JSON với trạng thái chuẩn từ server.
+
+Response đề xuất:
+
+    {
+        "success": true,
+        "message": "Đã cập nhật giỏ hàng.",
+        "data": {
+            "cart_count": 3,
+            "unit_price": 19990000,
+            "line_subtotal": 39980000,
+            "cart_subtotal": 59970000,
+            "shipping_fee": 0,
+            "grand_total": 59970000,
+            "stock_quantity": 5
+        }
+    }
+
+Endpoint summary chỉ thêm khi UI cần:
+
+| Method | URI | Name | Chức năng |
+|---|---|---|---|
+| GET | `/cart/summary` | `cart.summary` | Trả cart summary chuẩn |
+| GET | `/checkout/summary` | `checkout.summary` | Trả checkout summary chuẩn cho user đăng nhập |
+
+Hai endpoint phải reuse `CartService` và logic pricing hiện có.
+
+Khi giá, trạng thái hoặc tồn kho thay đổi, server có thể trả HTTP 409 cùng summary mới. jQuery phải cập nhật UI từ response đó.
+
+Mọi amount trong JSON là integer VNĐ.
+
 ## 10. Named route requirement
 
 Blade và controller phải dùng named routes.

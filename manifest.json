@@ -1,6 +1,6 @@
 {
   "project": "Apple Store Cursor Kit",
-  "scope": "Laravel Blade SSR, MySQL, Tailwind CSS, jQuery, search/filter, session cart, COD order, admin",
+  "scope": "Laravel Blade SSR, MySQL, Tailwind CSS, jQuery, Font Awesome Free, iPhone/iPad/iPod/charging accessories, VND, dynamic cart and checkout, COD, admin",
   "excluded": [
     "reviews",
     "comments",
@@ -22,7 +22,9 @@
     "docs/CURSOR_WORKFLOW.md",
     "docs/DATABASE.md",
     "docs/DEVELOPMENT_WINDOWS_LARAGON.md",
+    "docs/DYNAMIC_UI.md",
     "docs/IMAGE_STRATEGY.md",
+    "docs/JS_LIBRARY_PROPOSAL_TEMPLATE.md",
     "docs/PROJECT_START_PROMPT.md",
     "docs/ROUTES.md",
     "docs/SPEC.md",
@@ -37,6 +39,9 @@
     "terminal": "PowerShell or Laragon Terminal",
     "database": "MySQL managed by Laragon"
   },
-  "version": "2.0-image-strategy",
-  "image_strategy": "local SVG placeholder -> optional local demo images -> validated admin upload"
+  "version": "3.0-dynamic-jquery",
+  "image_strategy": "local SVG placeholder -> optional local demo images -> validated admin upload",
+  "currency": "VND integer",
+  "dynamic_ui": "jQuery progressive enhancement with server-authoritative price, stock and totals",
+  "javascript_policy": "jQuery default; new JavaScript libraries require explicit human approval"
 }

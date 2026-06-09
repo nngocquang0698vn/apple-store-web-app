@@ -22,3 +22,8 @@ Follow Laravel conventions already present in the repository.
 - Do not trust client price, totals, stock, role, or order status.
 - Do not concatenate user input into SQL.
 - Add feature tests for success, validation failure, and authorization failure.
+
+- Store prices and totals as integer Vietnamese đồng values.
+- Do not use floating point for money.
+- Support optional color and storage on variants for charging accessories.
+- Recalculate cart and checkout totals on the server.

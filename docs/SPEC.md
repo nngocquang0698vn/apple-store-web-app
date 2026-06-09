@@ -1,10 +1,10 @@
-# ĐẶC TẢ ĐỒ ÁN WEBSITE BÁN ĐIỆN THOẠI APPLE
+# ĐẶC TẢ ĐỒ ÁN WEBSITE BÁN SẢN PHẨM APPLE
 
 ## 1. Thông tin đề tài
 
 ### 1.1. Tên đề tài
 
-Xây dựng website bán điện thoại di động chuyên Apple.
+Xây dựng website bán sản phẩm Apple, gồm iPhone, iPad, iPod và phụ kiện sạc.
 
 Tên thương hiệu sử dụng trong đồ án có thể là `iStore`, `Apple Phone Store` hoặc một tên trung tính khác. Đây là website phục vụ mục đích học tập, không tự nhận là cửa hàng Apple chính thức.
 
@@ -14,7 +14,7 @@ Internet và Công nghệ Web.
 
 ### 1.3. Mô tả
 
-Hệ thống là một website thương mại điện tử quy mô nhỏ chuyên bán điện thoại iPhone. Website cho phép khách hàng tìm kiếm, lọc, xem sản phẩm, chọn biến thể màu sắc và dung lượng, thêm vào giỏ hàng, đặt hàng COD và theo dõi đơn hàng.
+Hệ thống là một website thương mại điện tử quy mô nhỏ chuyên bán iPhone, iPad, iPod và phụ kiện sạc. Website cho phép khách hàng tìm kiếm, lọc, xem sản phẩm, chọn biến thể màu sắc và dung lượng, thêm vào giỏ hàng, đặt hàng COD và theo dõi đơn hàng.
 
 Quản trị viên có thể quản lý danh mục, dòng sản phẩm, sản phẩm, hình ảnh, biến thể, tồn kho, khách hàng và đơn hàng.
 
@@ -130,6 +130,7 @@ Không triển khai trong MVP:
 | Rendering | Laravel Blade |
 | CSS | Tailwind CSS |
 | JavaScript | jQuery |
+| Icon | Font Awesome Free |
 | Bundler | Vite |
 | Authentication | Laravel session authentication |
 | Testing | PHPUnit hoặc Pest |
@@ -137,6 +138,16 @@ Không triển khai trong MVP:
 | Development IDE | Cursor |
 
 Khuyến nghị dùng một phiên bản Laravel ổn định đã được khóa trong `composer.json` và `composer.lock`. Không nâng cấp framework giữa quá trình làm tính năng.
+
+## 4.1. Chính sách dependency frontend
+
+jQuery là thư viện JavaScript mặc định.
+
+Cursor chỉ được đề xuất thư viện JavaScript mới khi có nhu cầu cụ thể. Proposal phải mô tả vấn đề, phương án dùng stack hiện tại, package, license, bundle impact, maintenance impact và file bị ảnh hưởng.
+
+Cursor phải chờ human xác nhận trước khi cài package hoặc sửa lock file.
+
+Font Awesome Free đã được phê duyệt cho icon giao diện.
 
 ## 5. Actor
 
@@ -224,25 +235,31 @@ Khách hàng có thể:
 
 Dùng để phân nhóm sản phẩm và giữ khả năng mở rộng.
 
-Ví dụ:
+Danh mục chính:
 
 - iPhone.
-- Phụ kiện.
+- iPad.
+- iPod.
+- Phụ kiện sạc.
 
-MVP tập trung vào iPhone.
+Có thể mở rộng thêm phụ kiện sau khi MVP ổn định.
 
 #### Dòng sản phẩm
 
 Ví dụ:
 
-- iPhone 13 Series.
-- iPhone 14 Series.
 - iPhone 15 Series.
 - iPhone 16 Series.
+- iPad Series.
+- iPad Air Series.
+- iPad Pro Series.
+- iPod Series.
+- USB-C Chargers.
+- Charging Cables.
 
 #### Sản phẩm
 
-Sản phẩm là model chung, ví dụ `iPhone 16 Pro`.
+Sản phẩm là model chung, ví dụ `iPhone 16 Pro`, `iPad Air`, `iPod touch` hoặc `Apple 20W USB-C Power Adapter`.
 
 Thông tin:
 
@@ -270,13 +287,16 @@ Mỗi hình có:
 
 #### Biến thể
 
-Biến thể là đơn vị bán và quản lý tồn kho.
+Biến thể là đơn vị bán và quản lý tồn kho. Màu và dung lượng là thuộc tính tùy chọn.
 
 Ví dụ:
 
 - iPhone 16 Pro / Black / 128 GB.
-- iPhone 16 Pro / Black / 256 GB.
-- iPhone 16 Pro / Desert Titanium / 256 GB.
+- iPad Air / Blue / 256 GB.
+- iPod touch / Pink / 128 GB.
+- Apple 20W USB-C Power Adapter / White.
+
+Phụ kiện sạc có thể không có dung lượng. `storage_option_id` được phép null.
 
 Thông tin:
 
@@ -288,6 +308,18 @@ Thông tin:
 - Giá bán.
 - Số lượng tồn kho.
 - Trạng thái hoạt động.
+
+## 6.5. Giá bán và tiền tệ
+
+Đơn vị tiền tệ duy nhất là Việt Nam đồng.
+
+- Database lưu giá dưới dạng số nguyên.
+- Không dùng float hoặc double.
+- Giao diện hiển thị dạng `19.990.000 ₫`.
+- Không lưu dấu phân cách hoặc ký hiệu tiền tệ trong database.
+- Product card, product detail, cart, checkout, order và admin dùng chung một formatter.
+- Tổng tiền được server tính lại.
+- Không hỗ trợ chuyển đổi ngoại tệ trong MVP.
 
 ## 7. Tìm kiếm, lọc, sắp xếp và phân trang
 
@@ -328,6 +360,7 @@ Lợi ích:
 Tìm theo:
 
 - Tên sản phẩm.
+- Tên danh mục.
 - Tên dòng sản phẩm.
 - Mô tả ngắn.
 - SKU.
@@ -408,6 +441,62 @@ Có thể nâng cấp bằng jQuery:
 Nếu JavaScript lỗi, form GET vẫn phải hoạt động.
 
 Không viết lại logic lọc trong JavaScript.
+
+## 7.9. Giao diện động bằng jQuery
+
+Website không phải SPA nhưng phải có tương tác động.
+
+### Chi tiết sản phẩm
+
+Khi người dùng chọn màu hoặc dung lượng, jQuery cập nhật:
+
+- Variant đang chọn.
+- Giá bán và giá niêm yết.
+- Tồn kho.
+- Ảnh tương ứng nếu có.
+- Trạng thái nút thêm vào giỏ.
+
+Server vẫn xác thực lại variant khi nhận request.
+
+### Tìm kiếm và lọc
+
+Luồng GET và SSR là luồng chuẩn. jQuery có thể nâng cấp bằng AJAX:
+
+- Debounce ô tìm kiếm.
+- Tải lại partial product list.
+- Cập nhật URL query string.
+- Hỗ trợ Back và Forward.
+- Hiển thị loading và empty state.
+
+Backend luôn dùng chung `ProductQuery`.
+
+### Giỏ hàng
+
+Add, update, remove và clear có thể dùng AJAX.
+
+Response server nên chứa:
+
+- `variant_id`.
+- `quantity`.
+- `unit_price`.
+- `line_subtotal`.
+- `cart_count`.
+- `cart_subtotal`.
+- `shipping_fee`.
+- `grand_total`.
+- `stock_quantity`.
+
+Tất cả giá trị tiền là integer VNĐ. jQuery cập nhật giao diện từ response này.
+
+### Checkout summary
+
+Checkout summary được refresh bằng AJAX khi cần. Server đọc lại giá, tồn kho và phí vận chuyển rồi trả giá trị chuẩn.
+
+Khi đặt hàng, server vẫn tính lại toàn bộ trong transaction. Không dùng tổng tiền từ DOM, hidden input, local storage hoặc JavaScript làm dữ liệu tin cậy.
+
+### Preview phía client
+
+JavaScript có thể tính preview để phản hồi tức thời. Sau khi server phản hồi, UI phải dùng giá trị chuẩn server trả về.
 
 ## 8. Trang chủ
 
@@ -671,16 +760,29 @@ Admin không được xem mật khẩu.
 ## 15. Yêu cầu giao diện
 
 - Tiếng Việt.
+- Thân thiện với khách hàng.
+- Layout rõ ràng, hợp lý và dễ điều hướng.
 - Tối giản và hiện đại.
 - Nền sáng.
 - Màu trung tính.
 - Màu nhấn xanh.
+- Font Awesome Free cho cart, search, account, filter, menu và trạng thái đơn khi phù hợp.
 - Responsive mobile-first.
 - Card sản phẩm đồng nhất.
 - Có empty state.
 - Có trạng thái loading và lỗi.
 - Form có label và validation message.
 - Khu vực admin ưu tiên desktop nhưng vẫn dùng được trên tablet.
+
+## 15.1. Quy tắc icon
+
+- Dùng Font Awesome Free.
+- Cart có icon và cart count.
+- Search, account, filter, menu, quantity control và order status có thể dùng icon.
+- Icon không thay hoàn toàn label quan trọng.
+- Icon-only button phải có accessible name.
+- Không cài thêm icon library khác.
+- Không dùng Apple brand icon để tạo cảm giác website chính thức.
 
 ## 16. Yêu cầu phi chức năng
 
@@ -754,7 +856,7 @@ Admin không được xem mật khẩu.
 ## 18. Kịch bản demo
 
 1. Mở trang chủ.
-2. Tìm `iPhone 16`.
+2. Tìm `iPhone 16`, `iPad` hoặc phụ kiện sạc.
 3. Lọc 256 GB, một màu và khoảng giá.
 4. Sắp xếp giá tăng dần.
 5. Mở sản phẩm.

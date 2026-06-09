@@ -403,6 +403,17 @@ Component nhận:
 
 Logic chọn primary image phải nằm ở query/model relationship/service phù hợp, không nằm trong component.
 
+## 12.2. Font Awesome icon system
+
+Font Awesome Free là icon library được phê duyệt.
+
+- Import qua npm và Vite.
+- Dùng nhất quán một style icon.
+- Có thể tạo Blade component icon nếu giúp giảm lặp.
+- Icon-only control phải có accessible label.
+- Không load thêm icon library.
+- Không dùng brand icon để ngụ ý website chính thức.
+
 ## 13. jQuery
 
 Các module hợp lệ:
@@ -421,6 +432,55 @@ Quy tắc:
 - Có fallback SSR.
 - Không lưu giá tin cậy ở JavaScript.
 - Không tự quyết định inventory.
+
+## 13.1. Kiến trúc giao diện động
+
+Luồng AJAX:
+
+    User action
+    -> jQuery handler
+    -> Laravel route
+    -> Form Request
+    -> Controller
+    -> Existing Query, Service, or Action
+    -> Session or database
+    -> JSON or Blade partial response
+    -> jQuery updates DOM
+
+Dùng JSON cho cập nhật trạng thái nhỏ như cart badge và tổng tiền. Dùng Blade partial cho danh sách sản phẩm phức tạp.
+
+Response cart mẫu:
+
+    {
+        "success": true,
+        "message": "Đã cập nhật giỏ hàng.",
+        "data": {
+            "variant_id": 15,
+            "quantity": 2,
+            "unit_price": 19990000,
+            "line_subtotal": 39980000,
+            "cart_count": 2,
+            "cart_subtotal": 39980000,
+            "shipping_fee": 0,
+            "grand_total": 39980000,
+            "stock_quantity": 8
+        }
+    }
+
+Quy tắc:
+
+- Giá trị tiền trong JSON là integer VNĐ.
+- Client format tiền chỉ là presentation.
+- AJAX và SSR dùng chung nghiệp vụ backend.
+- Không viết lại logic giá, stock, shipping hoặc cart trong jQuery.
+- 409 có thể dùng cho price hoặc stock conflict và trả state mới.
+- Xử lý 419, 422, 403, 404, 409 và 500.
+
+## 13.2. Đề xuất thư viện JavaScript khác
+
+Cursor chỉ được proposal, không được cài.
+
+Proposal phải có problem statement, giải pháp bằng jQuery hoặc vanilla JavaScript, package, license, bundle impact, maintenance impact, phạm vi tích hợp và rollback strategy.
 
 ## 14. Response
 

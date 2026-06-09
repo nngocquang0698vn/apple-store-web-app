@@ -7,11 +7,25 @@
 - UTF-8 đầy đủ.
 - Có khóa ngoại.
 - Có index cho truy vấn chính.
-- Tiền lưu bằng `BIGINT UNSIGNED` theo đơn vị VND để tránh sai số float.
+- Tiền lưu bằng `BIGINT UNSIGNED` theo đơn vị VNĐ để tránh sai số float.
 - Order item lưu snapshot.
 - Tồn kho nằm ở product variant.
 - Không dùng EAV.
 - Không có bảng review hoặc comment.
+
+## 1.1. Tiền tệ
+
+Toàn bộ giá và tổng tiền dùng Việt Nam đồng.
+
+Giá trị database:
+
+    19990000
+
+Hiển thị:
+
+    19.990.000 ₫
+
+Database không lưu ký hiệu tiền tệ hoặc dấu phân cách hàng nghìn.
 
 ## 2. Bảng `users`
 
@@ -68,6 +82,15 @@ Quan hệ:
 
 - Category có nhiều product series.
 - Product series thuộc category.
+
+## 4.1. Danh mục seed đề xuất
+
+- iPhone.
+- iPad.
+- iPod.
+- Phụ kiện sạc.
+
+Dòng sản phẩm có thể gồm iPhone 15, iPhone 16, iPad, iPad Air, iPad Pro, iPod, USB-C Chargers và Charging Cables.
 
 ## 5. Bảng `products`
 
@@ -177,8 +200,8 @@ Ví dụ:
 |---|---|---|
 | `id` | BIGINT UNSIGNED | PK |
 | `product_id` | BIGINT UNSIGNED | FK |
-| `color_id` | BIGINT UNSIGNED | FK |
-| `storage_option_id` | BIGINT UNSIGNED | FK |
+| `color_id` | BIGINT UNSIGNED | FK, NULL |
+| `storage_option_id` | BIGINT UNSIGNED | FK, NULL |
 | `sku` | VARCHAR(60) | UNIQUE |
 | `original_price` | BIGINT UNSIGNED | NULL |
 | `sale_price` | BIGINT UNSIGNED | NOT NULL |
@@ -187,9 +210,7 @@ Ví dụ:
 | `created_at` | TIMESTAMP | |
 | `updated_at` | TIMESTAMP | |
 
-Unique composite:
-
-    unique(product_id, color_id, storage_option_id)
+Không dùng composite unique bắt buộc cho color và storage vì phụ kiện có thể không có các thuộc tính này. SKU vẫn là unique key chính. Form Request hoặc service phải ngăn tạo tổ hợp variant trùng trong cùng product.
 
 Index:
 
@@ -206,6 +227,15 @@ Quy tắc:
 - Nếu có `original_price`, `sale_price <= original_price`
 - SKU duy nhất.
 - Không hard delete variant đã có order item.
+
+## 9.1. Biến thể cho nhiều loại sản phẩm
+
+- iPhone, iPad và iPod thường dùng color và storage.
+- Phụ kiện sạc có thể chỉ dùng color hoặc không dùng cả hai.
+- `color_id` và `storage_option_id` nullable.
+- SKU bắt buộc và unique.
+- Application validation ngăn tạo hai variant có cùng product, color và storage.
+- Không dùng EAV trong MVP.
 
 ## 10. Bảng `orders`
 
