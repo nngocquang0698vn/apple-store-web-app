@@ -60,9 +60,28 @@ class CatalogSeederTest extends TestCase
         $this->assertContains('phu-kien-sac', $slugs);
     }
 
-    public function test_catalog_seeder_works_without_product_images(): void
+    public function test_catalog_seeder_does_not_fail_when_demo_images_are_missing(): void
     {
-        $this->assertSame(0, ProductImage::query()->count());
         $this->assertGreaterThan(0, Product::query()->count());
+    }
+
+    public function test_catalog_seeder_creates_product_images_when_demo_files_exist(): void
+    {
+        if (! is_file(storage_path('app/public/products/demo/iphone-15-black.webp'))) {
+            $this->markTestSkipped('Demo product images are not present in storage/app/public/products/demo.');
+        }
+
+        $this->assertSame(13, ProductImage::query()->count());
+        $this->assertSame(13, ProductImage::query()->where('is_primary', true)->count());
+
+        $iphone16 = Product::query()->where('slug', 'iphone-16')->firstOrFail();
+        $image = ProductImage::query()
+            ->where('product_id', $iphone16->id)
+            ->where('is_primary', true)
+            ->first();
+
+        $this->assertNotNull($image);
+        $this->assertSame('products/demo/iphone-16-black.webp', $image->path);
+        $this->assertSame('iPhone 16 màu đen', $image->alt_text);
     }
 }

@@ -31,7 +31,11 @@ class ProductDiscoveryTest extends TestCase
         $response->assertOk();
         $response->assertSee('Sản phẩm', false);
         $response->assertSee('iPhone 16 Pro', false);
-        $response->assertSee('product-placeholder.svg', false);
+        if (is_file(storage_path('app/public/products/demo/iphone-15-black.webp'))) {
+            $response->assertSee('/storage/products/demo/', false);
+        } else {
+            $response->assertSee('product-placeholder.svg', false);
+        }
     }
 
     public function test_products_index_only_shows_active_products_with_active_variants(): void

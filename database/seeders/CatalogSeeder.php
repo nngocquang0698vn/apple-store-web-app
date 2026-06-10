@@ -10,6 +10,7 @@ use App\Models\Color;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Models\ProductSeries;
 use App\Models\ProductVariant;
 use App\Models\StorageOption;
@@ -62,6 +63,7 @@ class CatalogSeeder extends Seeder
         $this->seedColors();
         $this->seedStorageOptions();
         $this->seedProducts();
+        $this->seedProductImages();
         $this->seedVariants();
         $this->seedOrders();
     }
@@ -209,6 +211,42 @@ class CatalogSeeder extends Seeder
                 'release_year' => $definition['year'],
                 'is_featured' => $definition['featured'],
                 'is_active' => true,
+            ]);
+        }
+    }
+
+    private function seedProductImages(): void
+    {
+        $definitions = [
+            ['slug' => 'iphone-15', 'file' => 'iphone-15-black.webp', 'alt' => 'iPhone 15 màu đen'],
+            ['slug' => 'iphone-15-pro', 'file' => 'iphone-15-pro-natural-titanium.webp', 'alt' => 'iPhone 15 Pro màu Titanium tự nhiên'],
+            ['slug' => 'iphone-16', 'file' => 'iphone-16-black.webp', 'alt' => 'iPhone 16 màu đen'],
+            ['slug' => 'iphone-16-pro', 'file' => 'iphone-16-pro-black-titanium.webp', 'alt' => 'iPhone 16 Pro màu Titanium đen'],
+            ['slug' => 'iphone-16-pro-max', 'file' => 'iphone-16-pro-max-black-titanium.webp', 'alt' => 'iPhone 16 Pro Max màu Titanium đen'],
+            ['slug' => 'ipad-10-9', 'file' => 'ipad-10-9-blue.webp', 'alt' => 'iPad 10.9 inch màu xanh dương'],
+            ['slug' => 'ipad-air-m2', 'file' => 'ipad-air-m2-blue.webp', 'alt' => 'iPad Air M2 màu xanh dương'],
+            ['slug' => 'ipad-pro-11-m4', 'file' => 'ipad-pro-11-m4-black.webp', 'alt' => 'iPad Pro 11 inch M4 màu đen'],
+            ['slug' => 'ipod-touch-gen-7', 'file' => 'ipod-touch-gen-7-blue.webp', 'alt' => 'iPod touch thế hệ 7 màu xanh dương'],
+            ['slug' => 'apple-20w-usb-c-adapter', 'file' => 'apple-20w-usb-c-adapter.webp', 'alt' => 'Củ sạc Apple 20W USB-C'],
+            ['slug' => 'apple-30w-usb-c-adapter', 'file' => 'apple-30w-usb-c-adapter.webp', 'alt' => 'Củ sạc Apple 30W USB-C'],
+            ['slug' => 'usb-c-to-lightning-1m', 'file' => 'usb-c-to-lightning-1m.webp', 'alt' => 'Cáp USB-C sang Lightning 1m'],
+            ['slug' => 'usb-c-cable-1m', 'file' => 'usb-c-cable-1m.webp', 'alt' => 'Cáp USB-C 1m'],
+        ];
+
+        foreach ($definitions as $index => $definition) {
+            $relativePath = 'products/demo/'.$definition['file'];
+            $absolutePath = storage_path('app/public/'.$relativePath);
+
+            if (! is_file($absolutePath)) {
+                continue;
+            }
+
+            ProductImage::query()->create([
+                'product_id' => $this->findProductBySlug($definition['slug'])->id,
+                'path' => $relativePath,
+                'alt_text' => $definition['alt'],
+                'sort_order' => $index + 1,
+                'is_primary' => true,
             ]);
         }
     }
