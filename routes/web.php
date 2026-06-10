@@ -2,7 +2,14 @@
 
 use App\Http\Controllers\Account\OrderController;
 use App\Http\Controllers\Account\ProfileController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\ProductImageController;
+use App\Http\Controllers\Admin\ProductSeriesController;
+use App\Http\Controllers\Admin\ProductVariantController;
+use App\Http\Controllers\Admin\StorageOptionController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
@@ -53,4 +60,31 @@ Route::prefix('account')->name('account.')->middleware(['auth', 'active'])->grou
 
 Route::prefix('admin')->name('admin.')->middleware('admin')->group(function (): void {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::resource('categories', CategoryController::class)->except('show');
+    Route::resource('product-series', ProductSeriesController::class)
+        ->parameters(['product-series' => 'productSeries'])
+        ->except('show');
+    Route::resource('colors', ColorController::class)->except('show');
+    Route::resource('storage-options', StorageOptionController::class)
+        ->parameters(['storage-options' => 'storageOption'])
+        ->except('show');
+
+    Route::post('/products/{product}/images', [ProductImageController::class, 'store'])
+        ->name('products.images.store');
+    Route::patch('/product-images/{image}', [ProductImageController::class, 'update'])
+        ->name('product-images.update');
+    Route::delete('/product-images/{image}', [ProductImageController::class, 'destroy'])
+        ->name('product-images.destroy');
+
+    Route::get('/products/{product}/variants', [ProductVariantController::class, 'index'])
+        ->name('products.variants.index');
+    Route::post('/products/{product}/variants', [ProductVariantController::class, 'store'])
+        ->name('products.variants.store');
+    Route::patch('/variants/{variant}', [ProductVariantController::class, 'update'])
+        ->name('variants.update');
+    Route::delete('/variants/{variant}', [ProductVariantController::class, 'destroy'])
+        ->name('variants.destroy');
+
+    Route::resource('products', AdminProductController::class);
 });

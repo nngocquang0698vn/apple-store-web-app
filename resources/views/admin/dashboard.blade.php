@@ -30,8 +30,8 @@
         </p>
         <ul class="mt-4 list-disc space-y-2 pl-5 text-sm text-gray-600">
             <li>Layout quản trị và sidebar cơ bản đã sẵn sàng.</li>
-            <li>Chưa có middleware admin và dữ liệu nghiệp vụ.</li>
-            <li>Catalog, đơn hàng và khách hàng sẽ được bổ sung ở các phase sau.</li>
+            <li>Middleware admin và quản lý catalog đã sẵn sàng.</li>
+            <li>Đơn hàng, khách hàng và thống kê thật sẽ được bổ sung ở các phase sau.</li>
         </ul>
     </section>
 @endsection

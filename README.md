@@ -8,7 +8,7 @@ Website bán iPhone, iPad, iPod và phụ kiện sạc (đồ án học tập), 
 
 ### Mục đích
 
-iStore mô phỏng cửa hàng Apple quy mô nhỏ: khách tìm kiếm/lọc sản phẩm, xem chi tiết biến thể (màu, dung lượng), thêm giỏ hàng, đặt hàng COD và xem lịch sử đơn. Quản trị viên có khu vực admin cơ bản (dashboard placeholder; quản lý đơn/catalog admin đang làm dở).
+iStore mô phỏng cửa hàng Apple quy mô nhỏ: khách tìm kiếm/lọc sản phẩm, xem chi tiết biến thể (màu, dung lượng), thêm giỏ hàng, đặt hàng COD và xem lịch sử đơn. Quản trị viên có dashboard placeholder và quản lý catalog.
 
 ### Công nghệ
 
@@ -31,6 +31,7 @@ Không dùng React, Vue, Livewire, Inertia hay Alpine.
 - Giỏ hàng session (AJAX)
 - Checkout COD (transaction, trừ tồn kho)
 - Lịch sử và chi tiết đơn hàng (khách hàng)
+- Admin catalog: danh mục, dòng sản phẩm, màu, dung lượng, sản phẩm, ảnh và biến thể
 - Admin dashboard (placeholder)
 
 ### Tài khoản demo (sau `php artisan db:seed`)
@@ -57,7 +58,7 @@ php artisan test
 npm run build
 ```
 
-Kỳ vọng: **121 tests passed**, build Vite thành công.
+Kỳ vọng: **135 tests passed**, build Vite thành công.
 
 ---
 

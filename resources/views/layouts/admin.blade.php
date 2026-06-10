@@ -34,22 +34,50 @@
                     <li>
                         <a
                             href="{{ route('admin.dashboard') }}"
-                            class="block rounded-lg px-3 py-2 font-medium text-blue-700 bg-blue-50"
+                            class="block rounded-lg px-3 py-2 font-medium {{ request()->routeIs('admin.dashboard') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50' }}"
                         >
                             Dashboard
                         </a>
                     </li>
                     <li>
-                        <span class="block rounded-lg px-3 py-2 text-gray-400">Danh mục</span>
+                        <a
+                            href="{{ route('admin.categories.index') }}"
+                            class="block rounded-lg px-3 py-2 font-medium {{ request()->routeIs('admin.categories.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50' }}"
+                        >
+                            Danh mục
+                        </a>
                     </li>
                     <li>
-                        <span class="block rounded-lg px-3 py-2 text-gray-400">Sản phẩm</span>
+                        <a
+                            href="{{ route('admin.product-series.index') }}"
+                            class="block rounded-lg px-3 py-2 font-medium {{ request()->routeIs('admin.product-series.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50' }}"
+                        >
+                            Dòng sản phẩm
+                        </a>
                     </li>
                     <li>
-                        <span class="block rounded-lg px-3 py-2 text-gray-400">Đơn hàng</span>
+                        <a
+                            href="{{ route('admin.colors.index') }}"
+                            class="block rounded-lg px-3 py-2 font-medium {{ request()->routeIs('admin.colors.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50' }}"
+                        >
+                            Màu sắc
+                        </a>
                     </li>
                     <li>
-                        <span class="block rounded-lg px-3 py-2 text-gray-400">Khách hàng</span>
+                        <a
+                            href="{{ route('admin.storage-options.index') }}"
+                            class="block rounded-lg px-3 py-2 font-medium {{ request()->routeIs('admin.storage-options.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50' }}"
+                        >
+                            Dung lượng
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="{{ route('admin.products.index') }}"
+                            class="block rounded-lg px-3 py-2 font-medium {{ request()->routeIs('admin.products.*') || request()->routeIs('admin.product-images.*') || request()->routeIs('admin.variants.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50' }}"
+                        >
+                            Sản phẩm
+                        </a>
                     </li>
                     <li class="pt-4 border-t border-gray-200">
                         <a href="{{ route('home') }}" class="block rounded-lg px-3 py-2 text-gray-600 hover:bg-gray-50">

@@ -113,37 +113,37 @@ Acceptance:
 
 ### Task 3.1: Category và series
 
-- CRUD.
-- Slug.
-- Active status.
-- Validation.
-- Tests.
+- [x] CRUD.
+- [x] Slug.
+- [x] Active status.
+- [x] Validation.
+- [x] Tests.
 
 ### Task 3.2: Color và storage
 
-- CRUD.
-- Sort order.
-- Validation.
-- Tests.
+- [x] CRUD.
+- [x] Sort order.
+- [x] Validation.
+- [x] Tests.
 
 ### Task 3.3: Product
 
-- CRUD.
-- Soft delete hoặc deactivate.
-- Image upload theo `docs/IMAGE_STRATEGY.md`.
-- Relative path storage.
-- Primary image và sort order.
-- Validation.
-- Tests.
+- [x] CRUD.
+- [x] Soft delete hoặc deactivate.
+- [x] Image upload theo `docs/IMAGE_STRATEGY.md`.
+- [x] Relative path storage.
+- [x] Primary image và sort order.
+- [x] Validation.
+- [x] Tests.
 
 ### Task 3.4: Variant
 
-- Create/update/deactivate.
-- Unique SKU.
-- Unique combination.
-- Price rules.
-- Stock rules.
-- Tests.
+- [x] Create/update/deactivate.
+- [x] Unique SKU.
+- [x] Unique combination.
+- [x] Price rules.
+- [x] Stock rules.
+- [x] Tests.
 
 Không làm dashboard trước khi catalog hoạt động.
 

@@ -22,7 +22,7 @@ Cập nhật theo `docs/TASKS.md` và trạng thái code thực tế (tháng 6/2
 | 0 | Khởi tạo | ✅ |
 | 1 | Authentication | ✅ |
 | 2 | Database catalog | ✅ |
-| **3** | **Admin catalog** | **⏭️ SKIP** |
+| **3** | **Admin catalog** | **✅** |
 | 4 | Product discovery (SSR) | ✅ |
 | 5 | Product detail + cart (SSR) | ✅ |
 | 6 | jQuery enhancement | ⏸️ |
@@ -32,9 +32,9 @@ Cập nhật theo `docs/TASKS.md` và trạng thái code thực tế (tháng 6/2
 | 10 | Dashboard | ❌ (placeholder) |
 | 11 | Hoàn thiện | ❌ |
 
-**Task admin bạn đã skip:** toàn bộ **Phase 3 — Admin catalog** (CRUD danh mục, màu, dung lượng, sản phẩm, ảnh, biến thể). Catalog hiện có nhờ **seeder**, chưa có giao diện quản trị catalog.
+**Phase 3 đã hoàn thành:** CRUD danh mục, dòng sản phẩm, màu, dung lượng, sản phẩm, upload ảnh và biến thể.
 
-**Việc tiếp theo đề xuất:** Phase 9 (admin orders) hoặc quay lại Phase 3 nếu cần quản lý catalog trước khi ship.
+**Việc tiếp theo đề xuất:** Phase 9 (admin orders) hoặc Phase 11 hardening.
 
 ---
 
@@ -66,20 +66,18 @@ Cập nhật theo `docs/TASKS.md` và trạng thái code thực tế (tháng 6/2
 
 ---
 
-## Phase 3: Admin catalog ⏭️ SKIP
+## Phase 3: Admin catalog ✅
 
-> **Đây là phase admin đã bỏ qua.** Luồng khách hàng (Phase 4–8) dùng dữ liệu seed; chưa có route/controller admin catalog.
+> Admin catalog đã có route/controller/request/view/test theo luồng SSR.
 
-| Task | Mô tả | Trạng thái |
-|------|-------|------------|
-| 3.1 | Category & series CRUD | ❌ |
-| 3.2 | Color & storage CRUD | ❌ |
-| 3.3 | Product CRUD + upload ảnh | ❌ |
-| 3.4 | Variant CRUD (SKU, giá, tồn kho) | ❌ |
+| Task | Mô tả | Trạng thái | Tests |
+|------|-------|------------|-------|
+| 3.1 | Category & series CRUD | ✅ | `AdminCategorySeriesTest` |
+| 3.2 | Color & storage CRUD | ✅ | `AdminColorStorageTest` |
+| 3.3 | Product CRUD + upload ảnh | ✅ | `AdminProductTest` |
+| 3.4 | Variant CRUD (SKU, giá, tồn kho) | ✅ | `AdminProductVariantTest` |
 
-**Chưa có:** `admin/categories`, `admin/products`, `admin/variants`, … (chỉ có spec trong `docs/ROUTES.md`).
-
-**Đã có sẵn để làm Phase 3 sau:** models, migrations, `CatalogSeeder`, layout `layouts/admin`.
+**Đã có:** `admin/categories`, `admin/product-series`, `admin/colors`, `admin/storage-options`, `admin/products`, `admin/products/{product}/variants`.
 
 ---
 
@@ -169,9 +167,9 @@ Cập nhật theo `docs/TASKS.md` và trạng thái code thực tế (tháng 6/2
 | Placeholder & no hotlink audit | ⏸️ (có strategy doc, chưa audit cuối) |
 | Empty states toàn site | ⏸️ (một số trang đã có) |
 | Vietnamese text pass | ⏸️ |
-| README cập nhật (chạy project) | ⏸️ (`README.md` còn ghi Phase 0) |
+| README cập nhật (chạy project) | ⏸️ (đã cập nhật tiến độ chính, còn cần rà cuối Phase 11) |
 | Demo seed ổn định | ✅ |
-| Final test suite | ✅ (121 tests) |
+| Final test suite | ✅ (135 tests) |
 | Production config checklist | ❌ |
 
 ---
@@ -240,9 +238,8 @@ Cập nhật theo `docs/TASKS.md` và trạng thái code thực tế (tháng 6/2
 
 1. **Phase 9** — Admin quản lý đơn & khách (khách hàng đã đặt hàng, admin cần xử lý).
 2. **Phase 10** — Dashboard số liệu thật.
-3. **Phase 3** — Admin catalog (nếu cần CRUD thay vì chỉ seed).
-4. **Phase 11** — Hardening + cập nhật README.
-5. **Tech debt** — TD-001/002 khi ổn định cart trên Laragon.
+3. **Phase 11** — Hardening + cập nhật README.
+4. **Tech debt** — TD-001/002 khi ổn định cart trên Laragon.
 
 ---
 
