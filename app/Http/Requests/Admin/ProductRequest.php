@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use App\Models\ProductSeries;
+use App\Support\ProductDescriptionSanitizer;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -24,6 +25,7 @@ class ProductRequest extends FormRequest
             'release_year' => $this->filled('release_year') ? (int) $this->input('release_year') : null,
             'is_featured' => $this->boolean('is_featured'),
             'is_active' => $this->boolean('is_active'),
+            'description' => ProductDescriptionSanitizer::prepare($this->input('description')),
         ]);
     }
 

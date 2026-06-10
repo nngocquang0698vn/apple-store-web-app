@@ -219,8 +219,8 @@
     @if ($product->description)
         <section class="mt-12 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
             <h2 class="text-lg font-semibold text-gray-900">Mô tả chi tiết</h2>
-            <div class="prose prose-sm mt-4 max-w-none text-gray-700">
-                {!! nl2br(e($product->description)) !!}
+            <div class="product-description mt-4 text-sm text-gray-700">
+                {!! \App\Support\ProductDescriptionSanitizer::prepare($product->description) !!}
             </div>
         </section>
     @endif

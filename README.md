@@ -8,7 +8,7 @@ Website bán iPhone, iPad, iPod và phụ kiện sạc (đồ án học tập), 
 
 ### Mục đích
 
-iStore mô phỏng cửa hàng Apple quy mô nhỏ: khách tìm kiếm/lọc sản phẩm, xem chi tiết biến thể (màu, dung lượng), thêm giỏ hàng, đặt hàng COD và xem lịch sử đơn. Quản trị viên có dashboard placeholder và quản lý catalog.
+iStore mô phỏng cửa hàng Apple quy mô nhỏ: khách tìm kiếm/lọc sản phẩm, xem chi tiết biến thể (màu, dung lượng), thêm giỏ hàng, đặt hàng COD và xem lịch sử đơn. Quản trị viên có dashboard thống kê, quản lý catalog, đơn hàng và khách hàng.
 
 ### Công nghệ
 
@@ -26,13 +26,16 @@ Không dùng React, Vue, Livewire, Inertia hay Alpine.
 ### Chức năng đã có
 
 - Đăng ký, đăng nhập, hồ sơ, đổi mật khẩu
+- Trang chủ: carousel sản phẩm nổi bật (ảnh demo), link danh mục nhanh
 - Danh sách sản phẩm: tìm kiếm, lọc, sắp xếp, phân trang (SSR + AJAX filter)
 - Chi tiết sản phẩm, chọn biến thể, thêm giỏ
 - Giỏ hàng session (AJAX)
 - Checkout COD (transaction, trừ tồn kho)
 - Lịch sử và chi tiết đơn hàng (khách hàng)
 - Admin catalog: danh mục, dòng sản phẩm, màu, dung lượng, sản phẩm, ảnh và biến thể
-- Admin dashboard (placeholder)
+- Admin đơn hàng: lọc, đổi trạng thái, hủy đơn và hoàn tồn kho
+- Admin khách hàng: tìm kiếm, khóa/mở tài khoản
+- Admin dashboard: tổng sản phẩm, khách, đơn, doanh thu, đơn mới, cảnh báo tồn kho thấp
 
 ### Tài khoản demo (sau `php artisan db:seed`)
 
@@ -48,23 +51,152 @@ Không dùng React, Vue, Livewire, Inertia hay Alpine.
 | [`docs/SPEC.md`](docs/SPEC.md) | Đặc tả chức năng |
 | [`docs/TASKS.md`](docs/TASKS.md) | Kế hoạch theo phase |
 | [`docs/CHECKLIST.md`](docs/CHECKLIST.md) | Tiến độ task |
-| [`docs/DEVELOPMENT_WINDOWS_LARAGON.md`](docs/DEVELOPMENT_WINDOWS_LARAGON.md) | Laragon chi tiết |
+| [`docs/PRODUCTION_CHECKLIST.md`](docs/PRODUCTION_CHECKLIST.md) | Rà soát trước khi deploy |
+| [`docs/DEVELOPMENT_WINDOWS_LARAGON.md`](docs/DEVELOPMENT_WINDOWS_LARAGON.md) | Laragon chi tiết (Windows) |
+| [`docs/DATABASE.md`](docs/DATABASE.md) | Schema & seeder |
 | [`todo/NEEDS_HELP.md`](todo/NEEDS_HELP.md) | Hướng dẫn chuẩn bị ảnh sản phẩm |
 
 ### Kiểm tra nhanh sau khi cài
 
-```powershell
+```bash
 php artisan test
 npm run build
 ```
 
-Kỳ vọng: **135 tests passed**, build Vite thành công.
+Kỳ vọng: toàn bộ test pass, build Vite thành công.
+
+**Bắt đầu nhanh theo hệ điều hành:** [macOS](#2-cài-đặt-trên-macos) · [Laragon (Windows)](#3-cài-đặt-trên-laragon-windows) · [XAMPP (Windows)](#4-cài-đặt-trên-xampp-windows)
 
 ---
 
-## 2. Cài đặt trên Laragon
+## 2. Cài đặt trên macOS
 
-Laragon là môi trường phát triển **khuyến nghị** cho dự án này.
+Hướng dẫn phát triển trên Mac (Intel hoặc Apple Silicon). Khuyến nghị dùng [Homebrew](https://brew.sh/) để cài PHP, MySQL và Node.
+
+### Yêu cầu
+
+- macOS 13+ (Ventura trở lên khuyến nghị)
+- PHP **8.3+**, Composer 2.x, MySQL 8.x, Node.js **22.x** và npm 10.x
+- Extension PHP: `pdo_mysql`, `mbstring`, `openssl`, `tokenizer`, `xml`, `ctype`, `json`, `fileinfo`
+
+Cài qua Homebrew (nếu chưa có):
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+brew install php@8.3 composer mysql node
+brew link php@8.3 --force --overwrite
+brew services start mysql
+```
+
+Kiểm tra:
+
+```bash
+php --version
+composer --version
+mysql --version
+node --version
+```
+
+### Bước 1 — Clone project
+
+```bash
+cd ~/Sites   # hoặc thư mục bạn hay đặt code
+git clone <url-repo> apple-store-web-app
+cd apple-store-web-app
+```
+
+### Bước 2 — Cài dependency
+
+```bash
+composer install
+npm install
+
+cp .env.example .env
+php artisan key:generate
+```
+
+### Bước 3 — Cấu hình `.env`
+
+Chỉnh file `.env` (không commit file này):
+
+```dotenv
+APP_NAME="iStore"
+APP_URL=http://127.0.0.1:8000
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=apple_store
+DB_USERNAME=root
+DB_PASSWORD=
+
+# Tuỳ chọn — phí ship & cảnh báo tồn kho (VND)
+SHIPPING_FEE=30000
+SHIPPING_FREE_THRESHOLD=10000000
+LOW_STOCK_THRESHOLD=5
+```
+
+MySQL Homebrew mặc định user `root`, mật khẩu trống. Nếu đã đặt mật khẩu, cập nhật `DB_PASSWORD`.
+
+### Bước 4 — Database
+
+```bash
+mysql -u root -e "CREATE DATABASE IF NOT EXISTS apple_store CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+
+php artisan migrate
+php artisan db:seed
+php artisan storage:link
+npm run build
+```
+
+### Bước 5 — Chạy
+
+Mở **hai terminal** trong thư mục project:
+
+```bash
+# Terminal 1 — Laravel
+php artisan serve
+
+# Terminal 2 — Vite (khi sửa CSS/JS)
+npm run dev
+```
+
+Mở trình duyệt:
+
+| Trang | URL |
+|-------|-----|
+| Trang chủ | http://127.0.0.1:8000 |
+| Sản phẩm | http://127.0.0.1:8000/products |
+| Admin | http://127.0.0.1:8000/admin |
+
+Đăng nhập admin: `admin@istore.test` / `password`.
+
+### Tuỳ chọn — Laravel Herd
+
+Nếu dùng [Laravel Herd](https://herd.laravel.com/), park thư mục project và truy cập hostname `.test` (ví dụ `http://apple-store-web-app.test`). Đặt `APP_URL` khớp hostname Herd. Vẫn cần `npm run dev` khi sửa frontend.
+
+### Import database có sẵn (tuỳ chọn)
+
+```bash
+mysql -u root apple_store < todo/script.sql
+```
+
+### Lỗi thường gặp (macOS)
+
+| Triệu chứng | Cách xử lý |
+|-------------|------------|
+| `command not found: php` | `brew link php@8.3 --force`; thêm PHP vào PATH theo gợi ý sau `brew install` |
+| Lỗi kết nối MySQL | `brew services start mysql`; kiểm tra `DB_HOST`, `DB_PASSWORD` |
+| `Vite manifest not found` | Chạy `npm run build` hoặc `npm run dev` |
+| Port 8000 đã dùng | `php artisan serve --port=8001` và cập nhật `APP_URL` |
+| Ảnh sản phẩm không hiện | Chạy `php artisan storage:link`; seed lại nếu cần |
+
+---
+
+## 3. Cài đặt trên Laragon (Windows)
+
+Laragon là môi trường phát triển **khuyến nghị trên Windows** cho dự án này.
 
 ### Yêu cầu
 
@@ -126,6 +258,11 @@ DB_PORT=3306
 DB_DATABASE=apple_store
 DB_USERNAME=root
 DB_PASSWORD=
+
+# Tuỳ chọn — phí ship & cảnh báo tồn kho (VND)
+SHIPPING_FEE=30000
+SHIPPING_FREE_THRESHOLD=10000000
+LOW_STOCK_THRESHOLD=5
 ```
 
 ### Bước 4 — Database
@@ -171,7 +308,7 @@ mysql -u root apple_store < todo\script.sql
 
 ---
 
-## 3. Cài đặt trên XAMPP
+## 4. Cài đặt trên XAMPP (Windows)
 
 XAMPP dùng được nếu bạn đã quen Apache + MySQL của XAMPP. Dự án yêu cầu **PHP 8.3+** — kiểm tra phiên bản PHP trong XAMPP (`php --version`). Nếu XAMPP đi kèm PHP cũ hơn, cần nâng cấp PHP hoặc dùng Laragon.
 

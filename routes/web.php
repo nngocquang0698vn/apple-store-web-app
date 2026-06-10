@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\ProductDescriptionImageController;
 use App\Http\Controllers\Admin\ProductImageController;
 use App\Http\Controllers\Admin\ProductSeriesController;
 use App\Http\Controllers\Admin\ProductVariantController;
@@ -71,6 +72,9 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function (): 
     Route::resource('storage-options', StorageOptionController::class)
         ->parameters(['storage-options' => 'storageOption'])
         ->except('show');
+
+    Route::post('/products/description-images', [ProductDescriptionImageController::class, 'store'])
+        ->name('products.description-images.store');
 
     Route::post('/products/{product}/images', [ProductImageController::class, 'store'])
         ->name('products.images.store');

@@ -8,6 +8,12 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-gray-50 text-gray-900 antialiased">
+    <a
+        href="#main-content"
+        class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-white"
+    >
+        Chuyển tới nội dung chính
+    </a>
     <header class="border-b border-gray-200 bg-white">
         <div class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:gap-3 lg:gap-4 sm:px-6 lg:px-8">
             <div class="flex min-w-0 items-center justify-between gap-3 sm:shrink-0 sm:justify-start">
@@ -106,9 +112,27 @@
                 @endauth
             </nav>
         </div>
+
+        @if ($navCategories->isNotEmpty())
+            <nav
+                aria-label="Danh mục sản phẩm"
+                class="border-t border-gray-100 bg-gray-50/80"
+            >
+                <div class="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-4 py-2 text-sm sm:px-6 lg:px-8">
+                    @foreach ($navCategories as $category)
+                        <a
+                            href="{{ route('products.index', ['category' => $category->slug]) }}"
+                            class="shrink-0 whitespace-nowrap rounded-full border border-gray-200 bg-white px-3 py-1 text-gray-700 hover:border-blue-300 hover:text-blue-600"
+                        >
+                            {{ $category->name }}
+                        </a>
+                    @endforeach
+                </div>
+            </nav>
+        @endif
     </header>
 
-    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <main id="main-content" class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8" tabindex="-1">
         <div data-flash-container>
             <x-flash-message />
         </div>

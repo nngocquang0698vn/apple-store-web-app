@@ -10,3 +10,7 @@
         @include('admin.products.form', ['product' => $product])
     </form>
 @endsection
+
+@push('vite')
+    @vite(['resources/js/admin/product-editor.js'])
+@endpush

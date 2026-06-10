@@ -42,15 +42,17 @@
     @error('short_description') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
 </div>
 
-<div class="grid gap-4 md:grid-cols-2">
-    <div>
-        <label for="description" class="block text-sm font-medium text-gray-700">Mô tả chi tiết</label>
-        <textarea id="description" name="description" rows="6" class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200">{{ old('description', $product?->description) }}</textarea>
-    </div>
-    <div>
-        <label for="specifications" class="block text-sm font-medium text-gray-700">Thông số</label>
-        <textarea id="specifications" name="specifications" rows="6" class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200">{{ old('specifications', $product?->specifications) }}</textarea>
-    </div>
+<x-admin.rich-text-editor
+    name="description"
+    id="description"
+    label="Mô tả chi tiết"
+    :value="old('description', $product?->description)"
+/>
+
+<div>
+    <label for="specifications" class="block text-sm font-medium text-gray-700">Thông số</label>
+    <textarea id="specifications" name="specifications" rows="6" class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200">{{ old('specifications', $product?->specifications) }}</textarea>
+    @error('specifications') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
 </div>
 
 <div class="grid gap-4 md:grid-cols-3">

@@ -11,7 +11,7 @@ Cập nhật theo `docs/TASKS.md` và trạng thái code thực tế (tháng 6/2
 | ⏭️ | Cố ý bỏ qua (skip) |
 | ❌ | Chưa làm |
 
-**Tests hiện tại:** `php artisan test` → **121 passed**
+**Tests hiện tại:** `php artisan test` → **170 passed**
 
 ---
 
@@ -28,13 +28,13 @@ Cập nhật theo `docs/TASKS.md` và trạng thái code thực tế (tháng 6/2
 | 6 | jQuery enhancement | ⏸️ |
 | 7 | Checkout | ✅ |
 | 8 | Customer orders | ✅ |
-| 9 | Admin orders & customers | ❌ |
-| 10 | Dashboard | ❌ (placeholder) |
-| 11 | Hoàn thiện | ❌ |
+| 9 | Admin orders & customers | ✅ |
+| 10 | Dashboard | ✅ |
+| 11 | Hoàn thiện | ✅ |
 
 **Phase 3 đã hoàn thành:** CRUD danh mục, dòng sản phẩm, màu, dung lượng, sản phẩm, upload ảnh và biến thể.
 
-**Việc tiếp theo đề xuất:** Phase 9 (admin orders) hoặc Phase 11 hardening.
+**Phase 0–11 đã hoàn thành.** Tech debt UX (TD-001/002) có thể làm sau nếu cần.
 
 ---
 
@@ -132,45 +132,42 @@ Cập nhật theo `docs/TASKS.md` và trạng thái code thực tế (tháng 6/2
 
 ---
 
-## Phase 9: Admin orders & customers ❌
+## Phase 9: Admin orders & customers ✅
 
-| Task | Mô tả | Trạng thái |
-|------|-------|------------|
-| 9.1 | Danh sách đơn (search, filter, date, pagination) | ❌ |
-| 9.2 | Chi tiết đơn admin | ❌ |
-| 9.3 | Đổi trạng thái, hủy đơn, hoàn tồn kho | ❌ |
-| 9.4 | Quản lý khách (list, search, block/unblock) | ❌ |
-
-**Chưa có:** `ChangeOrderStatus`, `CancelOrder` actions; route `admin/orders`, `admin/customers`.
+| Task | Mô tả | Trạng thái | Tests |
+|------|-------|------------|-------|
+| 9.1 | Danh sách đơn (search, filter, date, pagination) | ✅ | `AdminOrderTest` |
+| 9.2 | Chi tiết đơn admin | ✅ | `AdminOrderTest` |
+| 9.3 | Đổi trạng thái, hủy đơn, hoàn tồn kho | ✅ | `AdminOrderTest`, `OrderStatusTest` |
+| 9.4 | Quản lý khách (list, search, block/unblock) | ✅ | `AdminCustomerTest` |
 
 ---
 
-## Phase 10: Dashboard ❌
+## Phase 10: Dashboard ✅
 
-| Hạng mục | Trạng thái |
-|----------|------------|
-| Tổng sản phẩm / khách / đơn chờ / doanh thu | ❌ (hiển thị `—`) |
-| Đơn mới nhất | ❌ |
-| Variant sắp hết hàng | ❌ |
-
-**Đã có:** `admin.dashboard` placeholder + `AdminDashboardTest` (middleware).
+| Hạng mục | Trạng thái | Tests |
+|----------|------------|-------|
+| Tổng sản phẩm / khách / đơn chờ / doanh thu | ✅ | `AdminDashboardStatsTest` |
+| Đơn mới nhất | ✅ | `AdminDashboardStatsTest` |
+| Variant sắp hết hàng (`LOW_STOCK_THRESHOLD`) | ✅ | `AdminDashboardStatsTest` |
 
 ---
 
-## Phase 11: Hoàn thiện ❌
+## Phase 11: Hoàn thiện ✅
 
 | Hạng mục | Trạng thái |
 |----------|------------|
-| Responsive / a11y review | ❌ |
-| Security & query review | ❌ |
-| Image validation review | ❌ |
-| Placeholder & no hotlink audit | ⏸️ (có strategy doc, chưa audit cuối) |
-| Empty states toàn site | ⏸️ (một số trang đã có) |
-| Vietnamese text pass | ⏸️ |
-| README cập nhật (chạy project) | ⏸️ (đã cập nhật tiến độ chính, còn cần rà cuối Phase 11) |
+| Responsive / a11y (skip link, `main-content`) | ✅ |
+| Security review (session regen, admin middleware, upload) | ✅ |
+| Image validation | ✅ (`ProductImageStoreRequest`, `AdminProductTest`) |
+| Placeholder & no hotlink | ✅ (`ProductImageUrl`, `ApplicationHardeningTest`) |
+| Empty states toàn site | ✅ (products, cart, orders, admin lists) |
+| Vietnamese text | ✅ |
+| README cập nhật | ✅ |
 | Demo seed ổn định | ✅ |
-| Final test suite | ✅ (135 tests) |
-| Production config checklist | ❌ |
+| Final test suite | ✅ |
+| Production config checklist | ✅ [`docs/PRODUCTION_CHECKLIST.md`](PRODUCTION_CHECKLIST.md) |
+| Danh mục nhanh trên navbar | ✅ (`navCategories` trong `layouts/app`) |
 
 ---
 
@@ -229,17 +226,15 @@ Cập nhật theo `docs/TASKS.md` và trạng thái code thực tế (tháng 6/2
 | Case | Trạng thái |
 |------|------------|
 | Ownership (customer) | ✅ |
-| Valid / invalid status transition | ❌ (Phase 9) |
-| Cancellation restock / no duplicate restock | ❌ (Phase 9) |
+| Valid / invalid status transition | ✅ |
+| Cancellation restock / no duplicate restock | ✅ |
 
 ---
 
 ## Thứ tự làm tiếp (gợi ý)
 
-1. **Phase 9** — Admin quản lý đơn & khách (khách hàng đã đặt hàng, admin cần xử lý).
-2. **Phase 10** — Dashboard số liệu thật.
-3. **Phase 11** — Hardening + cập nhật README.
-4. **Tech debt** — TD-001/002 khi ổn định cart trên Laragon.
+1. **Tech debt** — TD-001/002 (auto cart sync, checkout summary) nếu muốn cải thiện UX.
+2. **Deploy / demo** — theo [`docs/PRODUCTION_CHECKLIST.md`](PRODUCTION_CHECKLIST.md).
 
 ---
 
@@ -248,3 +243,4 @@ Cập nhật theo `docs/TASKS.md` và trạng thái code thực tế (tháng 6/2
 - Kế hoạch chi tiết: [`docs/TASKS.md`](TASKS.md)
 - Việc hoãn / rollback UX: [`docs/TECHDEBT.md`](TECHDEBT.md)
 - Route contract: [`docs/ROUTES.md`](ROUTES.md)
+- Production: [`docs/PRODUCTION_CHECKLIST.md`](PRODUCTION_CHECKLIST.md)

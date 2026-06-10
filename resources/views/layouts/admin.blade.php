@@ -6,8 +6,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Quản trị - ' . config('app.name'))</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('vite')
 </head>
 <body class="min-h-screen bg-gray-100 text-gray-900 antialiased">
+    <a
+        href="#admin-main-content"
+        class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-white"
+    >
+        Chuyển tới nội dung chính
+    </a>
     <div class="flex min-h-screen flex-col lg:flex-row">
         <aside
             class="border-b border-gray-200 bg-white lg:w-64 lg:border-b-0 lg:border-r"
@@ -115,7 +122,7 @@
                 </div>
             </header>
 
-            <main class="flex-1 px-4 py-6 sm:px-6">
+            <main id="admin-main-content" class="flex-1 px-4 py-6 sm:px-6" tabindex="-1">
                 <x-flash-message />
                 @yield('content')
             </main>

@@ -9,3 +9,7 @@
         @include('admin.products.form')
     </form>
 @endsection
+
+@push('vite')
+    @vite(['resources/js/admin/product-editor.js'])
+@endpush

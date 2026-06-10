@@ -15,6 +15,7 @@ use App\Models\ProductSeries;
 use App\Models\ProductVariant;
 use App\Models\StorageOption;
 use App\Models\User;
+use App\Support\ProductDescriptionYoutube;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -206,13 +207,66 @@ class CatalogSeeder extends Seeder
                 'name' => $definition['name'],
                 'slug' => $definition['slug'],
                 'short_description' => "{$definition['name']} chính hãng, bảo hành theo chính sách cửa hàng.",
-                'description' => "Mô tả demo cho {$definition['name']}. Sản phẩm dùng cho mục đích học tập.",
+                'description' => $this->productDescriptionHtml($definition['name'], $definition['slug']),
                 'specifications' => null,
                 'release_year' => $definition['year'],
                 'is_featured' => $definition['featured'],
                 'is_active' => true,
             ]);
         }
+    }
+
+    private function productDescriptionHtml(string $name, string $slug): string
+    {
+        $demoImages = [
+            'iphone-15' => 'iphone-15-black.webp',
+            'iphone-15-pro' => 'iphone-15-pro-natural-titanium.webp',
+            'iphone-16' => 'iphone-16-black.webp',
+            'iphone-16-pro' => 'iphone-16-pro-black-titanium.webp',
+            'iphone-16-pro-max' => 'iphone-16-pro-max-black-titanium.webp',
+            'ipad-10-9' => 'ipad-10-9-blue.webp',
+            'ipad-air-m2' => 'ipad-air-m2-blue.webp',
+            'ipad-pro-11-m4' => 'ipad-pro-11-m4-black.webp',
+            'ipod-touch-gen-7' => 'ipod-touch-gen-7-blue.webp',
+            'apple-20w-usb-c-adapter' => 'apple-20w-usb-c-adapter.webp',
+            'apple-30w-usb-c-adapter' => 'apple-30w-usb-c-adapter.webp',
+            'usb-c-to-lightning-1m' => 'usb-c-to-lightning-1m.webp',
+            'usb-c-cable-1m' => 'usb-c-cable-1m.webp',
+        ];
+
+        $highlights = match ($slug) {
+            'iphone-16-pro', 'iphone-16-pro-max' => ['Chip A18 Pro', 'Camera Fusion 48MP', 'Khung titanium', 'USB-C'],
+            'iphone-16', 'iphone-15', 'iphone-15-pro' => ['Hiệu năng mạnh mẽ', 'Camera nâng cấp', 'Pin bền', 'iOS mới nhất'],
+            'ipad-air-m2', 'ipad-pro-11-m4', 'ipad-10-9' => ['Màn hình sắc nét', 'Hỗ trợ Apple Pencil', 'Pin cả ngày', 'iPadOS'],
+            'ipod-touch-gen-7' => ['Nghe nhạc mọi lúc', 'App Store', 'Nhỏ gọn', 'Wi-Fi'],
+            default => ['Chính hãng Apple', 'Bảo hành cửa hàng', 'Phù hợp đồ án', 'Giao hàng toàn quốc'],
+        };
+
+        $listItems = collect($highlights)
+            ->map(static fn (string $item): string => '<li>'.e($item).'</li>')
+            ->implode('');
+
+        $html = '<h2>Giới thiệu</h2>';
+        $html .= '<p>'.e($name).' là sản phẩm demo trong dự án iStore, trình bày mô tả rich-text tương thích Quill.</p>';
+        $html .= '<h3>Điểm nổi bật</h3><ul>'.$listItems.'</ul>';
+        $html .= '<h3>Thông số nhanh</h3>';
+        $html .= '<table><thead><tr><th>Hạng mục</th><th>Chi tiết</th></tr></thead><tbody>';
+        $html .= '<tr><td>Thương hiệu</td><td>Apple</td></tr>';
+        $html .= '<tr><td>Phân loại</td><td>'.e($name).'</td></tr>';
+        $html .= '<tr><td>Mục đích</td><td>Học tập / demo</td></tr>';
+        $html .= '</tbody></table>';
+
+        if (isset($demoImages[$slug]) && is_file(storage_path('app/public/products/demo/'.$demoImages[$slug]))) {
+            $src = '/storage/products/demo/'.$demoImages[$slug];
+            $html .= '<h3>Hình ảnh minh họa</h3>';
+            $html .= '<p><img src="'.e($src).'" alt="'.e($name).'" loading="lazy"></p>';
+        }
+
+        if (in_array($slug, ['iphone-16-pro', 'ipad-air-m2'], true)) {
+            $html .= ProductDescriptionYoutube::embedHtml('aqz-KE-bpKQ', 'Video giới thiệu '.$name);
+        }
+
+        return $html;
     }
 
     private function seedProductImages(): void
