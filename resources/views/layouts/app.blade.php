@@ -9,14 +9,14 @@
 </head>
 <body class="min-h-screen bg-gray-50 text-gray-900 antialiased">
     <header class="border-b border-gray-200 bg-white">
-        <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between gap-4">
-                <a href="{{ route('home') }}" class="text-lg font-semibold text-gray-900">
+        <div class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:gap-3 lg:gap-4 sm:px-6 lg:px-8">
+            <div class="flex min-w-0 items-center justify-between gap-3 sm:shrink-0 sm:justify-start">
+                <a href="{{ route('home') }}" class="shrink-0 text-lg font-semibold text-gray-900">
                     {{ config('app.name') }}
                 </a>
                 <button
                     type="button"
-                    class="inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 sm:hidden"
+                    class="inline-flex shrink-0 items-center rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 sm:hidden"
                     data-action="toggle-mobile-nav"
                     aria-expanded="false"
                     aria-controls="mobile-nav"
@@ -26,60 +26,69 @@
                 </button>
             </div>
 
-            <form action="{{ route('products.index') }}" method="get" class="w-full max-w-xl sm:mx-4">
+            <form
+                action="{{ route('products.index') }}"
+                method="get"
+                class="w-full min-w-0 sm:max-w-44 md:max-w-52 lg:max-w-60 xl:max-w-72"
+            >
                 <label for="search" class="sr-only">Tìm kiếm sản phẩm</label>
-                <div class="flex gap-2">
+                <div class="flex gap-1.5">
                     <input
                         id="search"
                         type="search"
                         name="q"
                         value="{{ request('q') }}"
-                        placeholder="Tìm iPhone theo tên hoặc SKU"
-                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                        placeholder="Tên hoặc SKU"
+                        class="min-w-0 flex-1 rounded-lg border border-gray-300 px-2.5 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                     >
                     <button
                         type="submit"
-                        class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+                        class="inline-flex shrink-0 items-center justify-center rounded-lg bg-blue-600 px-2.5 py-2 text-sm font-medium text-white hover:bg-blue-700 sm:px-3"
                         aria-label="Tìm kiếm"
                     >
                         <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                        <span class="hidden sm:inline">Tìm</span>
+                        <span class="sr-only">Tìm</span>
                     </button>
                 </div>
             </form>
 
-            <nav id="mobile-nav" class="hidden flex-col gap-2 text-sm sm:flex sm:flex-row sm:items-center sm:gap-4" data-mobile-nav>
-                <a href="{{ route('home') }}" class="text-gray-700 hover:text-blue-600">Trang chủ</a>
-                <a href="{{ route('products.index') }}" class="text-gray-700 hover:text-blue-600">Sản phẩm</a>
+            <nav
+                id="mobile-nav"
+                class="hidden flex-col gap-2 text-sm sm:ml-auto sm:flex sm:shrink-0 sm:flex-row sm:flex-nowrap sm:items-center sm:gap-2 lg:gap-3"
+                data-mobile-nav
+            >
+                <a href="{{ route('home') }}" class="shrink-0 whitespace-nowrap text-gray-700 hover:text-blue-600">Trang chủ</a>
+                <a href="{{ route('products.index') }}" class="shrink-0 whitespace-nowrap text-gray-700 hover:text-blue-600">Sản phẩm</a>
                 <a
                     href="{{ route('cart.index') }}"
                     data-cart-link
-                    class="inline-flex items-center gap-1.5 text-gray-700 hover:text-blue-600"
+                    class="inline-flex shrink-0 items-center gap-1 whitespace-nowrap text-gray-700 hover:text-blue-600"
                     aria-label="Giỏ hàng, {{ $cartCount ?? 0 }} sản phẩm"
                 >
                     <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
-                    <span>Giỏ hàng (<span data-cart-badge>{{ $cartCount ?? 0 }}</span>)</span>
+                    <span>Giỏ (<span data-cart-badge>{{ $cartCount ?? 0 }}</span>)</span>
                 </a>
                 @auth
                     <a
                         href="{{ route('account.orders.index') }}"
-                        class="inline-flex items-center gap-1.5 text-gray-700 hover:text-blue-600"
+                        class="inline-flex shrink-0 items-center gap-1 whitespace-nowrap text-gray-700 hover:text-blue-600"
                     >
                         <i class="fa-solid fa-receipt" aria-hidden="true"></i>
                         <span>Đơn hàng</span>
                     </a>
                     <a
                         href="{{ route('account.profile.edit') }}"
-                        class="inline-flex items-center gap-1.5 text-gray-700 hover:text-blue-600"
+                        class="inline-flex max-w-28 shrink-0 items-center gap-1 text-gray-700 hover:text-blue-600 lg:max-w-36"
+                        title="{{ auth()->user()->name }}"
                     >
-                        <i class="fa-solid fa-user" aria-hidden="true"></i>
-                        <span>{{ auth()->user()->name }}</span>
+                        <i class="fa-solid fa-user shrink-0" aria-hidden="true"></i>
+                        <span class="truncate">{{ auth()->user()->name }}</span>
                     </a>
-                    <form method="post" action="{{ route('logout') }}" class="inline">
+                    <form method="post" action="{{ route('logout') }}" class="inline shrink-0">
                         @csrf
                         <button
                             type="submit"
-                            class="inline-flex items-center gap-1.5 text-gray-700 hover:text-blue-600"
+                            class="inline-flex items-center gap-1 whitespace-nowrap text-gray-700 hover:text-blue-600"
                         >
                             <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
                             <span>Đăng xuất</span>

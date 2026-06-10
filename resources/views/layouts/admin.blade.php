@@ -79,6 +79,22 @@
                             Sản phẩm
                         </a>
                     </li>
+                    <li>
+                        <a
+                            href="{{ route('admin.orders.index') }}"
+                            class="block rounded-lg px-3 py-2 font-medium {{ request()->routeIs('admin.orders.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50' }}"
+                        >
+                            Đơn hàng
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="{{ route('admin.customers.index') }}"
+                            class="block rounded-lg px-3 py-2 font-medium {{ request()->routeIs('admin.customers.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50' }}"
+                        >
+                            Khách hàng
+                        </a>
+                    </li>
                     <li class="pt-4 border-t border-gray-200">
                         <a href="{{ route('home') }}" class="block rounded-lg px-3 py-2 text-gray-600 hover:bg-gray-50">
                             Về trang khách hàng
