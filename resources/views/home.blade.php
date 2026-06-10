@@ -11,8 +11,8 @@
                     Cửa hàng điện thoại Apple cho đồ án web
                 </h1>
                 <p class="mt-4 text-base text-gray-600">
-                    Website đang trong giai đoạn khởi tạo. Các tính năng tìm kiếm, lọc sản phẩm,
-                    giỏ hàng và đặt hàng sẽ được triển khai ở các phase tiếp theo.
+                    Khám phá iPhone, iPad, iPod và phụ kiện sạc chính hãng. Tìm kiếm, lọc theo màu sắc
+                    và dung lượng, thêm vào giỏ và đặt hàng COD ngay trên website.
                 </p>
                 <div class="mt-6 flex flex-col gap-3 sm:flex-row">
                     <a
@@ -30,12 +30,7 @@
                 </div>
             </div>
 
-            <div class="mx-auto w-full max-w-sm">
-                <x-product-image alt="Minh họa sản phẩm điện thoại tạm thời" :lazy="false" />
-                <p class="mt-3 text-center text-sm text-gray-500">
-                    Placeholder cục bộ dùng khi sản phẩm chưa có ảnh.
-                </p>
-            </div>
+            <x-home-product-showcase :products="$showcaseProducts" />
         </div>
     </section>
 
@@ -50,7 +45,7 @@
         </article>
         <article class="rounded-xl border border-gray-200 bg-white p-5 sm:col-span-2 lg:col-span-1">
             <h2 class="text-base font-semibold text-gray-900">Sản phẩm chính hãng</h2>
-            <p class="mt-2 text-sm text-gray-600">Tập trung vào các dòng iPhone phổ biến.</p>
+            <p class="mt-2 text-sm text-gray-600">Tập trung vào các dòng iPhone, iPad và phụ kiện Apple.</p>
         </article>
     </section>
 @endsection

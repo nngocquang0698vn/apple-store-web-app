@@ -1,6 +1,7 @@
 import jQuery from 'jquery';
 import { initCartHandlers } from './cart';
 import { initCheckoutSummary } from './checkout';
+import { initHomeShowcase } from './home-showcase';
 import { initProductFilters } from './product-filters';
 import { initProductVariantSelector } from './product-variant';
 
@@ -37,6 +38,7 @@ $(function () {
         $('[data-action="toggle-filter-drawer"]').attr('aria-expanded', 'false');
     });
 
+    initHomeShowcase();
     initProductVariantSelector();
     initCartHandlers();
     initCheckoutSummary();
