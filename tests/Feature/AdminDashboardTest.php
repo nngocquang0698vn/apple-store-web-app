@@ -43,6 +43,6 @@ class AdminDashboardTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('Dashboard', false);
-        $response->assertSee('Trạng thái dự án', false);
+        $response->assertSee('Đơn hàng mới nhất', false);
     }
 }

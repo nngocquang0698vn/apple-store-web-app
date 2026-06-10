@@ -12,4 +12,11 @@ return [
         'free_threshold' => (int) env('SHIPPING_FREE_THRESHOLD', 10_000_000),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Low stock alert threshold (admin dashboard)
+    |--------------------------------------------------------------------------
+    */
+    'low_stock_threshold' => (int) env('LOW_STOCK_THRESHOLD', 5),
+
 ];
