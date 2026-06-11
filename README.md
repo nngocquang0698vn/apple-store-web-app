@@ -1,206 +1,44 @@
-# Chạy dự án bằng Docker hoặc Podman
+# Chạy bằng Docker / Podman
 
-Cách nhanh nhất để tester chạy dự án mà không cần cài PHP/MySQL/Node trên máy host.
+Cần [Docker Desktop](https://www.docker.com/products/docker-desktop/) hoặc [Podman Desktop](https://podman-desktop.io/). Với Podman trên Windows: **bật Podman machine** trước khi chạy lệnh.
 
-Hỗ trợ **cả hai**:
-
-| Công cụ | Lệnh compose |
-|---------|----------------|
-| **Podman** (khuyến nghị nếu bạn đang dùng) | `podman compose` |
-| **Docker** | `docker compose` |
-
-File cấu hình: `compose.yaml` (và bản alias `docker-compose.yml`).
-
-### Wrapper tự chọn runtime
-
-Script sẽ ưu tiên **Podman**, nếu không có mới dùng **Docker**:
-
-```bash
-# Linux / macOS / Git Bash
-./scripts/compose.sh up -d --build
-./scripts/compose.sh exec app php artisan test
-```
-
-```powershell
-# Windows PowerShell
-.\scripts\compose.ps1 up -d --build
-.\scripts\compose.ps1 exec app php artisan test
-```
-
-Trong phần dưới, `compose` có thể thay bằng:
-
-- `podman compose`
-- `docker compose`
-- `./scripts/compose.sh` / `.\scripts\compose.ps1`
-
-## Yêu cầu
-
-- **Podman** 4.x+ với plugin Compose (`podman compose`), **hoặc**
-- Docker Desktop / Docker Engine + Docker Compose v2
-
-Kiểm tra:
-
-```bash
-podman compose version
-# hoặc
-docker compose version
-```
-
-Trên Windows với Podman: cài [Podman Desktop](https://podman-desktop.io/) và bật Podman machine trước khi chạy.
+Dùng `podman compose` hoặc `docker compose` (cùng file `compose.yaml`). Ví dưới đây dùng **podman** — nếu bạn dùng Docker, đổi `podman` thành `docker`.
 
 ## Khởi động lần đầu
 
 ```bash
 cp .env.docker.example .env
-compose up -d --build
-compose exec app php artisan key:generate
-compose exec app php artisan migrate --seed
-compose exec app php artisan storage:link
-```
-
-Ví dụ với Podman:
-
-```bash
-cp .env.docker.example .env
 podman compose up -d --build
+podman compose exec app php artisan key:generate
 podman compose exec app php artisan migrate --seed
+podman compose exec app php artisan storage:link
 ```
 
-Ví dụ với Docker:
-
-```bash
-cp .env.docker.example .env
-docker compose up -d --build
-docker compose exec app php artisan migrate --seed
-```
-
-Trên Windows (PowerShell):
+PowerShell:
 
 ```powershell
 Copy-Item .env.docker.example .env
-.\scripts\compose.ps1 up -d --build
-.\scripts\compose.ps1 exec app php artisan key:generate
-.\scripts\compose.ps1 exec app php artisan migrate --seed
-.\scripts\compose.ps1 exec app php artisan storage:link
+podman compose up -d --build
+podman compose exec app php artisan key:generate
+podman compose exec app php artisan migrate --seed
+podman compose exec app php artisan storage:link
 ```
 
-> Tạo file `.env` **trước** `compose up` — file này được mount vào container.
+Mở **http://localhost:8080** · Admin: `admin@istore.test` / `password`
 
-Sau đó mở:
-
-```text
-http://localhost:8080
-```
-
-| Trang | URL |
-|-------|-----|
-| Trang chủ | http://localhost:8080 |
-| Sản phẩm | http://localhost:8080/products |
-| Admin | http://localhost:8080/admin |
-
-Tài khoản demo sau seed: `admin@istore.test` / `password`
-
-## Các lệnh thường dùng
-
-Xem log:
+## Lệnh hữu ích
 
 ```bash
-compose logs -f app
+podman compose logs -f app          # xem log
+podman compose exec app bash      # vào container
+podman compose exec app php artisan test
+podman compose stop               # dừng, giữ dữ liệu MySQL
+podman compose start              # chạy lại
+podman compose down               # xóa container, vẫn giữ volume
+podman compose down -v            # xóa cả volume MySQL (reset DB)
 ```
 
-Vào container app:
-
-```bash
-compose exec app bash
-```
-
-Chạy migrate:
-
-```bash
-compose exec app php artisan migrate
-```
-
-Chạy seed:
-
-```bash
-compose exec app php artisan db:seed
-```
-
-Chạy test:
-
-```bash
-compose exec app php artisan test
-```
-
-Dừng container nhưng **giữ dữ liệu MySQL**:
-
-```bash
-compose stop
-```
-
-Start lại và **vẫn giữ dữ liệu**:
-
-```bash
-compose start
-```
-
-Dừng và xóa container nhưng **vẫn giữ volume MySQL**:
-
-```bash
-compose down
-```
-
-Xóa toàn bộ container **và xóa luôn dữ liệu MySQL**:
-
-```bash
-compose down -v
-```
-
-> Chỉ dùng `compose down -v` khi muốn reset sạch database.
-
-## Dữ liệu MySQL được lưu ở đâu?
-
-- Named volume: **`apple_store_mysql_data`** (trong `compose.yaml` khai báo là `mysql_data`)
-- `compose stop` — **không** mất dữ liệu
-- `compose down` — **không** mất dữ liệu (nếu không có `-v`)
-- `compose down -v` — **xóa** volume và mất toàn bộ dữ liệu MySQL
-
-Podman lưu volume tương tự Docker; xem danh sách:
-
-```bash
-podman volume ls
-# hoặc
-docker volume ls
-```
-
-## Kiến trúc container
-
-| Service | Mô tả |
-|---------|--------|
-| `app` | PHP 8.3 + Apache, document root `public/`, cổng **8080** |
-| `mysql` | MySQL 8.4, named volume `mysql_data` |
-
-Frontend (Vite) được build sẵn trong image khi `compose build`. Không cần `npm run dev` để test cơ bản.
-
-## Podman trên Linux (SELinux / quyền ghi)
-
-Nếu `storage/` hoặc upload ảnh báo lỗi permission với **rootless Podman**, dùng file override:
-
-```bash
-podman compose -f compose.yaml -f compose.podman.yaml up -d --build
-```
-
-File `compose.podman.yaml` bật `userns_mode: keep-id` và nhãn volume `:Z` cho SELinux. **Không** dùng override này với Docker Desktop trên Mac/Windows.
-
-## Ghi chú tương thích
-
-| Tình huống | Gợi ý |
-|------------|--------|
-| Đang dùng Podman | `podman compose` hoặc `.\scripts\compose.ps1` |
-| Đang dùng Docker | `docker compose` hoặc `.\scripts\compose.ps1` |
-| Cả hai đều cài | Script wrapper **ưu tiên Podman** |
-| `podman-compose` (bản Python cũ) | Script bash vẫn hỗ trợ fallback |
-| Build image riêng | `podman build -t apple-store-app .` hoặc `docker build -t apple-store-app .` |
+Dữ liệu MySQL nằm trong volume **`apple_store_mysql_data`**. `stop` và `down` (không có `-v`) **không** mất dữ liệu.
 
 ---
 
