@@ -12,7 +12,7 @@
         </div>
 
         @if ($items->isNotEmpty())
-            <form method="post" action="{{ route('cart.destroy') }}" data-action="clear-cart">
+            <form method="post" action="{{ route('cart.destroy') }}" data-action="clear-cart" data-cart-clear-form>
                 @csrf
                 @method('DELETE')
                 <button
@@ -26,8 +26,13 @@
         @endif
     </div>
 
-    @if ($items->isEmpty())
-        <div class="rounded-2xl border border-dashed border-gray-300 bg-white px-6 py-16 text-center">
+    <div
+        @class([
+            'rounded-2xl border border-dashed border-gray-300 bg-white px-6 py-16 text-center',
+            'hidden' => $items->isNotEmpty(),
+        ])
+        data-cart-empty-state
+    >
             <i class="fa-solid fa-cart-shopping text-4xl text-gray-300" aria-hidden="true"></i>
             <p class="mt-4 text-base font-medium text-gray-900">Giỏ hàng trống</p>
             <p class="mt-2 text-sm text-gray-600">Hãy thêm sản phẩm để tiếp tục mua sắm.</p>
@@ -37,9 +42,9 @@
             >
                 Xem sản phẩm
             </a>
-        </div>
-    @else
-        <div class="space-y-4">
+    </div>
+
+    <div @class(['space-y-4', 'hidden' => $items->isEmpty()]) data-cart-items-container>
             @foreach ($items as $line)
                 @php
                     /** @var \App\Models\ProductVariant $variant */
@@ -51,7 +56,8 @@
 
                 <article
                     class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6"
-                    data-cart-line="{{ $variant->id }}"
+                    data-cart-item="{{ $variant->id }}"
+                    data-cart-item-variant-id="{{ $variant->id }}"
                 >
                     <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
                         <a href="{{ $product ? route('products.show', $product) : '#' }}" class="shrink-0 sm:w-32">
@@ -105,25 +111,53 @@
                                     action="{{ route('cart.items.update', $variant) }}"
                                     class="flex items-center gap-2"
                                     data-action="update-cart-item"
+                                    data-variant-id="{{ $variant->id }}"
+                                    data-ajax="true"
                                 >
                                     @csrf
                                     @method('PATCH')
-                                    <label for="quantity-{{ $variant->id }}" class="sr-only">Số lượng</label>
-                                    <input
-                                        id="quantity-{{ $variant->id }}"
-                                        name="quantity"
-                                        type="number"
-                                        min="1"
-                                        max="99"
-                                        value="{{ $line['quantity'] }}"
-                                        class="w-20 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                                    >
-                                    <button
-                                        type="submit"
-                                        class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-                                    >
-                                        Cập nhật
-                                    </button>
+                                    <label for="quantity-{{ $variant->id }}" class="sr-only">Số lượng {{ $product?->name ?? 'sản phẩm' }}</label>
+                                    <div class="inline-flex items-center rounded-lg border border-gray-300 bg-white">
+                                        <button
+                                            type="button"
+                                            data-quantity-decrease
+                                            class="inline-flex h-10 w-10 items-center justify-center text-gray-700 hover:bg-gray-50"
+                                            aria-label="Giảm số lượng {{ $product?->name ?? 'sản phẩm' }}"
+                                        >
+                                            <i class="fa-solid fa-minus text-xs" aria-hidden="true"></i>
+                                        </button>
+                                        <input
+                                            id="quantity-{{ $variant->id }}"
+                                            name="quantity"
+                                            type="number"
+                                            min="1"
+                                            max="{{ max(1, $variant->stock_quantity) }}"
+                                            value="{{ $line['quantity'] }}"
+                                            data-quantity-input="{{ $variant->id }}"
+                                            data-last-valid-quantity="{{ $line['quantity'] }}"
+                                            class="w-16 border-x border-gray-300 px-2 py-2 text-center text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                        >
+                                        <button
+                                            type="button"
+                                            data-quantity-increase
+                                            class="inline-flex h-10 w-10 items-center justify-center text-gray-700 hover:bg-gray-50"
+                                            aria-label="Tăng số lượng {{ $product?->name ?? 'sản phẩm' }}"
+                                        >
+                                            <i class="fa-solid fa-plus text-xs" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                    <span data-row-loading class="hidden text-sm text-gray-500" aria-live="polite">
+                                        <i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+                                        <span class="sr-only">Đang cập nhật</span>
+                                    </span>
+                                    <noscript>
+                                        <button
+                                            type="submit"
+                                            class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                                        >
+                                            Cập nhật
+                                        </button>
+                                    </noscript>
                                 </form>
 
                                 <div class="flex items-center gap-4">
@@ -157,9 +191,9 @@
                     </div>
                 </article>
             @endforeach
-        </div>
+    </div>
 
-        <div class="mt-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+    <div @class(['mt-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm', 'hidden' => $items->isEmpty()]) data-cart-summary-panel>
             <dl class="space-y-3 text-sm">
                 <div class="flex items-center justify-between gap-4">
                     <dt class="text-gray-600">Tạm tính</dt>
@@ -186,7 +220,8 @@
                 @auth
                     <a
                         href="{{ route('checkout.create') }}"
-                        class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+                        data-cart-checkout-button
+                        class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
                     >
                         <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
                         Thanh toán
@@ -207,6 +242,5 @@
                     Tiếp tục mua sắm
                 </a>
             </div>
-        </div>
-    @endif
+    </div>
 @endsection

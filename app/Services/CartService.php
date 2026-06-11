@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\ProductVariant;
+use App\Support\CartSummaryPresenter;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
@@ -129,56 +130,11 @@ class CartService
     }
 
     /**
-     * @return array{
-     *     cart_count: int,
-     *     cart_subtotal: int,
-     *     shipping_fee: int,
-     *     grand_total: int,
-     *     variant_id?: int,
-     *     quantity?: int,
-     *     unit_price?: int,
-     *     line_subtotal?: int,
-     *     stock_quantity?: int,
-     * }
+     * @return array<string, mixed>
      */
     public function buildSummary(?int $variantId = null, ?int $quantity = null): array
     {
-        $items = $this->getItems();
-        $subtotal = (int) $items->sum('line_subtotal');
-        $shippingFee = ShippingFeeCalculator::calculate($subtotal);
-
-        $data = [
-            'cart_count' => $this->count(),
-            'cart_subtotal' => $subtotal,
-            'shipping_fee' => $shippingFee,
-            'grand_total' => $subtotal + $shippingFee,
-        ];
-
-        if ($variantId === null) {
-            return $data;
-        }
-
-        $variant = ProductVariant::query()->find($variantId);
-
-        if ($variant === null) {
-            return $data;
-        }
-
-        $lineQuantity = $quantity ?? ($this->rawItems()[$variantId]['quantity'] ?? null);
-
-        if ($lineQuantity === null) {
-            return $data;
-        }
-
-        $unitPrice = (int) $variant->sale_price;
-
-        return array_merge($data, [
-            'variant_id' => $variantId,
-            'quantity' => (int) $lineQuantity,
-            'unit_price' => $unitPrice,
-            'line_subtotal' => $unitPrice * (int) $lineQuantity,
-            'stock_quantity' => $variant->stock_quantity,
-        ]);
+        return CartSummaryPresenter::fromCart($this, $variantId, $quantity);
     }
 
     public function hasPurchasabilityConflict(): bool

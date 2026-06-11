@@ -123,7 +123,9 @@
             </header>
 
             <main id="admin-main-content" class="flex-1 px-4 py-6 sm:px-6" tabindex="-1">
-                <x-flash-message />
+                <div data-flash-container>
+                    <x-flash-message />
+                </div>
                 @yield('content')
             </main>
         </div>

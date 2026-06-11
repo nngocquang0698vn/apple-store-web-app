@@ -4,22 +4,11 @@ Danh sách cải tiến đã thử hoặc đã lên kế hoạch nhưng **chưa 
 
 ## TD-001: Tự động cập nhật số lượng giỏ hàng (không nút "Cập nhật")
 
-**Trạng thái:** Đã thử, rollback.
+**Trạng thái:** ✅ Đã triển khai lại (EXTRA Enhanced Add-to-Cart UX).
 
-**Mô tả:** Bỏ nút "Cập nhật" cạnh ô số lượng; đổi số lượng → debounce → PATCH AJAX; preview tạm tính dòng bằng JS; server trả giá chuẩn.
+**Mô tả:** Stepper `+`/`-`, debounce input (500ms), gửi `POST` + `_method=PATCH`; tổng tiền và badge lấy từ `CartSummaryPresenter`; fallback `<noscript>` vẫn có nút Cập nhật.
 
-**Lý do rollback:** Lỗi `500` khi `PATCH /cart/items/{variant}` trên môi trường Laragon (cần điều tra `CartService::buildSummary` / session / race request). UX tự động cũng gây request trùng (`input` + `change` + debounce).
-
-**Khi làm lại:**
-
-1. Dùng `POST` + `_method=PATCH` thay vì HTTP PATCH thuần (tương thích Apache/Laragon).
-2. Một luồng sync duy nhất (debounce **hoặc** `change`, không cả hai).
-3. Chặn request song song (`syncInFlight` / abort request cũ).
-4. `422` trả kèm `data` summary để đồng bộ lại input.
-5. Feature test mô phỏng browser: `POST` + `X-Requested-With` + `Accept: application/json`.
-6. Ghi log exception thật trước khi bật lại trên production.
-
-**UI hiện tại:** Nút **Cập nhật** + form `data-action="update-cart-item"` (AJAX hoặc SSR fallback).
+**Ghi chú:** Nếu gặp lỗi trên Laragon, kiểm tra request dùng `POST` (không PATCH thuần) và xem response JSON trong Network tab.
 
 ---
 

@@ -1,4 +1,5 @@
 import { formatVnd } from './vnd-money';
+import { updateProductPreview } from './product-quantity-preview';
 
 function parseVariants() {
     const $data = $('#product-variants-data');
@@ -132,6 +133,7 @@ function renderVariant($root, variant, variants) {
 
     $sku.text(`SKU: ${variant.sku}`);
     $variantInput.val(variant.id);
+    $root.data('unitPrice', variant.sale_price);
     $quantity.attr('max', Math.max(1, variant.stock_quantity));
 
     if (!inStock) {
@@ -153,6 +155,7 @@ function renderVariant($root, variant, variants) {
     }
 
     setSelectedState($root, variant.color_slug, variant.storage_gb, variants);
+    updateProductPreview($root);
 }
 
 export function initProductVariantSelector() {

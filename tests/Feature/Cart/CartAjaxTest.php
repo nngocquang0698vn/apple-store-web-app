@@ -39,6 +39,15 @@ class CartAjaxTest extends TestCase
         $response->assertJsonPath('data.shipping_fee', 0);
         $response->assertJsonPath('data.grand_total', 51_980_000);
         $response->assertJsonPath('data.stock_quantity', 5);
+        $response->assertJsonPath('data.formatted.unit_price', '25.990.000 ₫');
+        $response->assertJsonPath('data.formatted.grand_total', '51.980.000 ₫');
+        $response->assertJsonStructure([
+            'data' => [
+                'items' => [
+                    ['variant_id', 'quantity', 'unit_price', 'line_subtotal', 'formatted'],
+                ],
+            ],
+        ]);
     }
 
     public function test_add_to_cart_json_validation_error(): void
@@ -117,6 +126,8 @@ class CartAjaxTest extends TestCase
         $response->assertJsonPath('data.cart_subtotal', 5_000_000);
         $response->assertJsonPath('data.shipping_fee', 30_000);
         $response->assertJsonPath('data.grand_total', 5_030_000);
+        $response->assertJsonPath('data.formatted.cart_subtotal', '5.000.000 ₫');
+        $response->assertJsonCount(1, 'data.items');
     }
 
     public function test_cart_summary_returns_conflict_when_item_not_purchasable(): void

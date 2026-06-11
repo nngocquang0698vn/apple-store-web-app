@@ -4,6 +4,7 @@ import { initCheckoutSummary } from './checkout';
 import { initHomeShowcase } from './home-showcase';
 import { initProductFilters } from './product-filters';
 import { initProductVariantSelector } from './product-variant';
+import { initFlashAutoDismiss } from './ui-feedback';
 
 window.$ = window.jQuery = jQuery;
 
@@ -38,6 +39,7 @@ $(function () {
         $('[data-action="toggle-filter-drawer"]').attr('aria-expanded', 'false');
     });
 
+    initFlashAutoDismiss();
     initHomeShowcase();
     initProductVariantSelector();
     initCartHandlers();

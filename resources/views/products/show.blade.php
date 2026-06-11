@@ -180,19 +180,48 @@
                         @csrf
                         <input type="hidden" name="variant_id" value="{{ $selectedVariant->id }}" data-product-variant-id>
 
-                        <div>
+                        <div data-product-quantity-stepper>
                             <label for="quantity" class="block text-sm font-medium text-gray-700">Số lượng</label>
-                            <input
-                                id="quantity"
-                                name="quantity"
-                                type="number"
-                                min="1"
-                                max="{{ max(1, $selectedVariant->stock_quantity) }}"
-                                value="{{ old('quantity', 1) }}"
-                                @disabled(! $inStock)
-                                data-product-quantity
-                                class="mt-1 w-28 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:bg-gray-100"
-                            >
+                            <div class="mt-2 flex flex-wrap items-center gap-3">
+                                <div class="inline-flex items-center rounded-lg border border-gray-300 bg-white">
+                                    <button
+                                        type="button"
+                                        data-quantity-decrease
+                                        @disabled(! $inStock)
+                                        class="inline-flex h-10 w-10 items-center justify-center text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                                        aria-label="Giảm số lượng"
+                                    >
+                                        <i class="fa-solid fa-minus text-xs" aria-hidden="true"></i>
+                                    </button>
+                                    <input
+                                        id="quantity"
+                                        name="quantity"
+                                        type="number"
+                                        min="1"
+                                        max="{{ max(1, $selectedVariant->stock_quantity) }}"
+                                        value="{{ old('quantity', 1) }}"
+                                        @disabled(! $inStock)
+                                        data-product-quantity
+                                        class="w-16 border-x border-gray-300 px-2 py-2 text-center text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:bg-gray-100"
+                                    >
+                                    <button
+                                        type="button"
+                                        data-quantity-increase
+                                        @disabled(! $inStock)
+                                        class="inline-flex h-10 w-10 items-center justify-center text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                                        aria-label="Tăng số lượng"
+                                    >
+                                        <i class="fa-solid fa-plus text-xs" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <p class="text-sm text-gray-600">
+                                    Tạm tính (ước tính):
+                                    <span class="font-semibold text-gray-900" data-product-preview-subtotal>
+                                        <x-money :amount="$selectedVariant->sale_price" />
+                                    </span>
+                                </p>
+                            </div>
+                            <p class="mt-1 text-xs text-gray-500">Giá chính thức được tính khi thêm vào giỏ.</p>
                             @error('quantity')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
