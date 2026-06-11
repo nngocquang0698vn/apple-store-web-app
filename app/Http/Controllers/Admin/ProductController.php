@@ -42,7 +42,7 @@ class ProductController extends Controller
             'product' => $this->findProduct($product)->load([
                 'category',
                 'productSeries',
-                'images' => fn ($query) => $query->orderByDesc('is_primary')->orderBy('sort_order')->orderBy('id'),
+                'images' => fn ($query) => $query->orderBy('sort_order')->orderBy('id'),
                 'variants.color',
                 'variants.storageOption',
             ]),

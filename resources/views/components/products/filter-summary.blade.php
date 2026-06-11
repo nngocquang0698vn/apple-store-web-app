@@ -51,11 +51,11 @@
 @endphp
 
 @if ($activeFilters !== [])
-    <div {{ $attributes->merge(['class' => 'rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-900']) }}>
-        <p class="font-medium">Bộ lọc đang áp dụng:</p>
-        <ul class="mt-2 flex flex-wrap gap-2">
+    <div {{ $attributes->merge(['class' => 'rounded-xl border border-blue-100 bg-blue-50 px-3 py-2.5 text-sm text-blue-900 lg:px-4 lg:py-3']) }}>
+        <p class="text-xs font-medium lg:text-sm">Đang lọc:</p>
+        <ul class="mt-1.5 flex flex-wrap gap-1.5 lg:mt-2 lg:gap-2">
             @foreach ($activeFilters as $label)
-                <li class="rounded-full bg-white px-3 py-1 text-xs text-blue-800">{{ $label }}</li>
+                <li class="rounded-full bg-white px-2.5 py-0.5 text-xs text-blue-800 lg:px-3 lg:py-1">{{ $label }}</li>
             @endforeach
         </ul>
     </div>

@@ -14,8 +14,12 @@
 @else
     <div
         class="relative w-full"
+        data-carousel
         data-home-showcase
+        data-carousel-mode="slides"
+        data-carousel-loop="true"
         data-autoplay-ms="5000"
+        tabindex="0"
         aria-roledescription="carousel"
         aria-label="Sản phẩm nổi bật"
     >
@@ -30,7 +34,7 @@
                         $isActive = $index === 0;
                     @endphp
                     <article
-                        data-showcase-slide
+                        data-carousel-slide
                         data-index="{{ $index }}"
                         @class([
                             'absolute inset-0 flex flex-col transition-opacity duration-500 ease-in-out',
@@ -82,7 +86,7 @@
                 @if ($products->count() > 1)
                     <button
                         type="button"
-                        data-showcase-prev
+                        data-carousel-prev
                         class="absolute left-2 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-gray-200 bg-white/90 text-gray-700 shadow-sm backdrop-blur hover:bg-white sm:left-3 sm:h-10 sm:w-10"
                         aria-label="Sản phẩm trước"
                     >
@@ -90,7 +94,7 @@
                     </button>
                     <button
                         type="button"
-                        data-showcase-next
+                        data-carousel-next
                         class="absolute right-2 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-gray-200 bg-white/90 text-gray-700 shadow-sm backdrop-blur hover:bg-white sm:right-3 sm:h-10 sm:w-10"
                         aria-label="Sản phẩm tiếp theo"
                     >
@@ -103,7 +107,7 @@
                 <div class="border-t border-gray-100 bg-white/80 px-3 py-3 sm:px-4">
                     <div
                         class="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-                        data-showcase-thumbs
+                        data-carousel-thumbs
                         role="tablist"
                         aria-label="Chọn sản phẩm xem"
                     >
@@ -116,7 +120,7 @@
                             @endphp
                             <button
                                 type="button"
-                                data-showcase-thumb
+                                data-carousel-thumb
                                 data-index="{{ $index }}"
                                 role="tab"
                                 @class([
@@ -144,11 +148,11 @@
                         @endforeach
                     </div>
 
-                    <div class="mt-2 flex justify-center gap-1.5" data-showcase-dots>
+                    <div class="mt-2 flex justify-center gap-1.5" data-carousel-dots>
                         @foreach ($products as $index => $product)
                             <button
                                 type="button"
-                                data-showcase-dot
+                                data-carousel-dot
                                 data-index="{{ $index }}"
                                 @class([
                                     'h-1.5 rounded-full transition-all',
@@ -164,7 +168,7 @@
             @endif
         </div>
 
-        <p class="mt-2 text-center text-xs text-gray-500" data-showcase-status aria-live="polite">
+        <p class="mt-2 text-center text-xs text-gray-500" data-carousel-indicator aria-live="polite">
             {{ $products->first()->name }} — 1 / {{ $products->count() }}
         </p>
     </div>

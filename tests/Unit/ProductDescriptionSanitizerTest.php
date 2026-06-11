@@ -38,6 +38,17 @@ class ProductDescriptionSanitizerTest extends TestCase
         $this->assertStringContainsString('<li>Một</li>', $result);
     }
 
+    public function test_prepare_normalizes_non_breaking_spaces_from_pasted_content(): void
+    {
+        $input = "<p>Thông\xC2\xA0số\xC2\xA0kỹ\xC2\xA0thuật</p>";
+
+        $result = ProductDescriptionSanitizer::prepare($input);
+
+        $this->assertNotNull($result);
+        $this->assertStringContainsString('Thông số kỹ thuật', $result);
+        $this->assertStringNotContainsString("\xC2\xA0", $result);
+    }
+
     public function test_sanitize_keeps_tables_for_spec_content(): void
     {
         $input = '<table><thead><tr><th>Hạng mục</th><th>Giá trị</th></tr></thead><tbody><tr><td>Chip</td><td>A18 Pro</td></tr></tbody></table>';
@@ -45,6 +56,7 @@ class ProductDescriptionSanitizerTest extends TestCase
         $result = ProductDescriptionSanitizer::sanitize($input);
 
         $this->assertNotNull($result);
+        $this->assertStringContainsString('product-description-table-wrap', $result);
         $this->assertStringContainsString('<table>', $result);
         $this->assertStringContainsString('<th>Hạng mục</th>', $result);
         $this->assertStringContainsString('<td>A18 Pro</td>', $result);

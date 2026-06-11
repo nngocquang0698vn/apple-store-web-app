@@ -10,44 +10,119 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+@keyframes flash-in {
+    from {
+        opacity: 0;
+        transform: translateY(-0.25rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+[data-flash-alert] {
+    animation: flash-in 0.2s ease-out;
+}
+
+@layer components {
+    .product-card {
+        @apply border border-gray-200 bg-white shadow-sm;
+        transition:
+            transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+            box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+            border-color 0.25s ease-out;
+    }
+
+    .product-card:hover {
+        @apply border-blue-400 shadow-xl;
+        transform: translateY(-0.375rem) scale(1.045);
+    }
+
+    .product-card__media {
+        @apply bg-gray-50;
+        transition: background-color 0.25s ease-out;
+    }
+
+    .product-card:hover .product-card__media {
+        @apply bg-blue-50/60;
+    }
+
+    .product-card__media img {
+        transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .product-card:hover .product-card__media img {
+        transform: scale(1.08);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .product-card,
+    .product-card__media,
+    .product-card__media img {
+        transition: none;
+    }
+
+    .product-card:hover {
+        transform: none;
+    }
+
+    .product-card:hover .product-card__media img {
+        transform: none;
+    }
+}
+
 .product-description {
-    @apply max-w-full break-words [overflow-wrap:anywhere];
+    @apply min-w-0 max-w-full break-words [overflow-wrap:anywhere];
 }
 
 .product-description h2 {
-    @apply mt-4 text-lg font-semibold text-gray-900 first:mt-0;
+    @apply mt-6 text-xl font-semibold text-gray-900 first:mt-0;
 }
 
 .product-description h3 {
-    @apply mt-3 text-base font-semibold text-gray-900;
+    @apply mt-4 text-lg font-semibold text-gray-900;
 }
 
 .product-description p {
-    @apply mt-2 leading-relaxed;
+    @apply mt-3 leading-7;
 }
 
 .product-description ul {
-    @apply mt-2 list-disc space-y-1 pl-5;
+    @apply mt-3 list-disc space-y-2 pl-5;
 }
 
 .product-description ol {
-    @apply mt-2 list-decimal space-y-1 pl-5;
+    @apply mt-3 list-decimal space-y-2 pl-5;
+}
+
+.product-description li {
+    @apply leading-7;
 }
 
 .product-description blockquote {
-    @apply mt-3 border-l-4 border-gray-300 pl-4 italic text-gray-600;
+    @apply mt-4 border-l-4 border-gray-300 pl-4 italic text-gray-600;
 }
 
 .product-description a {
-    @apply text-blue-600 underline hover:text-blue-700;
+    @apply text-blue-600 underline hover:text-blue-700 focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600;
 }
 
 .product-description img {
-    @apply my-4 h-auto max-w-full rounded-lg border border-gray-200 bg-gray-50;
+    @apply my-4 h-auto max-w-full rounded-xl border border-gray-200 bg-gray-50;
+}
+
+.product-description-table-wrap {
+    @apply mt-4 w-full max-w-full overflow-x-auto rounded-xl border border-gray-200 bg-white;
+    -webkit-overflow-scrolling: touch;
+    contain: inline-size;
 }
 
 .product-description table {
-    @apply mt-4 block w-full max-w-full overflow-x-auto border-collapse text-left text-sm;
+    @apply w-full border-collapse text-left text-sm;
+    table-layout: fixed;
 }
 
 .product-description thead {
@@ -56,11 +131,19 @@
 
 .product-description th,
 .product-description td {
-    @apply border border-gray-200 px-3 py-2 align-top break-words [overflow-wrap:anywhere];
+    @apply border border-gray-200 px-3 py-2 align-top text-sm leading-relaxed text-gray-700;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    hyphens: auto;
+    white-space: normal;
+}
+
+.product-description th {
+    @apply font-semibold text-gray-900;
 }
 
 .product-description .video-embed {
-    @apply relative my-6 aspect-video w-full max-w-full overflow-hidden rounded-xl bg-black;
+    @apply relative mx-auto my-6 aspect-video w-full max-w-full overflow-hidden rounded-xl bg-black sm:w-[80%];
 }
 
 .product-description .video-embed iframe {

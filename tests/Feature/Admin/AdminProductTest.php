@@ -128,6 +128,212 @@ class AdminProductTest extends TestCase
         $this->assertTrue(ProductImage::query()->where('alt_text', 'Ảnh chính mới')->first()->is_primary);
     }
 
+    public function test_first_product_image_is_auto_primary(): void
+    {
+        Storage::fake('public');
+
+        $admin = User::factory()->admin()->create();
+        $product = Product::factory()->create();
+
+        $this->actingAs($admin)->post(route('admin.products.images.store', $product->id), [
+            'image' => $this->fakePng('iphone.png'),
+        ])->assertRedirect(route('admin.products.show', $product->id));
+
+        $image = ProductImage::query()->where('product_id', $product->id)->first();
+
+        $this->assertNotNull($image);
+        $this->assertTrue($image->is_primary);
+    }
+
+    public function test_admin_can_upload_product_image_via_json(): void
+    {
+        Storage::fake('public');
+
+        $admin = User::factory()->admin()->create();
+        $product = Product::factory()->create();
+
+        $response = $this->actingAs($admin)
+            ->withHeaders(['Accept' => 'application/json'])
+            ->post(route('admin.products.images.store', $product->id), [
+                'image' => $this->fakePng('iphone.png'),
+                'alt_text' => 'Ảnh JSON',
+            ]);
+
+        $response->assertOk();
+        $response->assertJsonPath('success', true);
+        $response->assertJsonPath('data.images.0.alt_text', 'Ảnh JSON');
+
+        $image = ProductImage::query()->where('product_id', $product->id)->first();
+        $this->assertNotNull($image);
+        $this->assertStringStartsWith('products/'.$product->id.'/', $image->path);
+    }
+
+    public function test_admin_can_set_primary_image_via_json(): void
+    {
+        Storage::fake('public');
+
+        $admin = User::factory()->admin()->create();
+        $product = Product::factory()->create();
+
+        $this->actingAs($admin)->post(route('admin.products.images.store', $product->id), [
+            'image' => $this->fakePng('iphone-1.png'),
+            'is_primary' => '1',
+        ]);
+
+        $this->actingAs($admin)->post(route('admin.products.images.store', $product->id), [
+            'image' => $this->fakePng('iphone-2.png'),
+            'is_primary' => '0',
+        ]);
+
+        $secondary = ProductImage::query()
+            ->where('product_id', $product->id)
+            ->where('is_primary', false)
+            ->first();
+
+        $response = $this->actingAs($admin)
+            ->withHeaders(['Accept' => 'application/json'])
+            ->patch(route('admin.product-images.primary', $secondary));
+
+        $response->assertOk();
+        $this->assertTrue($secondary->fresh()->is_primary);
+
+        $payloadImage = collect($response->json('data.images'))->firstWhere('id', $secondary->id);
+        $this->assertNotNull($payloadImage);
+        $this->assertTrue($payloadImage['is_primary']);
+    }
+
+    public function test_admin_can_reorder_images_via_json(): void
+    {
+        Storage::fake('public');
+
+        $admin = User::factory()->admin()->create();
+        $product = Product::factory()->create();
+
+        $this->actingAs($admin)->post(route('admin.products.images.store', $product->id), [
+            'image' => $this->fakePng('iphone-1.png'),
+            'sort_order' => '1',
+        ]);
+
+        $this->actingAs($admin)->post(route('admin.products.images.store', $product->id), [
+            'image' => $this->fakePng('iphone-2.png'),
+            'sort_order' => '2',
+        ]);
+
+        $second = ProductImage::query()->where('sort_order', 2)->first();
+
+        $response = $this->actingAs($admin)
+            ->withHeaders(['Accept' => 'application/json'])
+            ->patch(route('admin.product-images.move', $second), [
+                'direction' => 'up',
+            ]);
+
+        $response->assertOk();
+        $response->assertJsonPath('data.moved_image_id', $second->id);
+        $this->assertSame(1, $second->fresh()->sort_order);
+        $this->assertSame($second->id, $response->json('data.images.0.id'));
+    }
+
+    public function test_admin_can_reorder_images_when_sort_orders_are_duplicated(): void
+    {
+        Storage::fake('public');
+
+        $admin = User::factory()->admin()->create();
+        $product = Product::factory()->create();
+
+        $this->actingAs($admin)->post(route('admin.products.images.store', $product->id), [
+            'image' => $this->fakePng('iphone-1.png'),
+            'sort_order' => '0',
+            'is_primary' => '1',
+        ]);
+
+        $this->actingAs($admin)->post(route('admin.products.images.store', $product->id), [
+            'image' => $this->fakePng('iphone-2.png'),
+            'sort_order' => '0',
+            'is_primary' => '0',
+        ]);
+
+        $second = ProductImage::query()->orderByDesc('id')->first();
+
+        $response = $this->actingAs($admin)
+            ->withHeaders(['Accept' => 'application/json'])
+            ->patch(route('admin.product-images.move', $second), [
+                'direction' => 'up',
+            ]);
+
+        $response->assertOk();
+        $this->assertSame(1, $second->fresh()->sort_order);
+        $this->assertSame($second->id, $response->json('data.images.0.id'));
+    }
+
+    public function test_deleting_primary_image_promotes_next_image(): void
+    {
+        Storage::fake('public');
+
+        $admin = User::factory()->admin()->create();
+        $product = Product::factory()->create();
+
+        $this->actingAs($admin)->post(route('admin.products.images.store', $product->id), [
+            'image' => $this->fakePng('iphone-1.png'),
+            'sort_order' => '1',
+            'is_primary' => '1',
+        ]);
+
+        $this->actingAs($admin)->post(route('admin.products.images.store', $product->id), [
+            'image' => $this->fakePng('iphone-2.png'),
+            'sort_order' => '2',
+            'is_primary' => '0',
+        ]);
+
+        $primary = ProductImage::query()->where('is_primary', true)->first();
+        $secondary = ProductImage::query()->where('is_primary', false)->first();
+
+        $this->actingAs($admin)
+            ->withHeaders(['Accept' => 'application/json'])
+            ->delete(route('admin.product-images.destroy', $primary))
+            ->assertOk();
+
+        $this->assertTrue($secondary->fresh()->is_primary);
+    }
+
+    public function test_admin_can_update_alt_text_via_json(): void
+    {
+        Storage::fake('public');
+
+        $admin = User::factory()->admin()->create();
+        $product = Product::factory()->create();
+
+        $this->actingAs($admin)->post(route('admin.products.images.store', $product->id), [
+            'image' => $this->fakePng('iphone.png'),
+        ]);
+
+        $image = ProductImage::query()->first();
+
+        $response = $this->actingAs($admin)
+            ->withHeaders(['Accept' => 'application/json'])
+            ->patch(route('admin.product-images.update', $image), [
+                'alt_text' => 'iPhone màu xanh',
+            ]);
+
+        $response->assertOk();
+        $this->assertSame('iPhone màu xanh', $image->fresh()->alt_text);
+    }
+
+    public function test_customer_cannot_upload_product_image(): void
+    {
+        Storage::fake('public');
+
+        $customer = User::factory()->create();
+        $product = Product::factory()->create();
+
+        $this->actingAs($customer)
+            ->post(route('admin.products.images.store', $product->id), [
+                'image' => $this->fakePng('iphone.png'),
+            ])
+            ->assertRedirect(route('home'));
+
+        $this->assertDatabaseCount('product_images', 0);
+    }
+
     public function test_admin_upload_rejects_invalid_product_image(): void
     {
         Storage::fake('public');
@@ -147,6 +353,36 @@ class AdminProductTest extends TestCase
         $response->assertRedirect(route('admin.products.show', $product->id));
         $response->assertSessionHasErrors('image');
         $this->assertDatabaseCount('product_images', 0);
+    }
+
+    public function test_admin_upload_rejects_php_file_disguised_as_image(): void
+    {
+        Storage::fake('public');
+
+        $admin = User::factory()->admin()->create();
+        $product = Product::factory()->create();
+
+        $response = $this->actingAs($admin)
+            ->withHeaders(['Accept' => 'application/json'])
+            ->post(route('admin.products.images.store', $product->id), [
+                'image' => UploadedFile::fake()->create('malware.php', 10, 'application/x-php'),
+            ]);
+
+        $response->assertUnprocessable();
+        $this->assertDatabaseCount('product_images', 0);
+    }
+
+    public function test_admin_product_show_includes_image_upload_ui(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $product = Product::factory()->create();
+
+        $response = $this->actingAs($admin)->get(route('admin.products.show', $product->id));
+
+        $response->assertOk();
+        $response->assertSee('data-image-upload', false);
+        $response->assertSee('Chọn ảnh sản phẩm', false);
+        $response->assertSee('Hình ảnh sản phẩm', false);
     }
 
     private function fakePng(string $name): File

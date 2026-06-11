@@ -10,6 +10,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
                 'resources/js/admin/product-editor.js',
+                'resources/js/admin/product-images.js',
             ],
             refresh: true,
             fonts: [

@@ -14,18 +14,12 @@
                     Khám phá iPhone, iPad, iPod và phụ kiện sạc chính hãng. Tìm kiếm, lọc theo màu sắc
                     và dung lượng, thêm vào giỏ và đặt hàng COD ngay trên website.
                 </p>
-                <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+                <div class="mt-6">
                     <a
                         href="{{ route('products.index') }}"
                         class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-5 py-3 text-sm font-medium text-white hover:bg-blue-700"
                     >
                         Xem sản phẩm
-                    </a>
-                    <a
-                        href="{{ route('admin.dashboard') }}"
-                        class="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50"
-                    >
-                        Vào khu vực quản trị
                     </a>
                 </div>
             </div>

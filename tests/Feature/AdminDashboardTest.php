@@ -10,29 +10,29 @@ class AdminDashboardTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_guest_cannot_access_admin_dashboard(): void
+    public function test_guest_is_redirected_to_login_from_admin_dashboard(): void
     {
         $response = $this->get(route('admin.dashboard'));
 
-        $response->assertForbidden();
+        $response->assertRedirect(route('login'));
     }
 
-    public function test_customer_cannot_access_admin_dashboard(): void
+    public function test_customer_is_redirected_to_home_from_admin_dashboard(): void
     {
         $customer = User::factory()->create();
 
         $response = $this->actingAs($customer)->get(route('admin.dashboard'));
 
-        $response->assertForbidden();
+        $response->assertRedirect(route('home'));
     }
 
-    public function test_blocked_admin_cannot_access_admin_dashboard(): void
+    public function test_blocked_admin_is_redirected_to_home_from_admin_dashboard(): void
     {
         $admin = User::factory()->admin()->blocked()->create();
 
         $response = $this->actingAs($admin)->get(route('admin.dashboard'));
 
-        $response->assertForbidden();
+        $response->assertRedirect(route('home'));
     }
 
     public function test_admin_dashboard_renders_successfully(): void

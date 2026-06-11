@@ -32,34 +32,14 @@
     </nav>
 
     <div
-        class="grid gap-10 lg:grid-cols-2"
+        class="grid min-w-0 gap-8 lg:grid-cols-2 lg:gap-10"
         data-product-detail
         data-selected-color="{{ $selectedColorSlug }}"
         data-selected-storage="{{ $selectedStorageGb }}"
     >
-        <section aria-label="Ảnh sản phẩm">
-            <x-product-image
-                :src="$primaryImageUrl"
-                :alt="$product->images->first()?->alt_text ?: $product->name"
-                :lazy="false"
-                class="rounded-2xl border border-gray-200 bg-white"
-                data-product-primary-image
-            />
+        <x-product-gallery :product="$product" :images="$product->images" />
 
-            @if ($product->images->count() > 1)
-                <div class="mt-4 grid grid-cols-4 gap-3">
-                    @foreach ($product->images as $image)
-                        <x-product-image
-                            :src="\App\Support\ProductImageUrl::resolve($image->path)"
-                            :alt="$image->alt_text ?: $product->name"
-                            class="rounded-lg border border-gray-200"
-                        />
-                    @endforeach
-                </div>
-            @endif
-        </section>
-
-        <section>
+        <section class="min-w-0">
             @if ($product->productSeries)
                 <p class="text-sm font-medium uppercase tracking-wide text-gray-500">
                     {{ $product->productSeries->name }}
@@ -72,7 +52,7 @@
                 <p class="mt-3 text-sm text-gray-600">{{ $product->short_description }}</p>
             @endif
 
-            <div class="mt-6 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+            <div class="mt-6 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm lg:sticky lg:top-4">
                 @if ($selectedVariant)
                     <div class="flex flex-wrap items-end gap-3">
                         <p class="text-2xl font-bold text-gray-900" data-product-sale-price>
@@ -234,7 +214,7 @@
                             type="submit"
                             data-product-add-button
                             @disabled(! $inStock)
-                            class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+                            class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition duration-200 hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:bg-gray-300"
                         >
                             <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
                             <span data-add-cart-label>{{ $inStock ? 'Thêm vào giỏ hàng' : 'Hết hàng' }}</span>
@@ -245,23 +225,102 @@
         </section>
     </div>
 
-    @if ($product->description)
-        <section class="mt-12 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 class="text-lg font-semibold text-gray-900">Mô tả chi tiết</h2>
-            <div class="product-description mt-4 text-sm text-gray-700">
-                {!! \App\Support\ProductDescriptionSanitizer::prepare($product->description) !!}
-            </div>
-        </section>
-    @endif
+    @php
+        $specRows = [];
 
-    @if ($product->specifications)
-        <section class="mt-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 class="text-lg font-semibold text-gray-900">Thông số kỹ thuật</h2>
-            <div class="prose prose-sm mt-4 max-w-none text-gray-700">
-                {!! nl2br(e($product->specifications)) !!}
-            </div>
+        if ($product->specifications) {
+            $specText = trim($product->specifications);
+            $lines = array_values(array_filter(
+                array_map(trim(...), preg_split('/\r\n|\r|\n/', $specText)),
+                static fn (string $line): bool => $line !== '',
+            ));
+
+            if (str_contains($specText, "\t")) {
+                foreach ($lines as $row) {
+                    $cells = array_map(trim(...), explode("\t", $row));
+
+                    if (count($cells) >= 2) {
+                        $specRows[] = ['label' => $cells[0], 'value' => implode(' · ', array_slice($cells, 1))];
+                    } else {
+                        $specRows[] = ['label' => null, 'value' => $row];
+                    }
+                }
+            } elseif (collect($lines)->contains(static fn (string $line): bool => str_contains($line, ':'))) {
+                foreach ($lines as $line) {
+                    $parts = preg_split('/\s*:\s*/', $line, 2);
+                    $specRows[] = isset($parts[1])
+                        ? ['label' => $parts[0], 'value' => $parts[1]]
+                        : ['label' => null, 'value' => $line];
+                }
+            } else {
+                $index = 0;
+
+                if (count($lines) % 2 === 1) {
+                    $specRows[] = ['label' => null, 'value' => $lines[0]];
+                    $index = 1;
+                }
+
+                while ($index < count($lines) - 1) {
+                    $specRows[] = ['label' => $lines[$index], 'value' => $lines[$index + 1]];
+                    $index += 2;
+                }
+
+                if ($index < count($lines)) {
+                    $specRows[] = ['label' => null, 'value' => $lines[$index]];
+                }
+            }
+        }
+
+        $hasSpecRows = $specRows !== [];
+    @endphp
+
+    <div
+        class="mt-10 grid min-w-0 gap-8 lg:mt-12 lg:grid-cols-10 lg:items-start lg:gap-10"
+        data-product-detail-content
+    >
+        <section
+            @class([
+                'min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white p-5 shadow-sm md:p-8',
+                'lg:col-span-7' => $hasSpecRows,
+                'lg:col-span-10' => ! $hasSpecRows,
+            ])
+        >
+            <h2 class="text-lg font-semibold text-gray-900">Mô tả chi tiết</h2>
+            @if ($product->description)
+                <div class="product-description mt-4 max-w-none text-base leading-7 text-gray-700 md:mt-6">
+                    {!! \App\Support\ProductDescriptionSanitizer::prepare($product->description) !!}
+                </div>
+            @else
+                <p class="mt-4 text-sm leading-7 text-gray-600">
+                    Thông tin chi tiết sản phẩm đang được cập nhật.
+                </p>
+            @endif
         </section>
-    @endif
+
+        @if ($hasSpecRows)
+            <section class="min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white p-5 shadow-sm md:p-8 lg:col-span-3">
+                <h2 class="text-lg font-semibold text-gray-900">Thông số kỹ thuật</h2>
+                <dl class="mt-4 divide-y divide-gray-100 overflow-hidden rounded-xl border border-gray-100 bg-gray-50/50">
+                    @foreach ($specRows as $row)
+                        <div class="px-4 py-3">
+                            @if ($row['label'])
+                                <dt class="text-sm font-medium text-gray-900">
+                                    {{ $row['label'] }}
+                                </dt>
+                                <dd class="mt-1 text-sm leading-relaxed text-gray-700">
+                                    {{ $row['value'] }}
+                                </dd>
+                            @else
+                                <dd class="text-sm leading-relaxed text-gray-700">
+                                    {{ $row['value'] }}
+                                </dd>
+                            @endif
+                        </div>
+                    @endforeach
+                </dl>
+            </section>
+        @endif
+    </div>
 
     <script type="application/json" id="product-variants-data">
         @json($variantPayload)

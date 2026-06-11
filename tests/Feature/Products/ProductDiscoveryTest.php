@@ -31,6 +31,9 @@ class ProductDiscoveryTest extends TestCase
         $response->assertOk();
         $response->assertSee('Sản phẩm', false);
         $response->assertSee('iPhone 16 Pro', false);
+        $response->assertSee('product-card', false);
+        $response->assertSee('lg:grid-cols-3', false);
+        $response->assertDontSee('xl:grid-cols-4', false);
         if (is_file(storage_path('app/public/products/demo/iphone-15-black.webp'))) {
             $response->assertSee('/storage/products/demo/', false);
         } else {
@@ -209,6 +212,35 @@ class ProductDiscoveryTest extends TestCase
         ]);
 
         $this->assertGreaterThan(0, $products->count());
+    }
+
+    public function test_mobile_per_page_limits_results_to_three(): void
+    {
+        $response = $this->get(route('products.index', ['per_page' => 3]));
+
+        $response->assertOk();
+        $this->assertSame(3, substr_count($response->getContent(), 'class="product-card flex'));
+    }
+
+    public function test_mobile_user_agent_defaults_to_three_per_page(): void
+    {
+        $response = $this->withHeaders([
+            'User-Agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15',
+        ])->get(route('products.index'));
+
+        $response->assertOk();
+        $this->assertSame(3, substr_count($response->getContent(), 'class="product-card flex'));
+    }
+
+    public function test_pagination_labels_are_vietnamese(): void
+    {
+        $response = $this->get(route('products.index', ['per_page' => 3]));
+
+        $response->assertOk();
+        $response->assertSee('Trước', false);
+        $response->assertSee('Sau', false);
+        $response->assertDontSee('pagination.previous', false);
+        $response->assertDontSee('pagination.next', false);
     }
 
     public function test_pagination_preserves_query_string(): void

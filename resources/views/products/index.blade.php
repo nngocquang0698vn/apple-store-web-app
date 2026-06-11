@@ -4,25 +4,53 @@
 
 @section('content')
     <div data-products-index>
-        <div class="mb-6">
+        <div class="mb-4 lg:mb-6">
             <h1 class="text-2xl font-bold text-gray-900">Sản phẩm</h1>
             <p class="mt-2 text-sm text-gray-600">
                 Khám phá iPhone, iPad, iPod và phụ kiện sạc chính hãng.
             </p>
         </div>
 
-        <div class="mb-4 flex items-center justify-between gap-4 lg:hidden">
+        <div class="mb-4 space-y-3 lg:hidden">
+            <div data-mobile-filter-chips>
+                <x-products.filter-category-chips
+                    :filters="$filters"
+                    :categories="$categories"
+                />
+            </div>
+
+            <div class="flex items-center gap-2">
+                <label for="filter-sort-mobile" class="sr-only">Sắp xếp sản phẩm</label>
+                <select
+                    id="filter-sort-mobile"
+                    data-filter-sort-mobile
+                    class="min-w-0 flex-1 rounded-xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                >
+                    @foreach ([
+                        'newest' => 'Mới nhất',
+                        'price_asc' => 'Giá thấp → cao',
+                        'price_desc' => 'Giá cao → thấp',
+                        'name_asc' => 'Tên A-Z',
+                        'name_desc' => 'Tên Z-A',
+                    ] as $value => $label)
+                        <option value="{{ $value }}" @selected(($filters['sort'] ?? 'newest') === $value)>
+                            {{ $label }}
+                        </option>
+                    @endforeach
+                </select>
+                <button
+                    type="button"
+                    class="inline-flex shrink-0 items-center gap-2 rounded-xl border border-gray-300 bg-white px-3 py-2.5 text-sm font-medium text-gray-700 hover:border-blue-300 hover:bg-blue-50"
+                    data-action="toggle-filter-drawer"
+                    aria-expanded="false"
+                    aria-controls="mobile-filter-drawer"
+                >
+                    <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+                    Lọc
+                </button>
+            </div>
+
             <p class="text-sm text-gray-600" data-mobile-product-count>{{ $products->total() }} sản phẩm</p>
-            <button
-                type="button"
-                class="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700"
-                data-action="toggle-filter-drawer"
-                aria-expanded="false"
-                aria-controls="mobile-filter-drawer"
-            >
-                <i class="fa-solid fa-filter" aria-hidden="true"></i>
-                Bộ lọc
-            </button>
         </div>
 
         <div class="flex flex-col gap-8 lg:flex-row">
@@ -35,6 +63,7 @@
                         :series-list="$seriesList"
                         :colors="$colors"
                         :storages="$storages"
+                        variant="full"
                         class="mt-4"
                     />
                 </div>
@@ -46,28 +75,32 @@
                 data-filter-drawer
                 role="dialog"
                 aria-modal="true"
-                aria-label="Bộ lọc sản phẩm"
+                aria-label="Bộ lọc nâng cao"
             >
                 <div class="absolute inset-0 bg-gray-900/40" data-action="close-filter-drawer"></div>
                 <div class="absolute inset-y-0 right-0 flex w-full max-w-sm flex-col bg-white shadow-xl">
                     <div class="flex items-center justify-between border-b border-gray-200 px-4 py-4">
-                        <h2 class="text-base font-semibold text-gray-900">Bộ lọc</h2>
+                        <div>
+                            <h2 class="text-base font-semibold text-gray-900">Lọc nâng cao</h2>
+                            <p class="mt-0.5 text-xs text-gray-500">Danh mục và sắp xếp ở trên danh sách</p>
+                        </div>
                         <button
                             type="button"
-                            class="rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700"
+                            class="rounded-xl border border-gray-300 p-2 text-gray-700 hover:bg-gray-50"
                             data-action="close-filter-drawer"
                             aria-label="Đóng bộ lọc"
                         >
                             <i class="fa-solid fa-xmark" aria-hidden="true"></i>
                         </button>
                     </div>
-                    <div class="flex-1 overflow-y-auto p-4">
+                    <div class="flex-1 overflow-y-auto px-4 py-4">
                         <x-products.filter-form
                             :filters="$filters"
                             :categories="$categories"
                             :series-list="$seriesList"
                             :colors="$colors"
                             :storages="$storages"
+                            variant="mobile"
                         />
                     </div>
                 </div>

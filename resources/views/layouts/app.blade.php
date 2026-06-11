@@ -132,7 +132,7 @@
         @endif
     </header>
 
-    <main id="main-content" class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8" tabindex="-1">
+    <main id="main-content" class="mx-auto max-w-7xl overflow-x-clip px-4 py-8 sm:px-6 lg:px-8" tabindex="-1">
         <div data-flash-container>
             <x-flash-message />
         </div>

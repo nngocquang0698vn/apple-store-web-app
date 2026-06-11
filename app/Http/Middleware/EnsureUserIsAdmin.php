@@ -4,17 +4,23 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 class EnsureUserIsAdmin
 {
     /**
-     * @param  Closure(Request): Response  $next
+     * @param  Closure(Request): HttpResponse  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next): HttpResponse
     {
-        if (! $request->user()?->canAccessAdmin()) {
-            abort(Response::HTTP_FORBIDDEN);
+        $user = $request->user();
+
+        if (! $user) {
+            return redirect()->guest(route('login'));
+        }
+
+        if (! $user->canAccessAdmin()) {
+            return redirect()->route('home');
         }
 
         return $next($request);

@@ -10,6 +10,8 @@ final class ProductQuery
 {
     public const PER_PAGE = 12;
 
+    public const PER_PAGE_MOBILE = 3;
+
     public const SORT_OPTIONS = [
         'newest',
         'price_asc',
@@ -55,8 +57,14 @@ final class ProductQuery
 
         $this->applySort($query, $sort);
 
+        $perPage = (int) ($filters['per_page'] ?? self::PER_PAGE);
+
+        if (! in_array($perPage, [self::PER_PAGE_MOBILE, self::PER_PAGE], true)) {
+            $perPage = self::PER_PAGE;
+        }
+
         return $query
-            ->paginate(self::PER_PAGE)
+            ->paginate($perPage)
             ->withQueryString();
     }
 

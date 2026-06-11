@@ -22,6 +22,8 @@ class HomePageTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('Cửa hàng điện thoại Apple cho đồ án web', false);
+        $response->assertDontSee('Vào khu vực quản trị', false);
+        $response->assertDontSee(route('admin.dashboard'), false);
         $response->assertSee('data-home-showcase', false);
 
         if (is_file(storage_path('app/public/products/demo/iphone-15-black.webp'))) {

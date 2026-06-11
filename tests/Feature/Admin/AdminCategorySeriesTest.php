@@ -18,7 +18,7 @@ class AdminCategorySeriesTest extends TestCase
 
         $response = $this->actingAs($customer)->get(route('admin.categories.index'));
 
-        $response->assertForbidden();
+        $response->assertRedirect(route('home'));
     }
 
     public function test_admin_can_manage_categories(): void

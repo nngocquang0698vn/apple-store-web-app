@@ -1,4 +1,50 @@
 const SEARCH_DEBOUNCE_MS = 400;
+const DESKTOP_PER_PAGE = 12;
+const MOBILE_PER_PAGE = 3;
+const MOBILE_MAX_WIDTH = 1023;
+
+function resolvePerPage() {
+    return window.matchMedia(`(max-width: ${MOBILE_MAX_WIDTH}px)`).matches
+        ? MOBILE_PER_PAGE
+        : DESKTOP_PER_PAGE;
+}
+
+function withListingPerPage(url) {
+    const next = new URL(url, window.location.origin);
+
+    next.searchParams.set('per_page', String(resolvePerPage()));
+
+    return next.toString();
+}
+
+function scrollProductsPageToTop() {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    window.scrollTo({
+        top: 0,
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    });
+}
+
+function closeFilterDrawer() {
+    $('[data-filter-drawer]').addClass('hidden');
+    $('[data-action="toggle-filter-drawer"]').attr('aria-expanded', 'false');
+}
+
+function syncMobileFilterControls() {
+    const url = new URL(window.location.href);
+    const sort = url.searchParams.get('sort') || 'newest';
+
+    $('[data-filter-sort-mobile]').val(sort);
+}
+
+function syncMobileFilterChips(html) {
+    const $source = $('<div>').html(html).find('[data-mobile-filter-chips-source]').children();
+
+    if ($source.length) {
+        $('[data-mobile-filter-chips]').html($source.html());
+    }
+}
 
 function setResultsLoading(isLoading) {
     const $results = $('[data-product-results]');
@@ -23,8 +69,10 @@ function buildQueryFromForm($form) {
 function fetchProductResults(url, pushState = true) {
     setResultsLoading(true);
 
+    const listingUrl = withListingPerPage(url);
+
     return $.ajax({
-        url,
+        url: listingUrl,
         method: 'GET',
         headers: {
             'X-Requested-With': 'XMLHttpRequest',
@@ -34,7 +82,7 @@ function fetchProductResults(url, pushState = true) {
             $('[data-product-results]').html(html);
 
             if (pushState) {
-                window.history.pushState({ productFilters: true }, '', url);
+                window.history.pushState({ productFilters: true }, '', listingUrl);
             }
 
             const $mobileCount = $('[data-mobile-product-count]');
@@ -43,9 +91,12 @@ function fetchProductResults(url, pushState = true) {
             if ($mobileCount.length && countText) {
                 $mobileCount.text(countText);
             }
+
+            syncMobileFilterControls();
+            syncMobileFilterChips(html);
         })
         .fail(() => {
-            window.location.href = url;
+            window.location.href = listingUrl;
         })
         .always(() => {
             setResultsLoading(false);
@@ -55,6 +106,9 @@ function fetchProductResults(url, pushState = true) {
 function submitFilterForm($form, pushState = true) {
     const params = buildQueryFromForm($form);
     const baseUrl = $form.attr('action') ?? window.location.pathname;
+
+    params.set('per_page', String(resolvePerPage()));
+
     const query = params.toString();
     const url = query ? `${baseUrl}?${query}` : baseUrl;
 
@@ -69,6 +123,8 @@ export function initProductFilters() {
     }
 
     let searchTimer = null;
+
+    syncMobileFilterControls();
 
     $page.on('input', '[data-filter-search]', function () {
         const $input = $(this);
@@ -86,12 +142,15 @@ export function initProductFilters() {
         submitFilterForm($form);
     });
 
-    $page.on('submit', '[data-product-filters]', function (event) {
-        event.preventDefault();
-        submitFilterForm($(this));
+    $page.on('change', '[data-filter-sort-mobile]', function () {
+        const url = new URL(window.location.href);
+
+        url.searchParams.set('sort', $(this).val());
+        url.searchParams.delete('page');
+        fetchProductResults(url.toString());
     });
 
-    $page.on('click', '[data-product-pagination] a', function (event) {
+    $page.on('click', '[data-filter-category-chip]', function (event) {
         const href = $(this).attr('href');
 
         if (!href) {
@@ -102,7 +161,36 @@ export function initProductFilters() {
         fetchProductResults(href, true);
     });
 
+    $page.on('submit', '[data-product-filters]', function (event) {
+        event.preventDefault();
+
+        submitFilterForm($(this)).done(() => {
+            closeFilterDrawer();
+            scrollProductsPageToTop();
+        });
+    });
+
+    $page.on('click', '[data-product-pagination] a', function (event) {
+        const href = $(this).attr('href');
+
+        if (!href) {
+            return;
+        }
+
+        event.preventDefault();
+        fetchProductResults(href, true).done(() => {
+            scrollProductsPageToTop();
+        });
+    });
+
     window.addEventListener('popstate', () => {
         fetchProductResults(window.location.href, false);
     });
+
+    const currentPerPage = new URL(window.location.href).searchParams.get('per_page');
+    const desiredPerPage = String(resolvePerPage());
+
+    if (currentPerPage !== desiredPerPage) {
+        fetchProductResults(window.location.href, true);
+    }
 }

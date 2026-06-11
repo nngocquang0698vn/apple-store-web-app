@@ -62,6 +62,7 @@ class ApplicationHardeningTest extends TestCase
             resource_path('views/components/product-card.blade.php'),
             resource_path('views/components/product-image.blade.php'),
             resource_path('views/components/home-product-showcase.blade.php'),
+            resource_path('views/components/product-gallery.blade.php'),
             resource_path('views/cart'),
         ];
 

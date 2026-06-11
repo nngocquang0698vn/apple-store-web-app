@@ -13,10 +13,17 @@ class ProductImageUpdateRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $this->merge([
-            'is_primary' => $this->boolean('is_primary'),
-            'sort_order' => (int) $this->input('sort_order', 0),
-        ]);
+        if ($this->has('is_primary')) {
+            $this->merge([
+                'is_primary' => $this->boolean('is_primary'),
+            ]);
+        }
+
+        if ($this->has('sort_order')) {
+            $this->merge([
+                'sort_order' => (int) $this->input('sort_order'),
+            ]);
+        }
     }
 
     /**
@@ -26,8 +33,8 @@ class ProductImageUpdateRequest extends FormRequest
     {
         return [
             'alt_text' => ['nullable', 'string', 'max:180'],
-            'sort_order' => ['required', 'integer', 'min:0'],
-            'is_primary' => ['boolean'],
+            'sort_order' => ['sometimes', 'required', 'integer', 'min:0'],
+            'is_primary' => ['sometimes', 'boolean'],
         ];
     }
 }

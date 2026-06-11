@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ProductImageMoveRequest;
 use App\Http\Requests\Admin\ProductImageStoreRequest;
 use App\Http\Requests\Admin\ProductImageUpdateRequest;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Support\AdminProductImagePayload;
+use App\Support\ProductImageOrdering;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +18,11 @@ use Illuminate\Support\Str;
 
 class ProductImageController extends Controller
 {
-    public function store(ProductImageStoreRequest $request, string $product): RedirectResponse
+    public function __construct(
+        private readonly ProductImageOrdering $imageOrdering,
+    ) {}
+
+    public function store(ProductImageStoreRequest $request, string $product): JsonResponse|RedirectResponse
     {
         $product = Product::query()->findOrFail($product);
         $data = $request->validated();
@@ -22,29 +30,39 @@ class ProductImageController extends Controller
         $filename = Str::ulid().'.'.$file->extension();
         $path = $file->storeAs("products/{$product->id}", $filename, 'public');
 
-        DB::transaction(function () use ($data, $path, $product): void {
-            if ($data['is_primary']) {
+        $hasImages = $product->images()->exists();
+        $isPrimary = $data['is_primary'] ?? false;
+
+        if (! $hasImages) {
+            $isPrimary = true;
+        }
+
+        $sortOrder = $data['sort_order'] ?? ((int) $product->images()->max('sort_order') + 1);
+
+        DB::transaction(function () use ($data, $path, $product, $isPrimary, $sortOrder): void {
+            if ($isPrimary) {
                 $product->images()->update(['is_primary' => false]);
             }
 
             $product->images()->create([
                 'path' => $path,
-                'alt_text' => $data['alt_text'] ?: $product->name,
-                'sort_order' => $data['sort_order'],
-                'is_primary' => $data['is_primary'],
+                'alt_text' => filled($data['alt_text'] ?? null) ? $data['alt_text'] : $product->name,
+                'sort_order' => $sortOrder,
+                'is_primary' => $isPrimary,
             ]);
         });
 
-        return to_route('admin.products.show', $product->id)
-            ->with('success', 'Đã tải ảnh sản phẩm.');
+        $this->imageOrdering->normalize($product);
+
+        return $this->respond($product, 'Đã tải ảnh sản phẩm.');
     }
 
-    public function update(ProductImageUpdateRequest $request, ProductImage $image): RedirectResponse
+    public function update(ProductImageUpdateRequest $request, ProductImage $image): JsonResponse|RedirectResponse
     {
         $data = $request->validated();
 
         DB::transaction(function () use ($data, $image): void {
-            if ($data['is_primary']) {
+            if (($data['is_primary'] ?? false) === true) {
                 ProductImage::query()
                     ->where('product_id', $image->product_id)
                     ->where('id', '!=', $image->id)
@@ -54,18 +72,71 @@ class ProductImageController extends Controller
             $image->update($data);
         });
 
-        return to_route('admin.products.show', $image->product_id)
-            ->with('success', 'Đã cập nhật ảnh sản phẩm.');
+        return $this->respond($image->product, 'Đã cập nhật ảnh sản phẩm.');
     }
 
-    public function destroy(ProductImage $image): RedirectResponse
+    public function setPrimary(ProductImage $image): JsonResponse|RedirectResponse
     {
-        $productId = $image->product_id;
+        DB::transaction(function () use ($image): void {
+            ProductImage::query()
+                ->where('product_id', $image->product_id)
+                ->update(['is_primary' => false]);
+
+            $image->update(['is_primary' => true]);
+        });
+
+        return $this->respond($image->product, 'Đã đặt làm ảnh chính.');
+    }
+
+    public function move(ProductImageMoveRequest $request, ProductImage $image): JsonResponse|RedirectResponse
+    {
+        $direction = $request->validated('direction');
+        $moved = $this->imageOrdering->move($image, $direction);
+
+        $message = $moved
+            ? 'Đã cập nhật thứ tự ảnh.'
+            : 'Ảnh đã ở vị trí này, không thể đổi thêm.';
+
+        return $this->respond($image->product, $message, movedImageId: $moved ? $image->id : null);
+    }
+
+    public function destroy(ProductImage $image): JsonResponse|RedirectResponse
+    {
+        $product = $image->product;
+        $wasPrimary = $image->is_primary;
 
         Storage::disk('public')->delete($image->path);
         $image->delete();
 
-        return to_route('admin.products.show', $productId)
-            ->with('success', 'Đã xóa ảnh sản phẩm.');
+        if ($wasPrimary) {
+            $nextPrimary = ProductImage::query()
+                ->where('product_id', $product->id)
+                ->orderBy('sort_order')
+                ->orderBy('id')
+                ->first();
+
+            if ($nextPrimary) {
+                $nextPrimary->update(['is_primary' => true]);
+            }
+        }
+
+        return $this->respond($product, 'Đã xóa ảnh sản phẩm.');
+    }
+
+    private function respond(Product $product, string $message, ?int $movedImageId = null): JsonResponse|RedirectResponse
+    {
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => $message,
+                'data' => [
+                    'images' => AdminProductImagePayload::forProduct($product),
+                    'moved_image_id' => $movedImageId,
+                ],
+            ]);
+        }
+
+        return to_route('admin.products.show', $product->id)
+            ->with('success', $message);
     }
 }

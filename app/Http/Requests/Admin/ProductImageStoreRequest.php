@@ -13,10 +13,17 @@ class ProductImageStoreRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $this->merge([
-            'is_primary' => $this->boolean('is_primary'),
-            'sort_order' => (int) $this->input('sort_order', 0),
-        ]);
+        if ($this->has('is_primary')) {
+            $this->merge([
+                'is_primary' => $this->boolean('is_primary'),
+            ]);
+        }
+
+        if ($this->has('sort_order')) {
+            $this->merge([
+                'sort_order' => (int) $this->input('sort_order'),
+            ]);
+        }
     }
 
     /**
@@ -27,8 +34,8 @@ class ProductImageStoreRequest extends FormRequest
         return [
             'image' => ['required', 'file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
             'alt_text' => ['nullable', 'string', 'max:180'],
-            'sort_order' => ['required', 'integer', 'min:0'],
-            'is_primary' => ['boolean'],
+            'sort_order' => ['nullable', 'integer', 'min:0'],
+            'is_primary' => ['sometimes', 'boolean'],
         ];
     }
 
@@ -39,7 +46,8 @@ class ProductImageStoreRequest extends FormRequest
     {
         return [
             'image.required' => 'Vui lòng chọn ảnh sản phẩm.',
-            'image.mimes' => 'Ảnh chỉ được dùng JPEG, PNG hoặc WebP.',
+            'image.mimes' => 'Ảnh phải có định dạng JPG, PNG hoặc WebP.',
+            'image.max' => 'Ảnh không được vượt quá 4MB.',
         ];
     }
 }

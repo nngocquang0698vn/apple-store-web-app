@@ -24,7 +24,7 @@ class AdminCustomerTest extends TestCase
 
     public function test_guest_cannot_access_admin_customers(): void
     {
-        $this->get(route('admin.customers.index'))->assertForbidden();
+        $this->get(route('admin.customers.index'))->assertRedirect(route('login'));
     }
 
     public function test_admin_can_list_customers(): void

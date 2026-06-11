@@ -26,14 +26,14 @@ class AdminOrderTest extends TestCase
 
     public function test_guest_cannot_access_admin_orders(): void
     {
-        $this->get(route('admin.orders.index'))->assertForbidden();
+        $this->get(route('admin.orders.index'))->assertRedirect(route('login'));
     }
 
     public function test_customer_cannot_access_admin_orders(): void
     {
         $customer = User::query()->where('email', 'customer1@istore.test')->firstOrFail();
 
-        $this->actingAs($customer)->get(route('admin.orders.index'))->assertForbidden();
+        $this->actingAs($customer)->get(route('admin.orders.index'))->assertRedirect(route('home'));
     }
 
     public function test_admin_can_list_orders(): void

@@ -1,3 +1,4 @@
+import { goToCarouselImageBySrc } from './carousel';
 import { formatVnd } from './vnd-money';
 import { updateProductPreview } from './product-quantity-preview';
 
@@ -115,8 +116,6 @@ function renderVariant($root, variant, variants) {
     const $variantInput = $root.find('[data-product-variant-id]');
     const $quantity = $root.find('[data-product-quantity]');
     const $submit = $root.find('[data-product-add-button]');
-    const $image = $root.find('[data-product-primary-image] img');
-
     $salePrice.text(formatVnd(variant.sale_price));
 
     if (variant.original_price && variant.original_price > variant.sale_price) {
@@ -150,8 +149,8 @@ function renderVariant($root, variant, variants) {
     const label = inStock ? 'Thêm vào giỏ hàng' : 'Hết hàng';
     $submit.find('[data-add-cart-label]').text(label);
 
-    if (variant.image_url && $image.length) {
-        $image.attr('src', variant.image_url);
+    if (variant.image_url) {
+        goToCarouselImageBySrc(variant.image_url);
     }
 
     setSelectedState($root, variant.color_slug, variant.storage_gb, variants);

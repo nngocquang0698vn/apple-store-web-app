@@ -34,9 +34,19 @@ final class ProductDescriptionSanitizer
             return null;
         }
 
-        $input = ProductDescriptionYoutube::convertLinksToEmbeds(trim($input));
+        $input = self::normalizePastedSpacing(trim($input));
+        $input = ProductDescriptionYoutube::convertLinksToEmbeds($input);
 
         return self::sanitize($input);
+    }
+
+    private static function normalizePastedSpacing(string $input): string
+    {
+        $input = str_replace("\xC2\xA0", ' ', $input);
+        $input = preg_replace('/&nbsp;/i', ' ', $input) ?? $input;
+        $input = preg_replace('/\x{200B}/u', '', $input) ?? $input;
+
+        return $input;
     }
 
     public static function sanitize(?string $input): ?string
@@ -78,7 +88,70 @@ final class ProductDescriptionSanitizer
 
         $html = trim($html);
 
-        return $html !== '' ? $html : null;
+        if ($html === '') {
+            return null;
+        }
+
+        return self::wrapResponsiveTables($html);
+    }
+
+    private static function wrapResponsiveTables(string $html): string
+    {
+        if (! str_contains($html, '<table')) {
+            return $html;
+        }
+
+        $document = new DOMDocument('1.0', 'UTF-8');
+        $previous = libxml_use_internal_errors(true);
+
+        $document->loadHTML(
+            '<?xml encoding="utf-8" ?><div>'.$html.'</div>',
+            LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD,
+        );
+
+        libxml_clear_errors();
+        libxml_use_internal_errors($previous);
+
+        $container = $document->getElementsByTagName('div')->item(0);
+
+        if (! $container instanceof DOMElement) {
+            return $html;
+        }
+
+        $tables = [];
+
+        foreach ($container->getElementsByTagName('table') as $table) {
+            if ($table instanceof DOMElement) {
+                $tables[] = $table;
+            }
+        }
+
+        foreach ($tables as $table) {
+            $parent = $table->parentNode;
+
+            if ($parent === null) {
+                continue;
+            }
+
+            if ($parent instanceof DOMElement
+                && $parent->tagName === 'div'
+                && $parent->getAttribute('class') === 'product-description-table-wrap') {
+                continue;
+            }
+
+            $wrapper = $document->createElement('div');
+            $wrapper->setAttribute('class', 'product-description-table-wrap');
+            $parent->insertBefore($wrapper, $table);
+            $wrapper->appendChild($table);
+        }
+
+        $wrapped = '';
+
+        foreach ($container->childNodes as $child) {
+            $wrapped .= $document->saveHTML($child);
+        }
+
+        return trim($wrapped);
     }
 
     private static function sanitizeElementTree(DOMElement $parent): void

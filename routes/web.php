@@ -80,6 +80,10 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function (): 
         ->name('products.images.store');
     Route::patch('/product-images/{image}', [ProductImageController::class, 'update'])
         ->name('product-images.update');
+    Route::patch('/product-images/{image}/primary', [ProductImageController::class, 'setPrimary'])
+        ->name('product-images.primary');
+    Route::patch('/product-images/{image}/move', [ProductImageController::class, 'move'])
+        ->name('product-images.move');
     Route::delete('/product-images/{image}', [ProductImageController::class, 'destroy'])
         ->name('product-images.destroy');
 

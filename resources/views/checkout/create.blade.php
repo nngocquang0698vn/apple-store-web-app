@@ -11,8 +11,8 @@
             </p>
         </div>
 
-        <div class="grid gap-8 lg:grid-cols-5">
-            <section class="lg:col-span-3">
+        <div class="grid min-w-0 gap-8 lg:grid-cols-5">
+            <section class="min-w-0 lg:col-span-3">
                 <form
                     method="post"
                     action="{{ route('checkout.store') }}"
@@ -143,7 +143,7 @@
                             type="submit"
                             data-checkout-submit
                             @disabled(! $summary['can_checkout'])
-                            class="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+                            class="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition duration-200 hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:bg-gray-300"
                         >
                             <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
                             <span data-checkout-submit-label>Đặt hàng</span>
@@ -166,7 +166,7 @@
                 </form>
             </section>
 
-            <aside class="lg:col-span-2">
+            <aside class="min-w-0 lg:col-span-2 lg:sticky lg:top-4 lg:self-start">
                 <x-checkout-summary :summary="$summary" />
             </aside>
         </div>

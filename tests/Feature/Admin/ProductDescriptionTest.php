@@ -113,7 +113,7 @@ class ProductDescriptionTest extends TestCase
 
         $this->actingAs($customer)
             ->get(route('admin.products.create'))
-            ->assertForbidden();
+            ->assertRedirect(route('home'));
     }
 
     public function test_admin_can_upload_description_image(): void
