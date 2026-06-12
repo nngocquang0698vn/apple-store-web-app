@@ -133,6 +133,20 @@ podman compose restart app
 
 `bootstrap/cache` dùng **volume riêng** trong container — không ảnh hưởng Laragon trên host.
 
+**Ảnh không hiện trên Laragon sau khi chạy Podman/Docker?**
+
+Container chạy `storage:link` với đường dẫn Linux (`/var/www/html/storage/app/public`), ghi đè junction `public/storage` trên Windows. Laragon vẫn chạy nhưng URL `/storage/...` trả 404.
+
+Trên **Laragon Terminal** (PHP host, không phải trong container):
+
+```powershell
+cd C:\laragon\www\apple-store-web-app
+Remove-Item public\storage -Force -ErrorAction SilentlyContinue
+php artisan storage:link
+```
+
+Khuyến nghị: `podman compose stop` (hoặc `docker compose stop`) khi dev bằng Laragon để tránh junction bị ghi đè lại.
+
 ## Lệnh hữu ích
 
 **Podman:**
@@ -459,6 +473,16 @@ php artisan storage:link
 npm run build
 ```
 
+**Reset DB + seed lại** (xóa toàn bộ bảng, chạy migration và `CatalogSeeder` từ đầu — dùng file `.env` Laragon):
+
+```powershell
+cd C:\laragon\www\apple-store-web-app
+php artisan migrate:fresh --seed
+php artisan storage:link
+```
+
+Tương đương `migrate` + `db:seed` nhưng **xóa hết dữ liệu cũ** trước. `storage:link` đảm bảo ảnh demo trong `storage/app/public/products/demo/` phục vụ qua `/storage/...`. Admin demo sau seed: `admin@istore.test` / `password`.
+
 ### Bước 5 — Chạy
 
 1. Laragon → **Start All** (Apache/Nginx + MySQL).
@@ -490,6 +514,17 @@ Có file dump tại `[todo/script.sql](todo/script.sql)`:
 ```powershell
 mysql -u root apple_store < todo\script.sql
 ```
+
+### Lỗi thường gặp (Laragon)
+
+
+| Triệu chứng | Cách xử lý |
+| ----------- | ---------- |
+| Ảnh sản phẩm không hiện (placeholder hoặc 404 `/storage/...`) | Chạy `php artisan storage:link`. Nếu vừa dùng Podman/Docker: xóa `public\storage` rồi chạy lại `storage:link` (xem [mục Docker](#podman--docker-chậm-trên-windows)) |
+| `Vite manifest not found` | Chạy `npm run build` hoặc `npm run dev` |
+| Hostname `.test` không mở được | Laragon → **Menu → Reload**; kiểm tra **Start All** |
+| Lỗi kết nối MySQL | Kiểm tra MySQL đã chạy; `DB_HOST=127.0.0.1`, `DB_PASSWORD` đúng trong `.env` |
+| CSS/JS không load | `APP_URL` phải khớp `http://apple-store-web-app.test` |
 
 ---
 
