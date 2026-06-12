@@ -18,7 +18,7 @@
         data-home-showcase
         data-carousel-mode="slides"
         data-carousel-loop="true"
-        data-autoplay-ms="5000"
+        data-autoplay-ms="3000"
         tabindex="0"
         aria-roledescription="carousel"
         aria-label="Sản phẩm nổi bật"
