@@ -96,8 +96,7 @@ class CatalogSeeder extends Seeder
         $definitions = [
             ['name' => 'iPhone', 'slug' => 'iphone', 'sort_order' => 1],
             ['name' => 'iPad', 'slug' => 'ipad', 'sort_order' => 2],
-            ['name' => 'iPod', 'slug' => 'ipod', 'sort_order' => 3],
-            ['name' => 'Phụ kiện sạc', 'slug' => 'phu-kien-sac', 'sort_order' => 4],
+            ['name' => 'Phụ kiện', 'slug' => 'phu-kien', 'sort_order' => 3],
         ];
 
         foreach ($definitions as $definition) {
@@ -119,9 +118,9 @@ class CatalogSeeder extends Seeder
             ['category' => 'ipad', 'name' => 'iPad', 'slug' => 'ipad', 'release_year' => 2022],
             ['category' => 'ipad', 'name' => 'iPad Air', 'slug' => 'ipad-air', 'release_year' => 2024],
             ['category' => 'ipad', 'name' => 'iPad Pro', 'slug' => 'ipad-pro', 'release_year' => 2024],
-            ['category' => 'ipod', 'name' => 'iPod touch', 'slug' => 'ipod-touch', 'release_year' => 2019],
-            ['category' => 'phu-kien-sac', 'name' => 'USB-C Chargers', 'slug' => 'usb-c-chargers', 'release_year' => 2023],
-            ['category' => 'phu-kien-sac', 'name' => 'Charging Cables', 'slug' => 'charging-cables', 'release_year' => 2023],
+            ['category' => 'phu-kien', 'name' => 'USB-C Chargers', 'slug' => 'usb-c-chargers', 'release_year' => 2023],
+            ['category' => 'phu-kien', 'name' => 'Charging Cables', 'slug' => 'charging-cables', 'release_year' => 2023],
+            ['category' => 'phu-kien', 'name' => 'AirPods', 'slug' => 'airpods', 'release_year' => 2024],
         ];
 
         foreach ($definitions as $index => $definition) {
@@ -193,11 +192,13 @@ class CatalogSeeder extends Seeder
             ['name' => 'iPad 10.9 inch', 'slug' => 'ipad-10-9', 'series' => 'ipad', 'category' => 'ipad', 'featured' => false, 'year' => 2022],
             ['name' => 'iPad Air M2', 'slug' => 'ipad-air-m2', 'series' => 'ipad-air', 'category' => 'ipad', 'featured' => true, 'year' => 2024],
             ['name' => 'iPad Pro 11 inch M4', 'slug' => 'ipad-pro-11-m4', 'series' => 'ipad-pro', 'category' => 'ipad', 'featured' => true, 'year' => 2024],
-            ['name' => 'iPod touch (thế hệ 7)', 'slug' => 'ipod-touch-gen-7', 'series' => 'ipod-touch', 'category' => 'ipod', 'featured' => false, 'year' => 2019],
-            ['name' => 'Apple 20W USB-C Power Adapter', 'slug' => 'apple-20w-usb-c-adapter', 'series' => 'usb-c-chargers', 'category' => 'phu-kien-sac', 'featured' => true, 'year' => 2023],
-            ['name' => 'Apple 30W USB-C Power Adapter', 'slug' => 'apple-30w-usb-c-adapter', 'series' => 'usb-c-chargers', 'category' => 'phu-kien-sac', 'featured' => false, 'year' => 2023],
-            ['name' => 'Cáp USB-C sang Lightning 1m', 'slug' => 'usb-c-to-lightning-1m', 'series' => 'charging-cables', 'category' => 'phu-kien-sac', 'featured' => false, 'year' => 2023],
-            ['name' => 'Cáp USB-C 1m', 'slug' => 'usb-c-cable-1m', 'series' => 'charging-cables', 'category' => 'phu-kien-sac', 'featured' => false, 'year' => 2023],
+            ['name' => 'Apple 20W USB-C Power Adapter', 'slug' => 'apple-20w-usb-c-adapter', 'series' => 'usb-c-chargers', 'category' => 'phu-kien', 'featured' => true, 'year' => 2023],
+            ['name' => 'Apple 30W USB-C Power Adapter', 'slug' => 'apple-30w-usb-c-adapter', 'series' => 'usb-c-chargers', 'category' => 'phu-kien', 'featured' => false, 'year' => 2023],
+            ['name' => 'Cáp USB-C sang Lightning 1m', 'slug' => 'usb-c-to-lightning-1m', 'series' => 'charging-cables', 'category' => 'phu-kien', 'featured' => false, 'year' => 2023],
+            ['name' => 'Cáp USB-C 1m', 'slug' => 'usb-c-cable-1m', 'series' => 'charging-cables', 'category' => 'phu-kien', 'featured' => false, 'year' => 2023],
+            ['name' => 'AirPods (thế hệ 3)', 'slug' => 'airpods-3', 'series' => 'airpods', 'category' => 'phu-kien', 'featured' => false, 'year' => 2021],
+            ['name' => 'AirPods Pro (thế hệ 2)', 'slug' => 'airpods-pro-2', 'series' => 'airpods', 'category' => 'phu-kien', 'featured' => true, 'year' => 2022],
+            ['name' => 'AirPods Max', 'slug' => 'airpods-max', 'series' => 'airpods', 'category' => 'phu-kien', 'featured' => false, 'year' => 2020],
         ];
 
         foreach ($definitions as $definition) {
@@ -227,7 +228,6 @@ class CatalogSeeder extends Seeder
             'ipad-10-9' => 'ipad-10-9-blue.webp',
             'ipad-air-m2' => 'ipad-air-m2-blue.webp',
             'ipad-pro-11-m4' => 'ipad-pro-11-m4-black.webp',
-            'ipod-touch-gen-7' => 'ipod-touch-gen-7-blue.webp',
             'apple-20w-usb-c-adapter' => 'apple-20w-usb-c-adapter.webp',
             'apple-30w-usb-c-adapter' => 'apple-30w-usb-c-adapter.webp',
             'usb-c-to-lightning-1m' => 'usb-c-to-lightning-1m.webp',
@@ -238,7 +238,8 @@ class CatalogSeeder extends Seeder
             'iphone-16-pro', 'iphone-16-pro-max' => ['Chip A18 Pro', 'Camera Fusion 48MP', 'Khung titanium', 'USB-C'],
             'iphone-16', 'iphone-15', 'iphone-15-pro' => ['Hiệu năng mạnh mẽ', 'Camera nâng cấp', 'Pin bền', 'iOS mới nhất'],
             'ipad-air-m2', 'ipad-pro-11-m4', 'ipad-10-9' => ['Màn hình sắc nét', 'Hỗ trợ Apple Pencil', 'Pin cả ngày', 'iPadOS'],
-            'ipod-touch-gen-7' => ['Nghe nhạc mọi lúc', 'App Store', 'Nhỏ gọn', 'Wi-Fi'],
+            'airpods-3', 'airpods-pro-2' => ['Âm thanh không gian', 'Chống ồn chủ động', 'Pin lâu', 'Hộp sạc MagSafe'],
+            'airpods-max' => ['Tai nghe over-ear', 'Chống ồn cao cấp', 'Âm thanh không gian', 'Pin 20 giờ'],
             default => ['Chính hãng Apple', 'Bảo hành cửa hàng', 'Phù hợp đồ án', 'Giao hàng toàn quốc'],
         };
 
@@ -280,7 +281,6 @@ class CatalogSeeder extends Seeder
             ['slug' => 'ipad-10-9', 'file' => 'ipad-10-9-blue.webp', 'alt' => 'iPad 10.9 inch màu xanh dương'],
             ['slug' => 'ipad-air-m2', 'file' => 'ipad-air-m2-blue.webp', 'alt' => 'iPad Air M2 màu xanh dương'],
             ['slug' => 'ipad-pro-11-m4', 'file' => 'ipad-pro-11-m4-black.webp', 'alt' => 'iPad Pro 11 inch M4 màu đen'],
-            ['slug' => 'ipod-touch-gen-7', 'file' => 'ipod-touch-gen-7-blue.webp', 'alt' => 'iPod touch thế hệ 7 màu xanh dương'],
             ['slug' => 'apple-20w-usb-c-adapter', 'file' => 'apple-20w-usb-c-adapter.webp', 'alt' => 'Củ sạc Apple 20W USB-C'],
             ['slug' => 'apple-30w-usb-c-adapter', 'file' => 'apple-30w-usb-c-adapter.webp', 'alt' => 'Củ sạc Apple 30W USB-C'],
             ['slug' => 'usb-c-to-lightning-1m', 'file' => 'usb-c-to-lightning-1m.webp', 'alt' => 'Cáp USB-C sang Lightning 1m'],
@@ -365,20 +365,6 @@ class CatalogSeeder extends Seeder
             }
         }
 
-        $ipod = $this->findProductBySlug('ipod-touch-gen-7');
-        foreach ([64, 128] as $index => $storageGb) {
-            $storage = $this->storages[$storageGb];
-            $this->variants[] = $this->createVariant(
-                product: $ipod,
-                sku: 'IPOD-'.strtoupper((string) $storageGb),
-                color: $this->colors['blue'],
-                storage: $storage,
-                salePrice: 6_990_000 + ($index * 1_000_000),
-                originalPrice: null,
-                stock: fake()->numberBetween(2, 10),
-            );
-        }
-
         $accessoryVariants = [
             ['product' => 'apple-20w-usb-c-adapter', 'sku' => 'CHG20W-WHT', 'price' => 490_000, 'color' => 'white'],
             ['product' => 'apple-30w-usb-c-adapter', 'sku' => 'CHG30W-WHT', 'price' => 790_000, 'color' => 'white'],
@@ -395,6 +381,36 @@ class CatalogSeeder extends Seeder
                 salePrice: $accessory['price'],
                 originalPrice: null,
                 stock: fake()->numberBetween(20, 100),
+            );
+        }
+
+        $airpodsVariants = [
+            ['product' => 'airpods-3', 'sku' => 'APOD3-WHT', 'price' => 4_290_000, 'color' => 'white'],
+            ['product' => 'airpods-pro-2', 'sku' => 'APODP2-WHT', 'price' => 5_990_000, 'color' => 'white'],
+        ];
+
+        foreach ($airpodsVariants as $airpods) {
+            $this->variants[] = $this->createVariant(
+                product: $this->findProductBySlug($airpods['product']),
+                sku: $airpods['sku'],
+                color: $this->colors[$airpods['color']],
+                storage: null,
+                salePrice: $airpods['price'],
+                originalPrice: null,
+                stock: fake()->numberBetween(15, 50),
+            );
+        }
+
+        $airpodsMax = $this->findProductBySlug('airpods-max');
+        foreach (['black', 'white', 'blue', 'pink', 'green'] as $colorSlug) {
+            $this->variants[] = $this->createVariant(
+                product: $airpodsMax,
+                sku: 'APODMAX-'.$this->colorSkuCode($colorSlug),
+                color: $this->colors[$colorSlug],
+                storage: null,
+                salePrice: 12_990_000,
+                originalPrice: 13_990_000,
+                stock: fake()->numberBetween(5, 20),
             );
         }
     }

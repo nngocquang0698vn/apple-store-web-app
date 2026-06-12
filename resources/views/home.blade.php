@@ -11,7 +11,7 @@
                     Cửa hàng điện thoại Apple cho đồ án web
                 </h1>
                 <p class="mt-4 text-base text-gray-600">
-                    Khám phá iPhone, iPad, iPod và phụ kiện sạc chính hãng. Tìm kiếm, lọc theo màu sắc
+                    Khám phá iPhone, iPad và phụ kiện chính hãng. Tìm kiếm, lọc theo màu sắc
                     và dung lượng, thêm vào giỏ và đặt hàng COD ngay trên website.
                 </p>
                 <div class="mt-6">

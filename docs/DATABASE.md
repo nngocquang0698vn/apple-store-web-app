@@ -344,13 +344,13 @@ Chạy: `php artisan migrate:fresh --seed` (+ `php artisan storage:link` cho ả
 |---|---:|---|
 | Admin | 1 | `admin@istore.test` / `password` |
 | Khách hàng | 5 | `customer1@istore.test` … `customer5@istore.test` |
-| Categories | 4 | iPhone, iPad, iPod, Phụ kiện sạc |
-| Product series | 8 | iPhone 15/16, iPad, iPad Air/Pro, iPod, chargers, cables |
+| Categories | 3 | iPhone, iPad, Phụ kiện |
+| Product series | 7 | iPhone 15/16, iPad, iPad Air/Pro, chargers, cables |
 | Colors | 10 | Đen, Trắng, Titanium, … |
 | Storage options | 5 | 64 GB → 1 TB |
-| Products | 13 | 5 iPhone, 3 iPad, 1 iPod, 4 phụ kiện |
+| Products | 12 | 5 iPhone, 3 iPad, 4 phụ kiện |
 | Product images | ≤ 13 | Bỏ qua nếu file demo không có trong `storage/app/public/products/demo/` |
-| Product variants | ~105 | iPhone × màu × dung lượng + iPad + iPod + phụ kiện |
+| Product variants | ~100 | iPhone × màu × dung lượng + iPad + phụ kiện |
 | Orders | 10 | 2 mỗi trạng thái: pending, confirmed, shipping, completed, cancelled |
 
 **Mô tả sản phẩm seed:** HTML tương thích Quill (heading, list, bảng thông số, ảnh demo, YouTube trên iPhone 16 Pro và iPad Air M2).

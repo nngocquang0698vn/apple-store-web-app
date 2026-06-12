@@ -2,7 +2,7 @@
 
 ## Project identity
 
-This repository contains a university web development project: a server-side rendered e-commerce website specializing in Apple products, including iPhone, iPad, iPod, and charging accessories.
+This repository contains a university web development project: a server-side rendered e-commerce website specializing in Apple products, including iPhone, iPad, and accessories.
 
 The canonical project documents are:
 
@@ -79,7 +79,7 @@ The MVP includes:
 
 - Customer and administrator roles
 - Authentication and profile management
-- Product catalog for iPhone, iPad, iPod, and charging accessories
+- Product catalog for iPhone, iPad, and accessories
 - Product variants by color and storage
 - Product search
 - Product filtering and sorting
@@ -149,8 +149,8 @@ The only storefront currency is Vietnamese đồng.
 
 ## Product catalog rules
 
-- A product is a model such as `iPhone 16 Pro`, `iPad Air`, `iPod touch`, or `Apple 20W USB-C Power Adapter`.
-- A product variant is the purchasable unit. Color and storage are optional because charging accessories may not have storage.
+- A product is a model such as `iPhone 16 Pro`, `iPad Air`, or `Apple 20W USB-C Power Adapter`.
+- A product variant is the purchasable unit. Color and storage are optional because accessories may not have storage.
 - Cart items reference product variants, not products.
 - SKU must be unique.
 - Product slugs must be unique.

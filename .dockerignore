@@ -8,6 +8,7 @@
 .env
 .env.*
 !.env.docker.example
+!.env.docker
 node_modules
 vendor
 public/build
@@ -27,3 +28,4 @@ mcps
 assets
 README.md
 docker-compose.override.yml
+compose.yaml

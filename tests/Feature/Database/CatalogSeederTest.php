@@ -35,7 +35,7 @@ class CatalogSeederTest extends TestCase
 
     public function test_catalog_seeder_creates_demo_catalog(): void
     {
-        $this->assertGreaterThanOrEqual(4, Category::query()->count());
+        $this->assertGreaterThanOrEqual(3, Category::query()->count());
         $this->assertGreaterThanOrEqual(10, Product::query()->count());
         $this->assertGreaterThanOrEqual(8, Color::query()->count());
         $this->assertSame(5, StorageOption::query()->count());
@@ -56,8 +56,8 @@ class CatalogSeederTest extends TestCase
 
         $this->assertContains('iphone', $slugs);
         $this->assertContains('ipad', $slugs);
-        $this->assertContains('ipod', $slugs);
-        $this->assertContains('phu-kien-sac', $slugs);
+        $this->assertContains('phu-kien', $slugs);
+        $this->assertNotContains('ipod', $slugs);
     }
 
     public function test_catalog_seeder_does_not_fail_when_demo_images_are_missing(): void
@@ -71,8 +71,8 @@ class CatalogSeederTest extends TestCase
             $this->markTestSkipped('Demo product images are not present in storage/app/public/products/demo.');
         }
 
-        $this->assertSame(13, ProductImage::query()->count());
-        $this->assertSame(13, ProductImage::query()->where('is_primary', true)->count());
+        $this->assertSame(12, ProductImage::query()->count());
+        $this->assertSame(12, ProductImage::query()->where('is_primary', true)->count());
 
         $iphone16 = Product::query()->where('slug', 'iphone-16')->firstOrFail();
         $image = ProductImage::query()

@@ -4,7 +4,7 @@
 
 ### 1.1. Tên đề tài
 
-Xây dựng website bán sản phẩm Apple, gồm iPhone, iPad, iPod và phụ kiện sạc.
+Xây dựng website bán sản phẩm Apple, gồm iPhone, iPad và phụ kiện.
 
 Tên thương hiệu sử dụng trong đồ án có thể là `iStore`, `Apple Phone Store` hoặc một tên trung tính khác. Đây là website phục vụ mục đích học tập, không tự nhận là cửa hàng Apple chính thức.
 
@@ -14,7 +14,7 @@ Internet và Công nghệ Web.
 
 ### 1.3. Mô tả
 
-Hệ thống là một website thương mại điện tử quy mô nhỏ chuyên bán iPhone, iPad, iPod và phụ kiện sạc. Website cho phép khách hàng tìm kiếm, lọc, xem sản phẩm, chọn biến thể màu sắc và dung lượng, thêm vào giỏ hàng, đặt hàng COD và theo dõi đơn hàng.
+Hệ thống là một website thương mại điện tử quy mô nhỏ chuyên bán iPhone, iPad và phụ kiện. Website cho phép khách hàng tìm kiếm, lọc, xem sản phẩm, chọn biến thể màu sắc và dung lượng, thêm vào giỏ hàng, đặt hàng COD và theo dõi đơn hàng.
 
 Quản trị viên có thể quản lý danh mục, dòng sản phẩm, sản phẩm, hình ảnh, biến thể, tồn kho, khách hàng và đơn hàng.
 
@@ -239,8 +239,7 @@ Danh mục chính:
 
 - iPhone.
 - iPad.
-- iPod.
-- Phụ kiện sạc.
+- Phụ kiện (sạc, cáp).
 
 Có thể mở rộng thêm phụ kiện sau khi MVP ổn định.
 
@@ -253,13 +252,12 @@ Ví dụ:
 - iPad Series.
 - iPad Air Series.
 - iPad Pro Series.
-- iPod Series.
 - USB-C Chargers.
 - Charging Cables.
 
 #### Sản phẩm
 
-Sản phẩm là model chung, ví dụ `iPhone 16 Pro`, `iPad Air`, `iPod touch` hoặc `Apple 20W USB-C Power Adapter`.
+Sản phẩm là model chung, ví dụ `iPhone 16 Pro`, `iPad Air` hoặc `Apple 20W USB-C Power Adapter`.
 
 Thông tin:
 
@@ -293,10 +291,9 @@ Ví dụ:
 
 - iPhone 16 Pro / Black / 128 GB.
 - iPad Air / Blue / 256 GB.
-- iPod touch / Pink / 128 GB.
 - Apple 20W USB-C Power Adapter / White.
 
-Phụ kiện sạc có thể không có dung lượng. `storage_option_id` được phép null.
+Phụ kiện có thể không có dung lượng. `storage_option_id` được phép null.
 
 Thông tin:
 
@@ -856,7 +853,7 @@ Admin không được xem mật khẩu.
 ## 18. Kịch bản demo
 
 1. Mở trang chủ.
-2. Tìm `iPhone 16`, `iPad` hoặc phụ kiện sạc.
+2. Tìm `iPhone 16`, `iPad` hoặc phụ kiện.
 3. Lọc 256 GB, một màu và khoảng giá.
 4. Sắp xếp giá tăng dần.
 5. Mở sản phẩm.

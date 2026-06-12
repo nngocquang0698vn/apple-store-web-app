@@ -1,6 +1,6 @@
 {
   "project": "Apple Store Cursor Kit",
-  "scope": "Laravel Blade SSR, MySQL, Tailwind CSS, jQuery, Font Awesome Free, iPhone/iPad/iPod/charging accessories, VND, dynamic cart and checkout, COD, admin",
+  "scope": "Laravel Blade SSR, MySQL, Tailwind CSS, jQuery, Font Awesome Free, iPhone/iPad/accessories, VND, dynamic cart and checkout, COD, admin",
   "excluded": [
     "reviews",
     "comments",

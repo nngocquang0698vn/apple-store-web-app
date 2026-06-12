@@ -7,7 +7,7 @@
         <div class="mb-4 lg:mb-6">
             <h1 class="text-2xl font-bold text-gray-900">Sản phẩm</h1>
             <p class="mt-2 text-sm text-gray-600">
-                Khám phá iPhone, iPad, iPod và phụ kiện sạc chính hãng.
+                Khám phá iPhone, iPad và phụ kiện chính hãng (sạc, cáp, AirPods).
             </p>
         </div>
 

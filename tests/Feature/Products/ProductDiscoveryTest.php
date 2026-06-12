@@ -153,7 +153,7 @@ class ProductDiscoveryTest extends TestCase
             ->update(['stock_quantity' => 0]);
 
         $response = $this->get(route('products.index', [
-            'category' => 'phu-kien-sac',
+            'category' => 'phu-kien',
             'in_stock' => 1,
         ]));
 
@@ -167,7 +167,7 @@ class ProductDiscoveryTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('/products/iphone-16-pro', false);
-        $response->assertDontSee('/products/ipod-touch-gen-7', false);
+        $response->assertDontSee('/products/ipad-10-9', false);
     }
 
     public function test_combined_filters(): void
@@ -188,7 +188,7 @@ class ProductDiscoveryTest extends TestCase
     public function test_sort_by_price_ascending(): void
     {
         $response = $this->get(route('products.index', [
-            'category' => 'phu-kien-sac',
+            'category' => 'phu-kien',
             'sort' => 'price_asc',
         ]));
 
@@ -276,6 +276,17 @@ class ProductDiscoveryTest extends TestCase
         $queryCount = count(DB::getQueryLog());
 
         $this->assertLessThanOrEqual(20, $queryCount);
+    }
+
+    public function test_accessories_category_includes_airpods(): void
+    {
+        $response = $this->get(route('products.index', ['category' => 'phu-kien']));
+
+        $response->assertOk();
+        $response->assertSee('/products/airpods-3', false);
+        $response->assertSee('/products/airpods-pro-2', false);
+        $response->assertSee('/products/airpods-max', false);
+        $response->assertSee('AirPods Pro (thế hệ 2)', false);
     }
 
     public function test_products_are_not_duplicated_when_multiple_variants_match(): void

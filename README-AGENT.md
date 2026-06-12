@@ -10,7 +10,7 @@ Bộ tài liệu này dùng để hướng dẫn Cursor xây dựng đồ án we
 - JavaScript: jQuery, chỉ dùng để nâng cấp trải nghiệm.
 - Có khu vực khách hàng và quản trị viên.
 - Có tìm kiếm, lọc, sắp xếp và phân trang sản phẩm.
-- Danh mục chính gồm iPhone, iPad, iPod và phụ kiện sạc.
+- Danh mục chính gồm iPhone, iPad và phụ kiện.
 - Giá được lưu và hiển thị bằng Việt Nam đồng.
 - Font Awesome Free được dùng cho icon giao diện phù hợp.
 - Giỏ hàng lưu bằng session.

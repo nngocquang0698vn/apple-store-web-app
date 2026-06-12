@@ -16,7 +16,7 @@ Giao diện:
 
 Khách hàng phải dễ:
 
-- Nhận biết cửa hàng bán iPhone, iPad, iPod và phụ kiện sạc.
+- Nhận biết cửa hàng bán iPhone, iPad và phụ kiện.
 - Tìm sản phẩm.
 - Truy cập danh mục.
 - Hiểu giá và biến thể.
@@ -343,7 +343,7 @@ Thứ tự đề xuất:
 
 1. Header có search và cart.
 2. Hero hoặc thông điệp chính.
-3. Danh mục iPhone, iPad, iPod và phụ kiện sạc.
+3. Danh mục iPhone, iPad và phụ kiện.
 4. Sản phẩm nổi bật.
 5. Sản phẩm mới.
 6. Chính sách giao hàng và bảo hành.

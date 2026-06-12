@@ -101,7 +101,7 @@ Acceptance:
 - Factories.
 - Seeders.
 - Admin account.
-- Demo catalog có iPhone, iPad, iPod và phụ kiện sạc.
+- Demo catalog có iPhone, iPad và phụ kiện.
 - Seed data fallback được khi chưa có ảnh demo thật.
 
 Acceptance:
@@ -473,7 +473,7 @@ Không cần chart nếu thiếu thời gian.
 ## UX checklist cuối
 
 - Search, account và cart dễ thấy.
-- Navigation có iPhone, iPad, iPod và phụ kiện sạc.
+- Navigation có iPhone, iPad và phụ kiện.
 - Icon có accessible label khi cần.
 - Giá hiển thị VNĐ nhất quán.
 - Cart và checkout cập nhật động.

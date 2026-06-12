@@ -8,7 +8,7 @@ Tài liệu này dành cho người giúp đỡ **tìm hoặc chuẩn bị ảnh
 
 ## 1. Bối cảnh
 
-- Website đã có **13 sản phẩm** (iPhone, iPad, iPod, phụ kiện sạc) trong database.
+- Website đã có **12 sản phẩm** (iPhone, iPad, phụ kiện) trong database.
 - Bảng `product_images` hiện **chưa có dữ liệu** → mọi sản phẩm đang dùng **placeholder SVG** tại `public/images/placeholders/product-placeholder.svg`.
 - Mục tiêu: thêm **ảnh demo cục bộ** (giai đoạn 2 trong IMAGE_STRATEGY) để trang danh sách và chi tiết sản phẩm trông thật hơn.
 - **Không** dán link ảnh từ website ngoài vào code hoặc database.
@@ -131,7 +131,7 @@ hoặc
 
 ## 5. Danh sách ảnh cần có
 
-### 5.1. Mức tối thiểu (13 ảnh — một ảnh / sản phẩm)
+### 5.1. Mức tối thiểu (12 ảnh — một ảnh / sản phẩm)
 
 | # | Sản phẩm | `product-slug` | Tên file gợi ý |
 |---|----------|----------------|----------------|
@@ -143,11 +143,10 @@ hoặc
 | 6 | iPad 10.9 inch | `ipad-10-9` | `ipad-10-9-blue.webp` |
 | 7 | iPad Air M2 | `ipad-air-m2` | `ipad-air-m2-blue.webp` |
 | 8 | iPad Pro 11 inch M4 | `ipad-pro-11-m4` | `ipad-pro-11-m4-black.webp` |
-| 9 | iPod touch (thế hệ 7) | `ipod-touch-gen-7` | `ipod-touch-gen-7-blue.webp` |
-| 10 | Apple 20W USB-C | `apple-20w-usb-c-adapter` | `apple-20w-usb-c-adapter.webp` |
-| 11 | Apple 30W USB-C | `apple-30w-usb-c-adapter` | `apple-30w-usb-c-adapter.webp` |
-| 12 | Cáp USB-C sang Lightning 1m | `usb-c-to-lightning-1m` | `usb-c-to-lightning-1m.webp` |
-| 13 | Cáp USB-C 1m | `usb-c-cable-1m` | `usb-c-cable-1m.webp` |
+| 9 | Apple 20W USB-C | `apple-20w-usb-c-adapter` | `apple-20w-usb-c-adapter.webp` |
+| 10 | Apple 30W USB-C | `apple-30w-usb-c-adapter` | `apple-30w-usb-c-adapter.webp` |
+| 11 | Cáp USB-C sang Lightning 1m | `usb-c-to-lightning-1m` | `usb-c-to-lightning-1m.webp` |
+| 12 | Cáp USB-C 1m | `usb-c-cable-1m` | `usb-c-cable-1m.webp` |
 
 ### 5.2. Mức tốt hơn (ảnh theo màu — iPhone)
 

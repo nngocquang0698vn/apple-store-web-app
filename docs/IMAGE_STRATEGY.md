@@ -232,4 +232,4 @@ Không để seeder thất bại chỉ vì thiếu file ảnh demo.
 
 MVP chỉ bắt buộc một placeholder chung.
 
-Sau này có thể bổ sung placeholder cho iPhone, iPad, iPod và phụ kiện sạc nếu thực sự giúp UX. Cursor không tự tạo thêm trước khi có nhu cầu rõ ràng.
+Sau này có thể bổ sung placeholder cho iPhone, iPad và phụ kiện nếu thực sự giúp UX. Cursor không tự tạo thêm trước khi có nhu cầu rõ ràng.

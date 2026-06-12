@@ -1,0 +1,45 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      # Dùng .env.docker trong container; giữ .env Laragon trên máy host không đổi
+      - ./.env.docker:/var/www/html/.env
+      # Cache riêng trong container — không ghi đè bootstrap/cache của Laragon
+      - app_bootstrap_cache:/var/www/html/bootstrap/cache
+    env_file:
+      - .env.docker
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: apple_store
+      MYSQL_USER: apple_store
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root_secret
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin:5
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root_secret
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
+  app_bootstrap_cache:
