@@ -20,7 +20,7 @@ class CartTest extends TestCase
 
     public function test_guest_can_add_item_to_cart(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
 
         $response = $this->post(route('cart.items.store'), [
             'variant_id' => $variant->id,
@@ -35,7 +35,7 @@ class CartTest extends TestCase
 
     public function test_adding_same_variant_merges_quantity(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['stock_quantity' => 10]);
 
         $this->post(route('cart.items.store'), [
@@ -53,7 +53,7 @@ class CartTest extends TestCase
 
     public function test_cannot_add_more_than_stock(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['stock_quantity' => 2]);
 
         $response = $this->from(route('products.show', $variant->product))
@@ -69,7 +69,7 @@ class CartTest extends TestCase
 
     public function test_cannot_add_inactive_variant(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['is_active' => false]);
 
         $response = $this->post(route('cart.items.store'), [
@@ -83,7 +83,7 @@ class CartTest extends TestCase
 
     public function test_client_submitted_price_is_ignored(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['stock_quantity' => 5, 'sale_price' => 25_990_000]);
 
         $this->post(route('cart.items.store'), [
@@ -102,7 +102,7 @@ class CartTest extends TestCase
 
     public function test_cart_index_shows_items_and_subtotal(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['stock_quantity' => 5, 'sale_price' => 10_000_000]);
 
         app(CartService::class)->add($variant->id, 2);
@@ -111,7 +111,7 @@ class CartTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('iPhone 16 Pro', false);
-        $response->assertSee('IP16P-BLK-128', false);
+        $response->assertSee('IP16P-BTI-128', false);
         $response->assertSee('20.000.000', false);
         $response->assertSee('data-cart-badge', false);
         $response->assertSee('2 sản phẩm trong giỏ', false);
@@ -119,7 +119,7 @@ class CartTest extends TestCase
 
     public function test_can_update_cart_item_quantity(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['stock_quantity' => 5]);
 
         app(CartService::class)->add($variant->id, 1);
@@ -135,7 +135,7 @@ class CartTest extends TestCase
 
     public function test_can_remove_cart_item(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['stock_quantity' => 5]);
 
         app(CartService::class)->add($variant->id, 2);
@@ -148,7 +148,7 @@ class CartTest extends TestCase
 
     public function test_can_clear_cart(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['stock_quantity' => 5]);
 
         app(CartService::class)->add($variant->id, 2);

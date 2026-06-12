@@ -1,0 +1,346 @@
+{
+    "iphone-15": [
+        {
+            "file": "iphone-15-black.webp",
+            "alt": "iPhone 15 màu đen",
+            "primary": true
+        },
+        {
+            "file": "iphone-15-pink.webp",
+            "alt": "iPhone 15 màu hồng",
+            "primary": false
+        },
+        {
+            "file": "iphone-15-blue.webp",
+            "alt": "iPhone 15 màu xanh dương",
+            "primary": false
+        },
+        {
+            "file": "iphone-15-view-1.webp",
+            "alt": "iPhone 15 góc chụp 1",
+            "primary": false
+        },
+        {
+            "file": "iphone-15-view-2.webp",
+            "alt": "iPhone 15 góc chụp 2",
+            "primary": false
+        },
+        {
+            "file": "iphone-15-view-3.webp",
+            "alt": "iPhone 15 góc chụp 3",
+            "primary": false
+        }
+    ],
+    "iphone-15-pro": [
+        {
+            "file": "iphone-15-pro-natural-titanium.webp",
+            "alt": "iPhone 15 Pro màu Titanium tự nhiên",
+            "primary": true
+        },
+        {
+            "file": "iphone-15-pro-black-titanium.webp",
+            "alt": "iPhone 15 Pro màu Titanium đen",
+            "primary": false
+        },
+        {
+            "file": "iphone-15-pro-white-titanium.webp",
+            "alt": "iPhone 15 Pro màu Titanium trắng",
+            "primary": false
+        },
+        {
+            "file": "iphone-15-pro-view-1.webp",
+            "alt": "iPhone 15 Pro góc chụp 1",
+            "primary": false
+        },
+        {
+            "file": "iphone-15-pro-view-2.webp",
+            "alt": "iPhone 15 Pro góc chụp 2",
+            "primary": false
+        },
+        {
+            "file": "iphone-15-pro-view-3.webp",
+            "alt": "iPhone 15 Pro góc chụp 3",
+            "primary": false
+        }
+    ],
+    "iphone-16": [
+        {
+            "file": "iphone-16-black.webp",
+            "alt": "iPhone 16 màu đen",
+            "primary": true
+        },
+        {
+            "file": "iphone-16-pink.webp",
+            "alt": "iPhone 16 màu hồng",
+            "primary": false
+        },
+        {
+            "file": "iphone-16-blue.webp",
+            "alt": "iPhone 16 màu xanh dương",
+            "primary": false
+        },
+        {
+            "file": "iphone-16-view-1.webp",
+            "alt": "iPhone 16 góc chụp 1",
+            "primary": false
+        },
+        {
+            "file": "iphone-16-view-2.webp",
+            "alt": "iPhone 16 góc chụp 2",
+            "primary": false
+        },
+        {
+            "file": "iphone-16-view-3.webp",
+            "alt": "iPhone 16 góc chụp 3",
+            "primary": false
+        }
+    ],
+    "iphone-16-pro": [
+        {
+            "file": "iphone-16-pro-black-titanium.webp",
+            "alt": "iPhone 16 Pro màu Titanium đen",
+            "primary": true
+        },
+        {
+            "file": "iphone-16-pro-natural-titanium.webp",
+            "alt": "iPhone 16 Pro màu Titanium tự nhiên",
+            "primary": false
+        },
+        {
+            "file": "iphone-16-pro-white-titanium.webp",
+            "alt": "iPhone 16 Pro màu Titanium trắng",
+            "primary": false
+        },
+        {
+            "file": "iphone-16-pro-view-1.webp",
+            "alt": "iPhone 16 Pro góc chụp 1",
+            "primary": false
+        },
+        {
+            "file": "iphone-16-pro-view-2.webp",
+            "alt": "iPhone 16 Pro góc chụp 2",
+            "primary": false
+        },
+        {
+            "file": "iphone-16-pro-view-3.webp",
+            "alt": "iPhone 16 Pro góc chụp 3",
+            "primary": false
+        }
+    ],
+    "iphone-16-pro-max": [
+        {
+            "file": "iphone-16-pro-max-black-titanium.webp",
+            "alt": "iPhone 16 Pro Max màu Titanium đen",
+            "primary": true
+        },
+        {
+            "file": "iphone-16-pro-max-natural-titanium.webp",
+            "alt": "iPhone 16 Pro Max màu Titanium tự nhiên",
+            "primary": false
+        },
+        {
+            "file": "iphone-16-pro-max-desert-titanium.webp",
+            "alt": "iPhone 16 Pro Max màu Titanium sa mạc",
+            "primary": false
+        },
+        {
+            "file": "iphone-16-pro-max-view-1.webp",
+            "alt": "iPhone 16 Pro Max góc chụp 1",
+            "primary": false
+        },
+        {
+            "file": "iphone-16-pro-max-view-2.webp",
+            "alt": "iPhone 16 Pro Max góc chụp 2",
+            "primary": false
+        },
+        {
+            "file": "iphone-16-pro-max-view-3.webp",
+            "alt": "iPhone 16 Pro Max góc chụp 3",
+            "primary": false
+        }
+    ],
+    "ipad-10-9": [
+        {
+            "file": "ipad-10-9-blue.webp",
+            "alt": "iPad 10.9 inch màu xanh dương",
+            "primary": true
+        },
+        {
+            "file": "ipad-10-9-pink.webp",
+            "alt": "iPad 10.9 inch màu hồng",
+            "primary": false
+        },
+        {
+            "file": "ipad-10-9-white.webp",
+            "alt": "iPad 10.9 inch màu trắng",
+            "primary": false
+        },
+        {
+            "file": "ipad-10-9-view-1.webp",
+            "alt": "iPad 10.9 inch góc chụp 1",
+            "primary": false
+        }
+    ],
+    "ipad-air-m2": [
+        {
+            "file": "ipad-air-m2-blue.webp",
+            "alt": "iPad Air M2 màu xanh dương",
+            "primary": true
+        },
+        {
+            "file": "ipad-air-m2-purple.webp",
+            "alt": "iPad Air M2 màu tím",
+            "primary": false
+        },
+        {
+            "file": "ipad-air-m2-white.webp",
+            "alt": "iPad Air M2 màu trắng",
+            "primary": false
+        },
+        {
+            "file": "ipad-air-m2-view-1.webp",
+            "alt": "iPad Air M2 góc chụp 1",
+            "primary": false
+        },
+        {
+            "file": "ipad-air-m2-view-2.webp",
+            "alt": "iPad Air M2 góc chụp 2",
+            "primary": false
+        },
+        {
+            "file": "ipad-air-m2-view-3.webp",
+            "alt": "iPad Air M2 góc chụp 3",
+            "primary": false
+        }
+    ],
+    "ipad-pro-11-m4": [
+        {
+            "file": "ipad-pro-11-m4-black.webp",
+            "alt": "iPad Pro 11 inch M4 màu đen",
+            "primary": true
+        },
+        {
+            "file": "ipad-pro-11-m4-white.webp",
+            "alt": "iPad Pro 11 inch M4 màu trắng",
+            "primary": false
+        },
+        {
+            "file": "ipad-pro-11-m4-view-1.webp",
+            "alt": "iPad Pro 11 inch M4 góc chụp 1",
+            "primary": false
+        },
+        {
+            "file": "ipad-pro-11-m4-view-2.webp",
+            "alt": "iPad Pro 11 inch M4 góc chụp 2",
+            "primary": false
+        },
+        {
+            "file": "ipad-pro-11-m4-view-3.webp",
+            "alt": "iPad Pro 11 inch M4 góc chụp 3",
+            "primary": false
+        }
+    ],
+    "apple-20w-usb-c-adapter": [
+        {
+            "file": "apple-20w-usb-c-adapter.webp",
+            "alt": "Apple 20W USB-C Power Adapter",
+            "primary": true
+        },
+        {
+            "file": "apple-20w-usb-c-adapter-view-1.webp",
+            "alt": "Apple 20W USB-C Power Adapter góc chụp 1",
+            "primary": false
+        }
+    ],
+    "apple-30w-usb-c-adapter": [
+        {
+            "file": "apple-30w-usb-c-adapter.webp",
+            "alt": "Apple 30W USB-C Power Adapter",
+            "primary": true
+        },
+        {
+            "file": "apple-30w-usb-c-adapter-view-1.webp",
+            "alt": "Apple 30W USB-C Power Adapter góc chụp 1",
+            "primary": false
+        },
+        {
+            "file": "apple-30w-usb-c-adapter-view-2.webp",
+            "alt": "Apple 30W USB-C Power Adapter góc chụp 2",
+            "primary": false
+        }
+    ],
+    "usb-c-to-lightning-1m": [
+        {
+            "file": "usb-c-to-lightning-1m.webp",
+            "alt": "Cáp USB-C sang Lightning 1m",
+            "primary": true
+        },
+        {
+            "file": "usb-c-to-lightning-1m-view-1.webp",
+            "alt": "Cáp USB-C sang Lightning 1m góc chụp 1",
+            "primary": false
+        },
+        {
+            "file": "usb-c-to-lightning-1m-view-2.webp",
+            "alt": "Cáp USB-C sang Lightning 1m góc chụp 2",
+            "primary": false
+        }
+    ],
+    "usb-c-cable-1m": [],
+    "airpods-3": [
+        {
+            "file": "airpods-3.webp",
+            "alt": "AirPods (thế hệ 3)",
+            "primary": true
+        },
+        {
+            "file": "airpods-3-view-1.webp",
+            "alt": "AirPods (thế hệ 3) góc chụp 1",
+            "primary": false
+        }
+    ],
+    "airpods-pro-2": [
+        {
+            "file": "airpods-pro-2.webp",
+            "alt": "AirPods Pro (thế hệ 2)",
+            "primary": true
+        },
+        {
+            "file": "airpods-pro-2-view-1.webp",
+            "alt": "AirPods Pro (thế hệ 2) góc chụp 1",
+            "primary": false
+        },
+        {
+            "file": "airpods-pro-2-view-2.webp",
+            "alt": "AirPods Pro (thế hệ 2) góc chụp 2",
+            "primary": false
+        },
+        {
+            "file": "airpods-pro-2-view-3.webp",
+            "alt": "AirPods Pro (thế hệ 2) góc chụp 3",
+            "primary": false
+        }
+    ],
+    "airpods-max": [
+        {
+            "file": "airpods-max-black.webp",
+            "alt": "AirPods Max màu đen",
+            "primary": true
+        },
+        {
+            "file": "airpods-max-blue.webp",
+            "alt": "AirPods Max màu xanh dương",
+            "primary": false
+        },
+        {
+            "file": "airpods-max-view-1.webp",
+            "alt": "AirPods Max góc chụp 1",
+            "primary": false
+        },
+        {
+            "file": "airpods-max-view-2.webp",
+            "alt": "AirPods Max góc chụp 2",
+            "primary": false
+        }
+    ]
+}

@@ -14,13 +14,14 @@
                     Khám phá iPhone, iPad và phụ kiện chính hãng. Tìm kiếm, lọc theo màu sắc
                     và dung lượng, thêm vào giỏ và đặt hàng COD ngay trên website.
                 </p>
-                <div class="mt-6">
+                <div class="mt-6 flex flex-wrap items-center gap-3">
                     <a
                         href="{{ route('products.index') }}"
                         class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-5 py-3 text-sm font-medium text-white hover:bg-blue-700"
                     >
                         Xem sản phẩm
                     </a>
+                    <x-admin-shortcut />
                 </div>
             </div>
 

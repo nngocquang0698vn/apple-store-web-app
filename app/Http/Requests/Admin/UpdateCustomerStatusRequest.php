@@ -23,6 +23,17 @@ class UpdateCustomerStatusRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'status.required' => 'Vui lòng chọn trạng thái tài khoản.',
+            'status.in' => 'Trạng thái tài khoản không hợp lệ.',
+        ];
+    }
+
     public function status(): UserStatus
     {
         return UserStatus::from($this->validated('status'));

@@ -37,7 +37,7 @@
                 <img
                     src="{{ $mainSrc }}"
                     alt="{{ $mainAlt }}"
-                    class="h-full w-full object-contain"
+                    class="h-full w-full object-contain transition-opacity duration-200"
                     width="600"
                     height="600"
                     @if ($hasImages) loading="eager" @else loading="lazy" @endif
@@ -72,6 +72,7 @@
                     class="flex gap-3 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                     role="tablist"
                     aria-label="Chọn ảnh xem"
+                    data-carousel-thumbs
                 >
                     @foreach ($imageList as $index => $image)
                         @php

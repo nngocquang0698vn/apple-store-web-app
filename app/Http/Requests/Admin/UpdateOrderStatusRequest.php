@@ -31,6 +31,17 @@ class UpdateOrderStatusRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'status.required' => 'Vui lòng chọn trạng thái đơn hàng.',
+            'status.in' => 'Trạng thái đơn hàng không hợp lệ.',
+        ];
+    }
+
     public function status(): OrderStatus
     {
         return OrderStatus::from($this->validated('status'));

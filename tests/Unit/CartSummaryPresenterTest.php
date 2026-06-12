@@ -21,7 +21,7 @@ class CartSummaryPresenterTest extends TestCase
 
     public function test_presenter_includes_formatted_money_and_items(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['stock_quantity' => 5, 'sale_price' => 12_345_678]);
 
         $cart = app(CartService::class);

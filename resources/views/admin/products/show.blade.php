@@ -4,14 +4,14 @@
 @section('heading', $product->name)
 
 @section('content')
-    <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div class="admin-page-header">
         <div class="text-sm text-gray-600">
             <p>{{ $product->category?->name }} @if ($product->productSeries) / {{ $product->productSeries->name }} @endif</p>
             <p>{{ $product->is_active ? 'Đang hoạt động' : 'Đã tắt' }}{{ $product->is_featured ? ' / Nổi bật' : '' }}</p>
         </div>
-        <div class="flex gap-2">
-            <a href="{{ route('admin.products.variants.index', $product->id) }}" class="rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Biến thể</a>
-            <a href="{{ route('admin.products.edit', $product->id) }}" class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">Sửa sản phẩm</a>
+        <div class="admin-form-actions shrink-0 sm:justify-end">
+            <a href="{{ route('admin.products.variants.index', $product->id) }}" class="admin-btn-secondary px-4 py-2">Biến thể</a>
+            <a href="{{ route('admin.products.edit', $product->id) }}" class="admin-btn-primary">Sửa sản phẩm</a>
         </div>
     </div>
 

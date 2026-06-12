@@ -79,7 +79,7 @@ class ProductFilterRequest extends FormRequest
         $filters = $this->validated();
 
         if (! isset($filters['sort']) || ! in_array($filters['sort'], ProductQuery::SORT_OPTIONS, true)) {
-            $filters['sort'] = 'newest';
+            $filters['sort'] = 'catalog';
         }
 
         $filters['per_page'] = $this->perPage();

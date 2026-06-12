@@ -13,6 +13,7 @@ final class ProductQuery
     public const PER_PAGE_MOBILE = 3;
 
     public const SORT_OPTIONS = [
+        'catalog',
         'newest',
         'price_asc',
         'price_desc',
@@ -176,11 +177,12 @@ final class ProductQuery
     private function applySort(Builder $query, string $sort): void
     {
         match ($sort) {
+            'newest' => $query->orderByDesc('products.created_at'),
             'price_asc' => $query->orderBy('variants_min_sale_price'),
             'price_desc' => $query->orderByDesc('variants_min_sale_price'),
             'name_asc' => $query->orderBy('products.name'),
             'name_desc' => $query->orderByDesc('products.name'),
-            default => $query->orderByDesc('products.created_at'),
+            default => $query->catalogOrder(),
         };
     }
 
@@ -190,6 +192,6 @@ final class ProductQuery
             return $sort;
         }
 
-        return 'newest';
+        return 'catalog';
     }
 }

@@ -285,7 +285,7 @@
                 'lg:col-span-10' => ! $hasSpecRows,
             ])
         >
-            <h2 class="text-lg font-semibold text-gray-900">Mô tả chi tiết</h2>
+            <h2 class="product-detail-section-title">Mô tả chi tiết</h2>
             @if ($product->description)
                 <div class="product-description mt-4 max-w-none text-base leading-7 text-gray-700 md:mt-6">
                     {!! \App\Support\ProductDescriptionSanitizer::prepare($product->description) !!}
@@ -299,7 +299,7 @@
 
         @if ($hasSpecRows)
             <section class="min-w-0 overflow-hidden rounded-2xl border border-gray-200 bg-white p-5 shadow-sm md:p-8 lg:col-span-3">
-                <h2 class="text-lg font-semibold text-gray-900">Thông số kỹ thuật</h2>
+                <h2 class="product-detail-section-title">Thông số kỹ thuật</h2>
                 <dl class="mt-4 divide-y divide-gray-100 overflow-hidden rounded-xl border border-gray-100 bg-gray-50/50">
                     @foreach ($specRows as $row)
                         <div class="px-4 py-3">

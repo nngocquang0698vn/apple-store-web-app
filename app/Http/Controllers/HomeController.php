@@ -26,7 +26,7 @@ class HomeController extends Controller
         $activeVariants = fn (Builder $query): Builder => $query->where('is_active', true);
 
         return Product::query()
-            ->where('is_active', true)
+            ->where('products.is_active', true)
             ->whereHas('images')
             ->whereHas('variants', $activeVariants)
             ->with([
@@ -38,8 +38,7 @@ class HomeController extends Controller
             ])
             ->withMin(['variants' => $activeVariants], 'sale_price')
             ->withMax(['variants' => $activeVariants], 'sale_price')
-            ->orderByDesc('is_featured')
-            ->orderByDesc('release_year')
+            ->catalogOrder()
             ->limit(self::SHOWCASE_LIMIT)
             ->get();
     }

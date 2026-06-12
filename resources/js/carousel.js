@@ -62,6 +62,24 @@ function updateSlideState($root, index) {
     });
 }
 
+function scrollActiveThumbIntoView($root, index) {
+    const $thumb = $root.find(`[data-carousel-thumb][data-index="${index}"]`).first();
+
+    if ($thumb.length === 0) {
+        return;
+    }
+
+    const thumb = $thumb.get(0);
+
+    window.requestAnimationFrame(() => {
+        thumb.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+            inline: 'nearest',
+        });
+    });
+}
+
 function updateGalleryMainImage($root, index) {
     const $thumb = $root.find(`[data-carousel-thumb][data-index="${index}"]`).first();
 
@@ -73,13 +91,35 @@ function updateGalleryMainImage($root, index) {
     const alt = $thumb.data('imageAlt');
     const $mainImage = $root.find('[data-carousel-main-image]');
 
-    if (src) {
-        $mainImage.attr('src', src);
+    if (!src) {
+        return;
     }
 
-    if (alt) {
-        $mainImage.attr('alt', alt);
+    const currentSrc = $mainImage.attr('src');
+
+    if (currentSrc === src) {
+        if (alt) {
+            $mainImage.attr('alt', alt);
+        }
+
+        return;
     }
+
+    window.clearTimeout($mainImage.data('gallerySwapTimer'));
+
+    $mainImage.addClass('opacity-0');
+
+    const timer = window.setTimeout(() => {
+        $mainImage.attr('src', src);
+
+        if (alt) {
+            $mainImage.attr('alt', alt);
+        }
+
+        $mainImage.removeClass('opacity-0');
+    }, 150);
+
+    $mainImage.data('gallerySwapTimer', timer);
 }
 
 function updateIndicator($root, index, count, label) {
@@ -177,6 +217,7 @@ function createCarouselController($root) {
         if (mode === 'gallery') {
             updateGalleryMainImage($root, index);
             updateThumbState($root, index);
+            scrollActiveThumbIntoView($root, index);
         } else {
             updateSlideState($root, index);
             updateThumbState($root, index);

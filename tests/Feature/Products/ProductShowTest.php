@@ -68,7 +68,7 @@ class ProductShowTest extends TestCase
     public function test_color_and_storage_query_params_select_variant(): void
     {
         $variant = ProductVariant::query()
-            ->where('sku', 'IP16P-BLK-256')
+            ->where('sku', 'IP16P-BTI-256')
             ->with(['product', 'color', 'storageOption'])
             ->first();
 
@@ -81,7 +81,7 @@ class ProductShowTest extends TestCase
         ]));
 
         $response->assertOk();
-        $response->assertSee('IP16P-BLK-256', false);
+        $response->assertSee('IP16P-BTI-256', false);
         $response->assertSee((string) number_format($variant->sale_price, 0, ',', '.'), false);
     }
 
@@ -150,7 +150,23 @@ class ProductShowTest extends TestCase
 
     public function test_product_show_hides_gallery_controls_for_single_image(): void
     {
-        $product = Product::query()->where('slug', 'iphone-16-pro')->firstOrFail();
+        $category = Category::factory()->create();
+        $product = Product::factory()->create([
+            'category_id' => $category->id,
+            'slug' => 'san-pham-mot-anh',
+        ]);
+
+        ProductImage::factory()->create([
+            'product_id' => $product->id,
+            'is_primary' => true,
+            'sort_order' => 1,
+        ]);
+
+        ProductVariant::factory()->create([
+            'product_id' => $product->id,
+            'color_id' => Color::query()->value('id'),
+            'storage_option_id' => StorageOption::query()->value('id'),
+        ]);
 
         $response = $this->get(route('products.show', $product));
 
@@ -158,6 +174,22 @@ class ProductShowTest extends TestCase
         $response->assertSee('data-carousel-main-image', false);
         $response->assertDontSee('data-product-gallery', false);
         $response->assertDontSee('Ảnh trước', false);
+    }
+
+    public function test_seeded_product_with_multiple_images_renders_gallery(): void
+    {
+        if (! is_file(storage_path('app/public/products/demo/iphone-16-pro-black-titanium.webp'))) {
+            $this->markTestSkipped('Demo product images are not present.');
+        }
+
+        $product = Product::query()->where('slug', 'iphone-16-pro')->firstOrFail();
+
+        $response = $this->get(route('products.show', $product));
+
+        $response->assertOk();
+        $response->assertSee('data-product-gallery', false);
+        $response->assertSee('data-carousel-thumb', false);
+        $response->assertSee('Apple A18 Pro', false);
     }
 
     public function test_product_show_parses_alternating_specification_lines(): void

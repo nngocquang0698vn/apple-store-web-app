@@ -10,7 +10,8 @@
 @php
     $isMobile = $variant === 'mobile';
     $sortOptions = [
-        'newest' => 'Mới nhất',
+        'catalog' => 'Chuẩn',
+        'newest' => 'Mới thêm gần đây',
         'price_asc' => 'Giá thấp đến cao',
         'price_desc' => 'Giá cao đến thấp',
         'name_asc' => 'Tên A-Z',
@@ -47,7 +48,7 @@
                 class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
             >
                 @foreach ($sortOptions as $value => $label)
-                    <option value="{{ $value }}" @selected(($filters['sort'] ?? 'newest') === $value)>
+                    <option value="{{ $value }}" @selected(($filters['sort'] ?? 'catalog') === $value)>
                         {{ $label }}
                     </option>
                 @endforeach
@@ -84,7 +85,7 @@
         @if (! empty($filters['category']))
             <input type="hidden" name="category" value="{{ $filters['category'] }}">
         @endif
-        <input type="hidden" name="sort" value="{{ $filters['sort'] ?? 'newest' }}">
+        <input type="hidden" name="sort" value="{{ $filters['sort'] ?? 'catalog' }}">
 
         <div>
             <label for="filter-mobile-series" class="block text-sm font-medium text-gray-700">Dòng sản phẩm</label>

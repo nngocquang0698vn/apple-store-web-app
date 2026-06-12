@@ -31,6 +31,8 @@ class ProductDiscoveryTest extends TestCase
         $response->assertOk();
         $response->assertSee('Sản phẩm', false);
         $response->assertSee('iPhone 16 Pro', false);
+        $response->assertSee('Còn hàng', false);
+        $response->assertSee('19.990.000', false);
         $response->assertSee('product-card', false);
         $response->assertSee('lg:grid-cols-3', false);
         $response->assertDontSee('xl:grid-cols-4', false);
@@ -73,11 +75,11 @@ class ProductDiscoveryTest extends TestCase
 
     public function test_search_by_sku(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->first();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->first();
 
         $this->assertNotNull($variant);
 
-        $response = $this->get(route('products.index', ['q' => 'IP16P-BLK-128']));
+        $response = $this->get(route('products.index', ['q' => 'IP16P-BTI-128']));
 
         $response->assertOk();
         $response->assertSee('iPhone 16 Pro', false);
@@ -175,7 +177,7 @@ class ProductDiscoveryTest extends TestCase
         $response = $this->get(route('products.index', [
             'category' => 'iphone',
             'series' => 'iphone-16',
-            'colors' => ['black'],
+            'colors' => ['black', 'black-titanium'],
             'storages' => [256],
             'sort' => 'price_asc',
         ]));

@@ -20,4 +20,15 @@ class ProductImageMoveRequest extends FormRequest
             'direction' => ['required', 'string', 'in:up,down'],
         ];
     }
+
+    /**
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'direction.required' => 'Vui lòng chọn hướng di chuyển ảnh.',
+            'direction.in' => 'Hướng di chuyển ảnh không hợp lệ.',
+        ];
+    }
 }

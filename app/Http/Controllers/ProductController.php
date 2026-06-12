@@ -97,7 +97,7 @@ class ProductController extends Controller
             'selectedVariant' => $selectedVariant,
             'availableStorages' => $availableStorages,
             'primaryImageUrl' => $primaryImageUrl,
-            'variantPayload' => $selector->toClientPayload($primaryImageUrl),
+            'variantPayload' => $selector->toClientPayload($product, $primaryImageUrl),
         ]);
     }
 }

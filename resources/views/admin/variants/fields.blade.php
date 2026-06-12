@@ -1,6 +1,6 @@
 @php($variant = $variant ?? null)
 
-<div class="lg:col-span-2">
+<div class="sm:col-span-2">
     <label class="block text-sm font-medium text-gray-700">SKU</label>
     <input name="sku" value="{{ old('sku', $variant?->sku) }}" class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
     @error('sku') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
@@ -46,8 +46,10 @@
     @error('stock_quantity') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
 </div>
 
-<label class="mt-6 flex items-center gap-2 text-sm text-gray-700">
-    <input type="hidden" name="is_active" value="0">
-    <input type="checkbox" name="is_active" value="1" class="rounded border-gray-300 text-blue-600" @checked((bool) old('is_active', $variant?->is_active ?? true))>
-    Bật
-</label>
+<div class="flex items-end">
+    <label class="flex w-full items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-700">
+        <input type="hidden" name="is_active" value="0">
+        <input type="checkbox" name="is_active" value="1" class="rounded border-gray-300 text-blue-600" @checked((bool) old('is_active', $variant?->is_active ?? true))>
+        Bật
+    </label>
+</div>

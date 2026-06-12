@@ -5,6 +5,7 @@ namespace App\Models;
 use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -74,5 +75,34 @@ class Product extends Model
             ->where($field, $value)
             ->where('is_active', true)
             ->firstOrFail();
+    }
+
+    /**
+     * @param  Builder<Product>  $query
+     * @return Builder<Product>
+     */
+    public function scopeCatalogOrder(Builder $query): Builder
+    {
+        $table = $query->getModel()->getTable();
+        $joins = $query->getQuery()->joins ?? [];
+        $hasCategoryJoin = collect($joins)->contains(
+            static fn ($join): bool => ($join->table ?? '') === 'categories',
+        );
+
+        if (! $hasCategoryJoin) {
+            $query->join('categories', "{$table}.category_id", '=', 'categories.id');
+        }
+
+        $columns = $query->getQuery()->columns;
+
+        if ($columns === null || $columns === ['*']) {
+            $query->select("{$table}.*");
+        }
+
+        return $query
+            ->orderBy('categories.sort_order')
+            ->orderByDesc("{$table}.is_featured")
+            ->orderByDesc("{$table}.release_year")
+            ->orderBy("{$table}.name");
     }
 }

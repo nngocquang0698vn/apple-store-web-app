@@ -93,7 +93,7 @@ function refreshCheckoutSummary(url) {
             }
 
             if (xhr.status === 422) {
-                showFlash(response.message ?? 'Giỏ hàng không hợp lệ.', 'error');
+                showFlash(response.message ?? 'Giỏ hàng không hợp lệ.', 'error', { autoDismiss: false });
 
                 return;
             }

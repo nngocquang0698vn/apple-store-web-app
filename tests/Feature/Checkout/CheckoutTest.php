@@ -177,7 +177,7 @@ class CheckoutTest extends TestCase
 
     private function prepareVariantInCart(int $stock = 10, int $salePrice = 10_000_000, int $quantity = 1): ProductVariant
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update([
             'stock_quantity' => $stock,
             'sale_price' => $salePrice,

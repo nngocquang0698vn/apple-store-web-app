@@ -181,7 +181,7 @@ function handleCartError(xhr, context = {}) {
             }
         }
 
-        showFlash(firstError, 'error');
+        showFlash(firstError, 'error', { autoDismiss: false });
 
         return;
     }

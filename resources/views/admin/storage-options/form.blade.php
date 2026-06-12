@@ -25,7 +25,7 @@
     </label>
 </div>
 
-<div class="flex gap-2">
-    <button type="submit" class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">Lưu</button>
-    <a href="{{ route('admin.storage-options.index') }}" class="rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Hủy</a>
+<div class="admin-form-actions border-t border-gray-100 pt-6">
+    <button type="submit" class="admin-btn-primary">Lưu</button>
+    <a href="{{ route('admin.storage-options.index') }}" class="admin-btn-secondary px-4 py-2">Hủy</a>
 </div>

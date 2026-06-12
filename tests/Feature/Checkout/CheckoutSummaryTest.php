@@ -30,7 +30,7 @@ class CheckoutSummaryTest extends TestCase
 
     public function test_checkout_summary_returns_canonical_totals(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['stock_quantity' => 5, 'sale_price' => 8_000_000]);
 
         app(CartService::class)->add($variant->id, 1);
@@ -51,7 +51,7 @@ class CheckoutSummaryTest extends TestCase
 
     public function test_checkout_summary_returns_conflict_when_stock_changes(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['stock_quantity' => 5]);
 
         app(CartService::class)->add($variant->id, 3);

@@ -22,7 +22,7 @@ class CartServiceTest extends TestCase
 
     public function test_subtotal_uses_database_prices(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['stock_quantity' => 5, 'sale_price' => 12_500_000]);
 
         $cart = app(CartService::class);
@@ -33,7 +33,7 @@ class CartServiceTest extends TestCase
 
     public function test_update_rejects_quantity_above_stock(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['stock_quantity' => 2]);
 
         $cart = app(CartService::class);
@@ -46,7 +46,7 @@ class CartServiceTest extends TestCase
 
     public function test_add_rejects_inactive_product(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         Product::query()->whereKey($variant->product_id)->update(['is_active' => false]);
 
         $this->expectException(ValidationException::class);

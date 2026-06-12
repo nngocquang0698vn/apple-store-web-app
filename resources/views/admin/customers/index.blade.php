@@ -12,40 +12,40 @@
             placeholder="Tìm theo tên, email hoặc số điện thoại"
             class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm sm:max-w-md"
         >
-        <button type="submit" class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
+        <button type="submit" class="admin-btn-primary shrink-0">
             Tìm kiếm
         </button>
     </form>
 
-    <div class="overflow-hidden rounded-lg border border-gray-200 bg-white">
-        <table class="min-w-full divide-y divide-gray-200 text-sm">
-            <thead class="bg-gray-50 text-left text-xs font-semibold uppercase text-gray-500">
+    <div class="admin-table-panel">
+        <div class="admin-table-scroll">
+        <table class="admin-table">
+            <thead>
                 <tr>
-                    <th class="px-4 py-3">Họ tên</th>
-                    <th class="px-4 py-3">Email</th>
-                    <th class="px-4 py-3">Điện thoại</th>
-                    <th class="px-4 py-3">Trạng thái</th>
-                    <th class="px-4 py-3">Đơn hàng</th>
-                    <th class="px-4 py-3 text-right">Thao tác</th>
+                    <th class="admin-th">Họ tên</th>
+                    <th class="admin-th">Email</th>
+                    <th class="admin-th">Điện thoại</th>
+                    <th class="admin-th">Trạng thái</th>
+                    <th class="admin-th">Đơn hàng</th>
+                    <th class="admin-th text-right">Thao tác</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
                 @forelse ($customers as $customer)
                     <tr>
-                        <td class="px-4 py-3 font-medium text-gray-900">{{ $customer->name }}</td>
-                        <td class="px-4 py-3 text-gray-600">{{ $customer->email }}</td>
-                        <td class="px-4 py-3 text-gray-600">{{ $customer->phone }}</td>
-                        <td class="px-4 py-3">
+                        <td class="admin-td font-medium text-gray-900">{{ $customer->name }}</td>
+                        <td class="admin-td text-gray-600">{{ $customer->email }}</td>
+                        <td class="admin-td text-gray-600">{{ $customer->phone }}</td>
+                        <td class="admin-td">
                             <x-user-status-badge :status="$customer->status" />
                         </td>
-                        <td class="px-4 py-3 text-gray-600">{{ $customer->orders_count }}</td>
-                        <td class="px-4 py-3 text-right">
-                            <a
-                                href="{{ route('admin.customers.show', $customer) }}"
-                                class="rounded-md border border-gray-300 px-3 py-1.5 text-gray-700 hover:bg-gray-50"
-                            >
-                                Chi tiết
-                            </a>
+                        <td class="admin-td text-gray-600">{{ $customer->orders_count }}</td>
+                        <td class="admin-td">
+                            <div class="admin-actions">
+                                <a href="{{ route('admin.customers.show', $customer) }}" class="admin-btn-secondary">
+                                    Chi tiết
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 @empty
@@ -55,6 +55,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </div>
 
     <div class="mt-4">{{ $customers->links() }}</div>

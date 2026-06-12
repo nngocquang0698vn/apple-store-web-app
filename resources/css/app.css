@@ -56,6 +56,62 @@
     .product-card:hover .product-card__media img {
         transform: scale(1.08);
     }
+
+    .admin-page-header {
+        @apply mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between;
+    }
+
+    .admin-table-panel {
+        @apply overflow-hidden rounded-lg border border-gray-200 bg-white;
+    }
+
+    .admin-table-scroll {
+        @apply overflow-x-auto;
+    }
+
+    .admin-table {
+        @apply min-w-full divide-y divide-gray-200 text-sm;
+    }
+
+    .admin-table thead {
+        @apply bg-gray-50 text-left text-xs font-semibold uppercase text-gray-500;
+    }
+
+    .admin-th {
+        @apply px-4 py-3;
+    }
+
+    .admin-td {
+        @apply px-4 py-3;
+    }
+
+    .admin-actions {
+        @apply flex flex-wrap items-center justify-end gap-2;
+    }
+
+    .admin-actions form {
+        @apply m-0 inline-flex;
+    }
+
+    .admin-form-actions {
+        @apply flex flex-wrap items-center gap-2;
+    }
+
+    .admin-btn-primary {
+        @apply inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700;
+    }
+
+    .admin-btn-secondary {
+        @apply inline-flex items-center justify-center rounded-md border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50;
+    }
+
+    .admin-btn-danger {
+        @apply inline-flex items-center justify-center rounded-md border border-red-300 px-3 py-1.5 text-sm font-medium text-red-700 transition-colors hover:bg-red-50;
+    }
+
+    .admin-variant-grid {
+        @apply grid gap-3 sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-8;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -74,16 +130,20 @@
     }
 }
 
+.product-detail-section-title {
+    @apply text-xl font-bold tracking-tight text-gray-900 md:text-2xl;
+}
+
 .product-description {
     @apply min-w-0 max-w-full break-words [overflow-wrap:anywhere];
 }
 
 .product-description h2 {
-    @apply mt-6 text-xl font-semibold text-gray-900 first:mt-0;
+    @apply mt-6 text-base font-semibold text-gray-900 first:mt-0 md:text-lg;
 }
 
 .product-description h3 {
-    @apply mt-4 text-lg font-semibold text-gray-900;
+    @apply mt-4 text-sm font-semibold text-gray-900 md:text-base;
 }
 
 .product-description p {

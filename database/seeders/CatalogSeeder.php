@@ -201,7 +201,7 @@ class CatalogSeeder extends Seeder
             ['name' => 'AirPods Max', 'slug' => 'airpods-max', 'series' => 'airpods', 'category' => 'phu-kien', 'featured' => false, 'year' => 2020],
         ];
 
-        foreach ($definitions as $definition) {
+        foreach ($definitions as $index => $definition) {
             $this->products[] = Product::query()->create([
                 'category_id' => $this->categories[$definition['category']]->id,
                 'product_series_id' => $this->series[$definition['series']]->id,
@@ -209,12 +209,36 @@ class CatalogSeeder extends Seeder
                 'slug' => $definition['slug'],
                 'short_description' => "{$definition['name']} chính hãng, bảo hành theo chính sách cửa hàng.",
                 'description' => $this->productDescriptionHtml($definition['name'], $definition['slug']),
-                'specifications' => null,
+                'specifications' => $this->productSpecifications($definition['slug']),
                 'release_year' => $definition['year'],
                 'is_featured' => $definition['featured'],
                 'is_active' => true,
+                'created_at' => now()->subMinutes($index),
+                'updated_at' => now()->subMinutes($index),
             ]);
         }
+    }
+
+    private function productSpecifications(string $slug): string
+    {
+        return match ($slug) {
+            'iphone-15' => "Chipset: Apple A16 Bionic\nMàn hình: 6.1 inch Super Retina XDR OLED\nCamera sau: 48MP + 12MP\nCamera trước: 12MP TrueDepth\nPin: Lên đến 20 giờ xem video\nCổng sạc: USB-C\nHệ điều hành: iOS",
+            'iphone-15-pro' => "Chipset: Apple A17 Pro\nMàn hình: 6.1 inch ProMotion OLED 120Hz\nCamera sau: 48MP chính + 12MP tele + 12MP góc siêu rộng\nKhung: Titanium\nCổng sạc: USB-C 3.0\nPin: Lên đến 23 giờ xem video",
+            'iphone-16' => "Chipset: Apple A18\nMàn hình: 6.1 inch Super Retina XDR OLED\nCamera sau: 48MP Fusion + 12MP góc siêu rộng\nNút Camera Control\nCổng sạc: USB-C\nPin: Lên đến 22 giờ xem video",
+            'iphone-16-pro' => "Chipset: Apple A18 Pro\nMàn hình: 6.3 inch ProMotion OLED 120Hz\nCamera sau: 48MP Fusion + 48MP góc siêu rộng + 12MP tele 5x\nKhung: Titanium\nCổng sạc: USB-C 3.0\nPin: Lên đến 27 giờ xem video",
+            'iphone-16-pro-max' => "Chipset: Apple A18 Pro\nMàn hình: 6.9 inch ProMotion OLED 120Hz\nCamera sau: 48MP Fusion + 48MP góc siêu rộng + 12MP tele 5x\nKhung: Titanium\nCổng sạc: USB-C 3.0\nPin: Lên đến 33 giờ xem video",
+            'ipad-10-9' => "Chipset: Apple A14 Bionic\nMàn hình: 10.9 inch Liquid Retina\nBút hỗ trợ: Apple Pencil (thế hệ 1)\nCamera trước: 12MP Center Stage\nCổng sạc: USB-C\nHệ điều hành: iPadOS",
+            'ipad-air-m2' => "Chipset: Apple M2\nMàn hình: 11 inch Liquid Retina\nBút hỗ trợ: Apple Pencil Pro / USB-C\nCamera trước: 12MP Center Stage\nCổng sạc: USB-C\nHệ điều hành: iPadOS",
+            'ipad-pro-11-m4' => "Chipset: Apple M4\nMàn hình: 11 inch Ultra Retina XDR OLED\nBút hỗ trợ: Apple Pencil Pro\nCamera trước: 12MP Center Stage\nCổng sạc: USB-C (Thunderbolt)\nHệ điều hành: iPadOS",
+            'apple-20w-usb-c-adapter' => "Công suất: 20W\nCổng ra: USB-C\nTương thích: iPhone, iPad, AirPods\nChuẩn sạc nhanh: USB Power Delivery\nPhạm vi điện áp: 100–240V",
+            'apple-30w-usb-c-adapter' => "Công suất: 30W\nCổng ra: USB-C\nTương thích: iPad, MacBook Air, iPhone\nChuẩn sạc nhanh: USB Power Delivery\nPhạm vi điện áp: 100–240V",
+            'usb-c-to-lightning-1m' => "Chiều dài: 1 mét\nĐầu vào: USB-C\nĐầu ra: Lightning\nTương thích: iPhone, AirPods hộp Lightning\nChức năng: Sạc & đồng bộ dữ liệu",
+            'usb-c-cable-1m' => "Chiều dài: 1 mét\nĐầu nối: USB-C to USB-C\nTương thích: iPhone 15 trở lên, iPad, Mac\nChức năng: Sạc & truyền dữ liệu\nChuẩn: USB 2.0",
+            'airpods-3' => "Chipset: Apple H1\nKiểu tai nghe: Earbuds (không nút silicon)\nÂm thanh: Spatial Audio, Adaptive EQ\nChống nước: IPX4\nPin tai nghe: ~6 giờ\nPin kèm hộp: ~30 giờ\nSạc hộp: MagSafe, Lightning hoặc không dây Qi",
+            'airpods-pro-2' => "Chipset: Apple H2\nChống ồn: ANC chủ động\nÂm thanh: Spatial Audio, Adaptive EQ\nChống nước: IP54\nPin tai nghe: ~6 giờ (ANC bật)\nPin kèm hộp: ~30 giờ\nSạc hộp: USB-C MagSafe",
+            'airpods-max' => "Chipset: Apple H1\nKiểu tai nghe: Over-ear\nChống ồn: ANC chủ động\nÂm thanh: Spatial Audio cá nhân hóa\nPin: ~20 giờ (ANC bật)\nKết nối: Bluetooth 5.0\nSạc: USB-C",
+            default => "Thương hiệu: Apple\nNguồn gốc: Chính hãng\nBảo hành: Theo chính sách cửa hàng",
+        };
     }
 
     private function productDescriptionHtml(string $name, string $slug): string
@@ -232,13 +256,17 @@ class CatalogSeeder extends Seeder
             'apple-30w-usb-c-adapter' => 'apple-30w-usb-c-adapter.webp',
             'usb-c-to-lightning-1m' => 'usb-c-to-lightning-1m.webp',
             'usb-c-cable-1m' => 'usb-c-cable-1m.webp',
+            'airpods-3' => 'airpods-3.webp',
+            'airpods-pro-2' => 'airpods-pro-2.webp',
+            'airpods-max' => 'airpods-max.webp',
         ];
 
         $highlights = match ($slug) {
             'iphone-16-pro', 'iphone-16-pro-max' => ['Chip A18 Pro', 'Camera Fusion 48MP', 'Khung titanium', 'USB-C'],
             'iphone-16', 'iphone-15', 'iphone-15-pro' => ['Hiệu năng mạnh mẽ', 'Camera nâng cấp', 'Pin bền', 'iOS mới nhất'],
             'ipad-air-m2', 'ipad-pro-11-m4', 'ipad-10-9' => ['Màn hình sắc nét', 'Hỗ trợ Apple Pencil', 'Pin cả ngày', 'iPadOS'],
-            'airpods-3', 'airpods-pro-2' => ['Âm thanh không gian', 'Chống ồn chủ động', 'Pin lâu', 'Hộp sạc MagSafe'],
+            'airpods-3' => ['Spatial Audio', 'Chip H1', 'Chống nước IPX4', 'Hộp sạc MagSafe'],
+            'airpods-pro-2' => ['Chống ồn ANC', 'Chip H2', 'Spatial Audio', 'Hộp sạc USB-C'],
             'airpods-max' => ['Tai nghe over-ear', 'Chống ồn cao cấp', 'Âm thanh không gian', 'Pin 20 giờ'],
             default => ['Chính hãng Apple', 'Bảo hành cửa hàng', 'Phù hợp đồ án', 'Giao hàng toàn quốc'],
         };
@@ -270,38 +298,144 @@ class CatalogSeeder extends Seeder
         return $html;
     }
 
-    private function seedProductImages(): void
+    /**
+     * @return array<string, list<array{file: string, alt: string, primary: bool}>>
+     */
+    private function productImageDefinitions(): array
     {
-        $definitions = [
-            ['slug' => 'iphone-15', 'file' => 'iphone-15-black.webp', 'alt' => 'iPhone 15 màu đen'],
-            ['slug' => 'iphone-15-pro', 'file' => 'iphone-15-pro-natural-titanium.webp', 'alt' => 'iPhone 15 Pro màu Titanium tự nhiên'],
-            ['slug' => 'iphone-16', 'file' => 'iphone-16-black.webp', 'alt' => 'iPhone 16 màu đen'],
-            ['slug' => 'iphone-16-pro', 'file' => 'iphone-16-pro-black-titanium.webp', 'alt' => 'iPhone 16 Pro màu Titanium đen'],
-            ['slug' => 'iphone-16-pro-max', 'file' => 'iphone-16-pro-max-black-titanium.webp', 'alt' => 'iPhone 16 Pro Max màu Titanium đen'],
-            ['slug' => 'ipad-10-9', 'file' => 'ipad-10-9-blue.webp', 'alt' => 'iPad 10.9 inch màu xanh dương'],
-            ['slug' => 'ipad-air-m2', 'file' => 'ipad-air-m2-blue.webp', 'alt' => 'iPad Air M2 màu xanh dương'],
-            ['slug' => 'ipad-pro-11-m4', 'file' => 'ipad-pro-11-m4-black.webp', 'alt' => 'iPad Pro 11 inch M4 màu đen'],
-            ['slug' => 'apple-20w-usb-c-adapter', 'file' => 'apple-20w-usb-c-adapter.webp', 'alt' => 'Củ sạc Apple 20W USB-C'],
-            ['slug' => 'apple-30w-usb-c-adapter', 'file' => 'apple-30w-usb-c-adapter.webp', 'alt' => 'Củ sạc Apple 30W USB-C'],
-            ['slug' => 'usb-c-to-lightning-1m', 'file' => 'usb-c-to-lightning-1m.webp', 'alt' => 'Cáp USB-C sang Lightning 1m'],
-            ['slug' => 'usb-c-cable-1m', 'file' => 'usb-c-cable-1m.webp', 'alt' => 'Cáp USB-C 1m'],
-        ];
+        $fallback = $this->fallbackProductImageDefinitions();
+        $manifestPath = storage_path('app/public/products/demo/fetch-manifest.json');
 
-        foreach ($definitions as $index => $definition) {
-            $relativePath = 'products/demo/'.$definition['file'];
-            $absolutePath = storage_path('app/public/'.$relativePath);
+        if (! is_file($manifestPath)) {
+            return $fallback;
+        }
 
-            if (! is_file($absolutePath)) {
+        /** @var array<string, list<array{file: string, alt: string, primary: bool}>>|null $manifest */
+        $manifest = json_decode((string) file_get_contents($manifestPath), true);
+
+        if (! is_array($manifest)) {
+            return $fallback;
+        }
+
+        $definitions = [];
+
+        foreach ($fallback as $slug => $defaultImages) {
+            $images = $manifest[$slug] ?? [];
+
+            if ($images === []) {
+                $definitions[$slug] = $defaultImages;
+
                 continue;
             }
 
-            ProductImage::query()->create([
-                'product_id' => $this->findProductBySlug($definition['slug'])->id,
-                'path' => $relativePath,
-                'alt_text' => $definition['alt'],
-                'sort_order' => $index + 1,
-                'is_primary' => true,
-            ]);
+            $definitions[$slug] = collect($images)
+                ->filter(fn (array $image): bool => is_file(storage_path('app/public/products/demo/'.$image['file'])))
+                ->map(fn (array $image): array => [
+                    'file' => $image['file'],
+                    'alt' => (string) $image['alt'],
+                    'primary' => (bool) ($image['primary'] ?? false),
+                ])
+                ->values()
+                ->all();
+
+            if ($definitions[$slug] === []) {
+                $definitions[$slug] = $defaultImages;
+            }
+        }
+
+        return $definitions;
+    }
+
+    /**
+     * @return array<string, list<array{file: string, alt: string, primary: bool}>>
+     */
+    private function fallbackProductImageDefinitions(): array
+    {
+        return [
+            'iphone-15' => [
+                ['file' => 'iphone-15-black.webp', 'alt' => 'iPhone 15 màu đen', 'primary' => true],
+            ],
+            'iphone-15-pro' => [
+                ['file' => 'iphone-15-pro-natural-titanium.webp', 'alt' => 'iPhone 15 Pro màu Titanium tự nhiên', 'primary' => true],
+            ],
+            'iphone-16' => [
+                ['file' => 'iphone-16-black.webp', 'alt' => 'iPhone 16 màu đen', 'primary' => true],
+            ],
+            'iphone-16-pro' => [
+                ['file' => 'iphone-16-pro-black-titanium.webp', 'alt' => 'iPhone 16 Pro màu Titanium đen', 'primary' => true],
+            ],
+            'iphone-16-pro-max' => [
+                ['file' => 'iphone-16-pro-max-black-titanium.webp', 'alt' => 'iPhone 16 Pro Max màu Titanium đen', 'primary' => true],
+            ],
+            'ipad-10-9' => [
+                ['file' => 'ipad-10-9-blue.webp', 'alt' => 'iPad 10.9 inch màu xanh dương', 'primary' => true],
+            ],
+            'ipad-air-m2' => [
+                ['file' => 'ipad-air-m2-blue.webp', 'alt' => 'iPad Air M2 màu xanh dương', 'primary' => true],
+            ],
+            'ipad-pro-11-m4' => [
+                ['file' => 'ipad-pro-11-m4-black.webp', 'alt' => 'iPad Pro 11 inch M4 màu đen', 'primary' => true],
+            ],
+            'apple-20w-usb-c-adapter' => [
+                ['file' => 'apple-20w-usb-c-adapter.webp', 'alt' => 'Củ sạc Apple 20W USB-C', 'primary' => true],
+            ],
+            'apple-30w-usb-c-adapter' => [
+                ['file' => 'apple-30w-usb-c-adapter.webp', 'alt' => 'Củ sạc Apple 30W USB-C', 'primary' => true],
+            ],
+            'usb-c-to-lightning-1m' => [
+                ['file' => 'usb-c-to-lightning-1m.webp', 'alt' => 'Cáp USB-C sang Lightning 1m', 'primary' => true],
+            ],
+            'usb-c-cable-1m' => [
+                ['file' => 'usb-c-cable-1m.webp', 'alt' => 'Cáp USB-C 1m', 'primary' => true],
+            ],
+            'airpods-3' => [
+                ['file' => 'airpods-3.webp', 'alt' => 'AirPods (thế hệ 3)', 'primary' => true],
+            ],
+            'airpods-pro-2' => [
+                ['file' => 'airpods-pro-2.webp', 'alt' => 'AirPods Pro (thế hệ 2)', 'primary' => true],
+            ],
+            'airpods-max' => [
+                ['file' => 'airpods-max-black.webp', 'alt' => 'AirPods Max màu đen', 'primary' => true],
+            ],
+        ];
+    }
+
+    private function seedProductImages(): void
+    {
+        foreach ($this->productImageDefinitions() as $slug => $images) {
+            $product = $this->findProductBySlug($slug);
+            $sortOrder = 1;
+            $hasPrimary = false;
+
+            foreach ($images as $imageDefinition) {
+                $relativePath = 'products/demo/'.$imageDefinition['file'];
+                $absolutePath = storage_path('app/public/'.$relativePath);
+
+                if (! is_file($absolutePath)) {
+                    continue;
+                }
+
+                $isPrimary = (bool) ($imageDefinition['primary'] ?? false);
+
+                ProductImage::query()->create([
+                    'product_id' => $product->id,
+                    'path' => $relativePath,
+                    'alt_text' => $imageDefinition['alt'],
+                    'sort_order' => $sortOrder,
+                    'is_primary' => $isPrimary,
+                ]);
+
+                $hasPrimary = $hasPrimary || $isPrimary;
+                $sortOrder++;
+            }
+
+            if ($sortOrder > 1 && ! $hasPrimary) {
+                ProductImage::query()
+                    ->where('product_id', $product->id)
+                    ->orderBy('sort_order')
+                    ->limit(1)
+                    ->update(['is_primary' => true]);
+            }
         }
     }
 
@@ -315,13 +449,19 @@ class CatalogSeeder extends Seeder
             ['product' => 'iphone-16-pro-max', 'prefix' => 'IP16PM', 'base' => 29_990_000],
         ];
 
-        $iphoneColors = ['black', 'blue', 'pink', 'natural-titanium', 'black-titanium'];
+        $iphoneColorMap = [
+            'iphone-15' => ['black', 'blue', 'pink'],
+            'iphone-15-pro' => ['natural-titanium', 'black-titanium', 'white-titanium'],
+            'iphone-16' => ['black', 'blue', 'pink'],
+            'iphone-16-pro' => ['black-titanium', 'natural-titanium', 'white-titanium'],
+            'iphone-16-pro-max' => ['black-titanium', 'natural-titanium', 'desert-titanium'],
+        ];
         $iphoneStorages = [128, 256, 512];
 
         foreach ($iphoneConfigs as $config) {
             $product = $this->findProductBySlug($config['product']);
 
-            foreach ($iphoneColors as $colorSlug) {
+            foreach ($iphoneColorMap[$config['product']] as $colorSlug) {
                 foreach ($iphoneStorages as $storageGb) {
                     $storageStep = array_search($storageGb, [128, 256, 512], true);
                     $salePrice = $config['base'] + ($storageStep * 4_000_000);
@@ -345,10 +485,16 @@ class CatalogSeeder extends Seeder
             ['product' => 'ipad-pro-11-m4', 'prefix' => 'IPADP11', 'base' => 22_990_000, 'storages' => [256, 512, 1024]],
         ];
 
+        $ipadColorMap = [
+            'ipad-10-9' => ['blue', 'pink', 'white'],
+            'ipad-air-m2' => ['blue', 'purple', 'white'],
+            'ipad-pro-11-m4' => ['black', 'white'],
+        ];
+
         foreach ($ipadConfigs as $config) {
             $product = $this->findProductBySlug($config['product']);
 
-            foreach (['black', 'white', 'blue'] as $colorSlug) {
+            foreach ($ipadColorMap[$config['product']] as $colorSlug) {
                 foreach ($config['storages'] as $index => $storageGb) {
                     $salePrice = $config['base'] + ($index * 3_000_000);
 
@@ -402,7 +548,7 @@ class CatalogSeeder extends Seeder
         }
 
         $airpodsMax = $this->findProductBySlug('airpods-max');
-        foreach (['black', 'white', 'blue', 'pink', 'green'] as $colorSlug) {
+        foreach (['black', 'blue'] as $colorSlug) {
             $this->variants[] = $this->createVariant(
                 product: $airpodsMax,
                 sku: 'APODMAX-'.$this->colorSkuCode($colorSlug),

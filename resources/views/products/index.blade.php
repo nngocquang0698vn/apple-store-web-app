@@ -27,13 +27,14 @@
                     class="min-w-0 flex-1 rounded-xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                 >
                     @foreach ([
-                        'newest' => 'Mới nhất',
+                        'catalog' => 'Chuẩn',
+                        'newest' => 'Mới thêm gần đây',
                         'price_asc' => 'Giá thấp → cao',
                         'price_desc' => 'Giá cao → thấp',
                         'name_asc' => 'Tên A-Z',
                         'name_desc' => 'Tên Z-A',
                     ] as $value => $label)
-                        <option value="{{ $value }}" @selected(($filters['sort'] ?? 'newest') === $value)>
+                        <option value="{{ $value }}" @selected(($filters['sort'] ?? 'catalog') === $value)>
                             {{ $label }}
                         </option>
                     @endforeach

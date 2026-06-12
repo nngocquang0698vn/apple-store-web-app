@@ -33,7 +33,7 @@ function closeFilterDrawer() {
 
 function syncMobileFilterControls() {
     const url = new URL(window.location.href);
-    const sort = url.searchParams.get('sort') || 'newest';
+    const sort = url.searchParams.get('sort') || 'catalog';
 
     $('[data-filter-sort-mobile]').val(sort);
 }
@@ -66,7 +66,7 @@ function buildQueryFromForm($form) {
     return params;
 }
 
-function fetchProductResults(url, pushState = true) {
+function fetchProductResults(url, pushState = true, scrollToTop = false) {
     setResultsLoading(true);
 
     const listingUrl = withListingPerPage(url);
@@ -94,6 +94,10 @@ function fetchProductResults(url, pushState = true) {
 
             syncMobileFilterControls();
             syncMobileFilterChips(html);
+
+            if (scrollToTop) {
+                scrollProductsPageToTop();
+            }
         })
         .fail(() => {
             window.location.href = listingUrl;
@@ -112,7 +116,7 @@ function submitFilterForm($form, pushState = true) {
     const query = params.toString();
     const url = query ? `${baseUrl}?${query}` : baseUrl;
 
-    return fetchProductResults(url, pushState);
+    return fetchProductResults(url, pushState, true);
 }
 
 export function initProductFilters() {
@@ -147,7 +151,7 @@ export function initProductFilters() {
 
         url.searchParams.set('sort', $(this).val());
         url.searchParams.delete('page');
-        fetchProductResults(url.toString());
+        fetchProductResults(url.toString(), true, true);
     });
 
     $page.on('click', '[data-filter-category-chip]', function (event) {
@@ -158,7 +162,7 @@ export function initProductFilters() {
         }
 
         event.preventDefault();
-        fetchProductResults(href, true);
+        fetchProductResults(href, true, true);
     });
 
     $page.on('submit', '[data-product-filters]', function (event) {
@@ -166,7 +170,6 @@ export function initProductFilters() {
 
         submitFilterForm($(this)).done(() => {
             closeFilterDrawer();
-            scrollProductsPageToTop();
         });
     });
 
@@ -178,9 +181,7 @@ export function initProductFilters() {
         }
 
         event.preventDefault();
-        fetchProductResults(href, true).done(() => {
-            scrollProductsPageToTop();
-        });
+        fetchProductResults(href, true, true);
     });
 
     window.addEventListener('popstate', () => {

@@ -71,17 +71,22 @@ class CatalogSeederTest extends TestCase
             $this->markTestSkipped('Demo product images are not present in storage/app/public/products/demo.');
         }
 
-        $this->assertSame(12, ProductImage::query()->count());
-        $this->assertSame(12, ProductImage::query()->where('is_primary', true)->count());
+        $this->assertSame(15, Product::query()->count());
+        $this->assertGreaterThanOrEqual(15, ProductImage::query()->count());
+        $this->assertSame(15, ProductImage::query()->where('is_primary', true)->count());
+        $this->assertSame(15, Product::query()->whereHas('images')->count());
 
         $iphone16 = Product::query()->where('slug', 'iphone-16')->firstOrFail();
-        $image = ProductImage::query()
-            ->where('product_id', $iphone16->id)
-            ->where('is_primary', true)
-            ->first();
+        $iphone16Images = ProductImage::query()->where('product_id', $iphone16->id)->get();
+        $this->assertGreaterThanOrEqual(2, $iphone16Images->count());
 
-        $this->assertNotNull($image);
-        $this->assertSame('products/demo/iphone-16-black.webp', $image->path);
-        $this->assertSame('iPhone 16 màu đen', $image->alt_text);
+        $primary = $iphone16Images->firstWhere('is_primary', true);
+        $this->assertNotNull($primary);
+        $this->assertStringContainsString('iphone-16', $primary->path);
+
+        $airpodsPro = Product::query()->where('slug', 'airpods-pro-2')->firstOrFail();
+        $this->assertNotNull($airpodsPro->specifications);
+        $this->assertStringContainsString('Apple H2', $airpodsPro->specifications);
+        $this->assertGreaterThanOrEqual(1, ProductImage::query()->where('product_id', $airpodsPro->id)->count());
     }
 }

@@ -49,50 +49,50 @@
                 >
             </div>
         </div>
-        <div class="mt-3 flex flex-wrap gap-2">
-            <button type="submit" class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
+        <div class="admin-form-actions mt-3">
+            <button type="submit" class="admin-btn-primary">
                 Lọc
             </button>
-            <a href="{{ route('admin.orders.index') }}" class="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+            <a href="{{ route('admin.orders.index') }}" class="admin-btn-secondary px-4 py-2">
                 Xóa bộ lọc
             </a>
         </div>
     </form>
 
-    <div class="overflow-hidden rounded-lg border border-gray-200 bg-white">
-        <table class="min-w-full divide-y divide-gray-200 text-sm">
-            <thead class="bg-gray-50 text-left text-xs font-semibold uppercase text-gray-500">
+    <div class="admin-table-panel">
+        <div class="admin-table-scroll">
+        <table class="admin-table">
+            <thead>
                 <tr>
-                    <th class="px-4 py-3">Mã đơn</th>
-                    <th class="px-4 py-3">Khách hàng</th>
-                    <th class="px-4 py-3">Ngày đặt</th>
-                    <th class="px-4 py-3">Trạng thái</th>
-                    <th class="px-4 py-3">Tổng tiền</th>
-                    <th class="px-4 py-3 text-right">Thao tác</th>
+                    <th class="admin-th">Mã đơn</th>
+                    <th class="admin-th">Khách hàng</th>
+                    <th class="admin-th">Ngày đặt</th>
+                    <th class="admin-th">Trạng thái</th>
+                    <th class="admin-th">Tổng tiền</th>
+                    <th class="admin-th text-right">Thao tác</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
                 @forelse ($orders as $order)
                     <tr>
-                        <td class="px-4 py-3 font-medium text-gray-900">{{ $order->order_code }}</td>
-                        <td class="px-4 py-3 text-gray-600">
+                        <td class="admin-td font-medium text-gray-900">{{ $order->order_code }}</td>
+                        <td class="admin-td text-gray-600">
                             <div>{{ $order->receiver_name }}</div>
                             <div class="text-xs text-gray-500">{{ $order->user?->email }}</div>
                         </td>
-                        <td class="px-4 py-3 text-gray-600">{{ $order->created_at->format('d/m/Y H:i') }}</td>
-                        <td class="px-4 py-3">
+                        <td class="admin-td text-gray-600">{{ $order->created_at->format('d/m/Y H:i') }}</td>
+                        <td class="admin-td">
                             <x-order-status-badge :status="$order->status" />
                         </td>
-                        <td class="px-4 py-3 font-medium text-gray-900">
+                        <td class="admin-td font-medium text-gray-900">
                             <x-money :amount="$order->total_amount" />
                         </td>
-                        <td class="px-4 py-3 text-right">
-                            <a
-                                href="{{ route('admin.orders.show', $order) }}"
-                                class="rounded-md border border-gray-300 px-3 py-1.5 text-gray-700 hover:bg-gray-50"
-                            >
-                                Chi tiết
-                            </a>
+                        <td class="admin-td">
+                            <div class="admin-actions">
+                                <a href="{{ route('admin.orders.show', $order) }}" class="admin-btn-secondary">
+                                    Chi tiết
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 @empty
@@ -102,6 +102,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </div>
 
     <div class="mt-4">{{ $orders->links() }}</div>

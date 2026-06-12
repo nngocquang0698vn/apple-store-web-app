@@ -4,6 +4,7 @@ namespace App\Support;
 
 use App\Models\Color;
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Models\ProductVariant;
 use App\Models\StorageOption;
 use Illuminate\Support\Collection;
@@ -92,8 +93,13 @@ final class ProductVariantSelector
     /**
      * @return list<array<string, mixed>>
      */
-    public function toClientPayload(?string $defaultImageUrl = null): array
+    public function toClientPayload(Product $product, ?string $defaultImageUrl = null): array
     {
+        /** @var Collection<int, ProductImage> $images */
+        $images = $product->relationLoaded('images')
+            ? $product->images
+            : $product->images()->orderBy('sort_order')->orderBy('id')->get();
+
         return $this->variants
             ->map(fn (ProductVariant $variant) => [
                 'id' => $variant->id,
@@ -105,10 +111,32 @@ final class ProductVariantSelector
                 'sale_price' => $variant->sale_price,
                 'original_price' => $variant->original_price,
                 'stock_quantity' => $variant->stock_quantity,
-                'image_url' => $defaultImageUrl,
+                'image_url' => self::resolveVariantImageUrl($product->slug, $variant->color?->slug, $images)
+                    ?? $defaultImageUrl,
             ])
             ->values()
             ->all();
+    }
+
+    /**
+     * @param  Collection<int, ProductImage>  $images
+     */
+    public static function resolveVariantImageUrl(
+        string $productSlug,
+        ?string $colorSlug,
+        Collection $images,
+    ): ?string {
+        if ($colorSlug === null || $colorSlug === '') {
+            return null;
+        }
+
+        $suffix = "{$productSlug}-{$colorSlug}.webp";
+
+        $match = $images->first(
+            fn (ProductImage $image): bool => str_ends_with($image->path, $suffix),
+        );
+
+        return $match !== null ? ProductImageUrl::resolve($match->path) : null;
     }
 
     public function hasCombination(?string $colorSlug, ?int $storageCapacityGb): bool

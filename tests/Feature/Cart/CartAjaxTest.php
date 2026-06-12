@@ -20,7 +20,7 @@ class CartAjaxTest extends TestCase
 
     public function test_add_to_cart_returns_json_summary(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['stock_quantity' => 5, 'sale_price' => 25_990_000]);
 
         $response = $this->postJson(route('cart.items.store'), [
@@ -52,7 +52,7 @@ class CartAjaxTest extends TestCase
 
     public function test_add_to_cart_json_validation_error(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['stock_quantity' => 1]);
 
         $response = $this->postJson(route('cart.items.store'), [
@@ -66,7 +66,7 @@ class CartAjaxTest extends TestCase
 
     public function test_client_submitted_price_is_ignored_in_json_response(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['stock_quantity' => 5, 'sale_price' => 20_000_000]);
 
         $response = $this->postJson(route('cart.items.store'), [
@@ -82,7 +82,7 @@ class CartAjaxTest extends TestCase
 
     public function test_update_cart_item_returns_json_summary(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['stock_quantity' => 5, 'sale_price' => 10_000_000]);
 
         app(CartService::class)->add($variant->id, 1);
@@ -99,7 +99,7 @@ class CartAjaxTest extends TestCase
 
     public function test_remove_cart_item_returns_json_summary(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['stock_quantity' => 5]);
 
         app(CartService::class)->add($variant->id, 2);
@@ -114,7 +114,7 @@ class CartAjaxTest extends TestCase
 
     public function test_cart_summary_endpoint_returns_totals(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['stock_quantity' => 5, 'sale_price' => 5_000_000]);
 
         app(CartService::class)->add($variant->id, 1);
@@ -132,7 +132,7 @@ class CartAjaxTest extends TestCase
 
     public function test_cart_summary_returns_conflict_when_item_not_purchasable(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['stock_quantity' => 5]);
 
         app(CartService::class)->add($variant->id, 3);
@@ -147,7 +147,7 @@ class CartAjaxTest extends TestCase
 
     public function test_non_ajax_add_still_redirects(): void
     {
-        $variant = ProductVariant::query()->where('sku', 'IP16P-BLK-128')->firstOrFail();
+        $variant = ProductVariant::query()->where('sku', 'IP16P-BTI-128')->firstOrFail();
         $variant->update(['stock_quantity' => 5]);
 
         $response = $this->post(route('cart.items.store'), [

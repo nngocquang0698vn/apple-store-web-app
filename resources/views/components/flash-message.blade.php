@@ -3,6 +3,7 @@
         class="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800"
         role="alert"
         data-flash-alert
+        data-flash-auto-dismiss
     >
         {{ session('success') }}
     </div>
@@ -13,6 +14,7 @@
         class="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
         role="alert"
         data-flash-alert
+        data-flash-auto-dismiss
     >
         {{ session('error') }}
     </div>
@@ -23,6 +25,7 @@
         class="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800"
         role="alert"
         data-flash-alert
+        data-flash-auto-dismiss
     >
         {{ session('warning') }}
     </div>
@@ -33,6 +36,7 @@
         class="mb-4 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800"
         role="alert"
         data-flash-alert
+        data-flash-auto-dismiss
     >
         {{ session('info') }}
     </div>
