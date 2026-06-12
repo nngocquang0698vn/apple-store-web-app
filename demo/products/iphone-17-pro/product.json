@@ -1,0 +1,154 @@
+{
+    "name": "iPhone 17 Pro",
+    "slug": "iphone-17-pro",
+    "category": "iPhone",
+    "product_series": "iPhone 17 Series",
+    "release_year": 2025,
+    "is_featured": true,
+    "is_active": true,
+    "short_description": "iPhone 17 Pro với chip A19 Pro, camera Pro Fusion 48MP, zoom quang 8x và khung nhôm rèn nhiệt.",
+    "reference_price_vnd": 33790000,
+    "list_price_vnd": 34990000,
+    "source_url": "https://cellphones.com.vn/iphone-17-pro.html",
+    "images": [
+        {
+            "file": "cosmic-orange.webp",
+            "alt": "iPhone 17 Pro Cam vũ trụ",
+            "primary": true,
+            "color_label": "Cam Vũ Trụ"
+        },
+        {
+            "file": "deep-blue.webp",
+            "alt": "iPhone 17 Pro Xanh đậm",
+            "primary": false,
+            "color_label": "Xanh Đậm"
+        },
+        {
+            "file": "silver.webp",
+            "alt": "iPhone 17 Pro Bạc",
+            "primary": false,
+            "color_label": "Bạc"
+        },
+        {
+            "file": "view-1.webp",
+            "alt": "iPhone 17 Pro góc chụp 1",
+            "primary": false,
+            "color_label": null
+        },
+        {
+            "file": "view-2.webp",
+            "alt": "iPhone 17 Pro góc chụp 2",
+            "primary": false,
+            "color_label": null
+        }
+    ],
+    "suggested_variants": [
+        {
+            "sku": "IP17P-COS-256",
+            "color_label": "Cam Vũ Trụ",
+            "color_slug": "cosmic-orange",
+            "storage_gb": 256,
+            "storage_label": "256 GB",
+            "original_price": 36790000,
+            "sale_price": 35790000,
+            "stock_quantity": 12,
+            "is_active": true
+        },
+        {
+            "sku": "IP17P-COS-512",
+            "color_label": "Cam Vũ Trụ",
+            "color_slug": "cosmic-orange",
+            "storage_gb": 512,
+            "storage_label": "512 GB",
+            "original_price": 38790000,
+            "sale_price": 37790000,
+            "stock_quantity": 12,
+            "is_active": true
+        },
+        {
+            "sku": "IP17P-COS-1024",
+            "color_label": "Cam Vũ Trụ",
+            "color_slug": "cosmic-orange",
+            "storage_gb": 1024,
+            "storage_label": "1024 GB",
+            "original_price": 42790000,
+            "sale_price": 41790000,
+            "stock_quantity": 12,
+            "is_active": true
+        },
+        {
+            "sku": "IP17P-DEE-256",
+            "color_label": "Xanh Đậm",
+            "color_slug": "deep-blue",
+            "storage_gb": 256,
+            "storage_label": "256 GB",
+            "original_price": 36790000,
+            "sale_price": 35790000,
+            "stock_quantity": 12,
+            "is_active": true
+        },
+        {
+            "sku": "IP17P-DEE-512",
+            "color_label": "Xanh Đậm",
+            "color_slug": "deep-blue",
+            "storage_gb": 512,
+            "storage_label": "512 GB",
+            "original_price": 38790000,
+            "sale_price": 37790000,
+            "stock_quantity": 12,
+            "is_active": true
+        },
+        {
+            "sku": "IP17P-DEE-1024",
+            "color_label": "Xanh Đậm",
+            "color_slug": "deep-blue",
+            "storage_gb": 1024,
+            "storage_label": "1024 GB",
+            "original_price": 42790000,
+            "sale_price": 41790000,
+            "stock_quantity": 12,
+            "is_active": true
+        },
+        {
+            "sku": "IP17P-SIL-256",
+            "color_label": "Bạc",
+            "color_slug": "silver",
+            "storage_gb": 256,
+            "storage_label": "256 GB",
+            "original_price": 36790000,
+            "sale_price": 35790000,
+            "stock_quantity": 12,
+            "is_active": true
+        },
+        {
+            "sku": "IP17P-SIL-512",
+            "color_label": "Bạc",
+            "color_slug": "silver",
+            "storage_gb": 512,
+            "storage_label": "512 GB",
+            "original_price": 38790000,
+            "sale_price": 37790000,
+            "stock_quantity": 12,
+            "is_active": true
+        },
+        {
+            "sku": "IP17P-SIL-1024",
+            "color_label": "Bạc",
+            "color_slug": "silver",
+            "storage_gb": 1024,
+            "storage_label": "1024 GB",
+            "original_price": 42790000,
+            "sale_price": 41790000,
+            "stock_quantity": 12,
+            "is_active": true
+        }
+    ],
+    "specifications_preview": "Hệ điều hành: iOS 26",
+    "admin_notes": [
+        "Tạo dòng sản phẩm \"iPhone 17 Series\" (năm 2025) trước nếu chưa có.",
+        "Thêm màu trong admin nếu chưa có (xem color_label trong suggested_variants).",
+        "Upload ảnh từ thư mục images/ theo thứ tự manifest.json.",
+        "Dán description.html vào trình soạn thảo mô tả chi tiết.",
+        "Dán specifications.txt vào ô Thông số."
+    ]
+}

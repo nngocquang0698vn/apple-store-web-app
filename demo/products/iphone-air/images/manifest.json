@@ -1,0 +1,38 @@
+[
+    {
+        "file": "sky-blue.webp",
+        "alt": "iPhone Air Xanh da trời",
+        "primary": true,
+        "color_label": "Xanh Da Trời"
+    },
+    {
+        "file": "space-black.webp",
+        "alt": "iPhone Air Đen không gian",
+        "primary": false,
+        "color_label": "Đen Không Gian"
+    },
+    {
+        "file": "view-1.webp",
+        "alt": "iPhone Air góc chụp 1",
+        "primary": false,
+        "color_label": null
+    },
+    {
+        "file": "view-2.webp",
+        "alt": "iPhone Air góc chụp 2",
+        "primary": false,
+        "color_label": null
+    },
+    {
+        "file": "view-3.webp",
+        "alt": "iPhone Air góc chụp 3",
+        "primary": false,
+        "color_label": null
+    },
+    {
+        "file": "view-4.webp",
+        "alt": "iPhone Air góc chụp 4",
+        "primary": false,
+        "color_label": null
+    }
+]

@@ -1,0 +1,133 @@
+{
+    "name": "iPhone 17",
+    "slug": "iphone-17",
+    "category": "iPhone",
+    "product_series": "iPhone 17 Series",
+    "release_year": 2025,
+    "is_featured": true,
+    "is_active": true,
+    "short_description": "iPhone 17 với chip A19, màn hình ProMotion 6.3 inch, camera Dual Fusion 48MP và pin dùng cả ngày.",
+    "reference_price_vnd": 23990000,
+    "list_price_vnd": 24990000,
+    "source_url": "https://cellphones.com.vn/iphone-17-256gb.html",
+    "images": [
+        {
+            "file": "black.webp",
+            "alt": "iPhone 17 Đen",
+            "primary": true,
+            "color_label": "Đen"
+        },
+        {
+            "file": "white.webp",
+            "alt": "iPhone 17 Trắng",
+            "primary": false,
+            "color_label": "Trắng"
+        },
+        {
+            "file": "lavender.webp",
+            "alt": "iPhone 17 Tím oải hương",
+            "primary": false,
+            "color_label": "Tím Oải Hương"
+        },
+        {
+            "file": "view-1.webp",
+            "alt": "iPhone 17 góc chụp 1",
+            "primary": false,
+            "color_label": null
+        },
+        {
+            "file": "view-2.webp",
+            "alt": "iPhone 17 góc chụp 2",
+            "primary": false,
+            "color_label": null
+        },
+        {
+            "file": "view-3.webp",
+            "alt": "iPhone 17 góc chụp 3",
+            "primary": false,
+            "color_label": null
+        },
+        {
+            "file": "view-4.webp",
+            "alt": "iPhone 17 góc chụp 4",
+            "primary": false,
+            "color_label": null
+        }
+    ],
+    "suggested_variants": [
+        {
+            "sku": "IP17-BLA-256",
+            "color_label": "Đen",
+            "color_slug": "black",
+            "storage_gb": 256,
+            "storage_label": "256 GB",
+            "original_price": 26990000,
+            "sale_price": 25990000,
+            "stock_quantity": 12,
+            "is_active": true
+        },
+        {
+            "sku": "IP17-BLA-512",
+            "color_label": "Đen",
+            "color_slug": "black",
+            "storage_gb": 512,
+            "storage_label": "512 GB",
+            "original_price": 28990000,
+            "sale_price": 27990000,
+            "stock_quantity": 12,
+            "is_active": true
+        },
+        {
+            "sku": "IP17-WHI-256",
+            "color_label": "Trắng",
+            "color_slug": "white",
+            "storage_gb": 256,
+            "storage_label": "256 GB",
+            "original_price": 26990000,
+            "sale_price": 25990000,
+            "stock_quantity": 12,
+            "is_active": true
+        },
+        {
+            "sku": "IP17-WHI-512",
+            "color_label": "Trắng",
+            "color_slug": "white",
+            "storage_gb": 512,
+            "storage_label": "512 GB",
+            "original_price": 28990000,
+            "sale_price": 27990000,
+            "stock_quantity": 12,
+            "is_active": true
+        },
+        {
+            "sku": "IP17-LAV-256",
+            "color_label": "Tím Oải Hương",
+            "color_slug": "lavender",
+            "storage_gb": 256,
+            "storage_label": "256 GB",
+            "original_price": 26990000,
+            "sale_price": 25990000,
+            "stock_quantity": 12,
+            "is_active": true
+        },
+        {
+            "sku": "IP17-LAV-512",
+            "color_label": "Tím Oải Hương",
+            "color_slug": "lavender",
+            "storage_gb": 512,
+            "storage_label": "512 GB",
+            "original_price": 28990000,
+            "sale_price": 27990000,
+            "stock_quantity": 12,
+            "is_active": true
+        }
+    ],
+    "specifications_preview": "Hệ điều hành: iOS 26",
+    "admin_notes": [
+        "Tạo dòng sản phẩm \"iPhone 17 Series\" (năm 2025) trước nếu chưa có.",
+        "Thêm màu trong admin nếu chưa có (xem color_label trong suggested_variants).",
+        "Upload ảnh từ thư mục images/ theo thứ tự manifest.json.",
+        "Dán description.html vào trình soạn thảo mô tả chi tiết.",
+        "Dán specifications.txt vào ô Thông số."
+    ]
+}

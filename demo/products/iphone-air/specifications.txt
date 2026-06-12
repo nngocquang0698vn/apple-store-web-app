@@ -1,0 +1,20 @@
+Hệ điều hành: iOS 26
+Chipset: Chip A19 Pro
+Bộ nhớ trong: 256 GB
+Loại CPU: 6 lõi (2 hiệu năng + 4 tiết kiệm điện)
+Kích thước màn hình: 6.5 inches
+Công nghệ màn hình: Super Retina XDR
+Độ phân giải màn hình: 2736 x 1260 pixels
+Tính năng màn hình: Dynamic IslandMàn hình luôn bậtHDR460 ppiTrue ToneDải màu rộng (P3)Haptic TouchTỷ lệ tương phản 2.000.000:1Độ sáng 1000 nit (typ)Đỉnh 1600 nit (HDR)Đỉnh 3000 nit (ngoài trời)Lớp phủ chống vân tay, chống phản chi
+Camera sau: Hệ thống camera 48MP Fusion
+Camera chính 48MP
+
+
+
+Zoom quang học 2x
+Camera trước: 18MP Center Stage f/1.6
+Thẻ SIM: 2 eSIM
+Công nghệ NFC: Có
+Pin: Thời gian xem video lên đến 27 giờ
+Cổng sạc USB-C, Hỗ trợ USB-2
+Sạc không dây MagSafe lên đến 20W
