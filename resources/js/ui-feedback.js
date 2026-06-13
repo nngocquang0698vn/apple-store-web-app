@@ -7,6 +7,17 @@ const FLASH_CLASSES = {
     info: 'border-blue-200 bg-blue-50 text-blue-800',
 };
 
+const FLASH_DISMISS_BUTTON = `
+    <button
+        type="button"
+        class="inline-flex shrink-0 rounded-md p-1 opacity-70 transition hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-current focus:ring-offset-1"
+        data-action="dismiss-flash"
+        aria-label="Đóng thông báo"
+    >
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+    </button>
+`;
+
 function clearDismissTimer($alert) {
     const timer = $alert.data('dismissTimer');
 
@@ -14,6 +25,17 @@ function clearDismissTimer($alert) {
         clearTimeout(timer);
         $alert.removeData('dismissTimer');
     }
+}
+
+export function dismissFlash($alert) {
+    if (!$alert || $alert.length === 0) {
+        return;
+    }
+
+    clearDismissTimer($alert);
+    $alert.fadeOut(200, function () {
+        $(this).remove();
+    });
 }
 
 export function scrollFlashIntoView() {
@@ -40,9 +62,7 @@ function scheduleDismiss($alert, ms = FLASH_DISMISS_MS) {
     clearDismissTimer($alert);
 
     const timer = setTimeout(() => {
-        $alert.fadeOut(200, function () {
-            $(this).remove();
-        });
+        dismissFlash($alert);
     }, ms);
 
     $alert.data('dismissTimer', timer);
@@ -70,12 +90,13 @@ export function showFlash(message, type = 'success', options = {}) {
 
     $container.html(`
         <div
-            class="mb-4 rounded-lg border px-4 py-3 text-sm ${FLASH_CLASSES[type] ?? FLASH_CLASSES.success}"
+            class="mb-4 flex items-start gap-3 rounded-lg border px-4 py-3 text-sm ${FLASH_CLASSES[type] ?? FLASH_CLASSES.success}"
             role="alert"
             data-flash-alert
             ${persistentAttr}
         >
-            ${message}
+            <div class="min-w-0 flex-1">${message}</div>
+            ${FLASH_DISMISS_BUTTON}
         </div>
     `);
 
@@ -95,5 +116,11 @@ export function showFlash(message, type = 'success', options = {}) {
 export function initFlashAutoDismiss() {
     $('[data-flash-auto-dismiss]').each(function () {
         scheduleDismiss($(this));
+    });
+}
+
+export function initFlashDismissButtons() {
+    $(document).on('click', '[data-action="dismiss-flash"]', function () {
+        dismissFlash($(this).closest('[data-flash-alert]'));
     });
 }

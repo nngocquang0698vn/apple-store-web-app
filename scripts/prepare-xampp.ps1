@@ -99,10 +99,17 @@ if (-not $mysqldump) {
         "--triggers",
         "--single-transaction",
         "--default-character-set=utf8mb4",
+        "--set-charset",
+        "--result-file=$dumpFile",
         $dbName
     )
-    & $exe @args | Set-Content -Path $dumpFile -Encoding utf8
-    Write-Host "   Da luu: database/dumps/apple_store-demo.sql"
+
+    & $exe @args
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error "mysqldump that bai (exit $LASTEXITCODE)"
+    }
+
+    Write-Host "   Da luu: database/dumps/apple_store-demo.sql (utf8mb4, ghi truc tiep boi mysqldump)"
 }
 
 Write-Host ""

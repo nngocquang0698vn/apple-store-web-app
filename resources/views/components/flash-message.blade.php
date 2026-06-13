@@ -1,43 +1,29 @@
-@if (session('success'))
-    <div
-        class="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800"
-        role="alert"
-        data-flash-alert
-        data-flash-auto-dismiss
-    >
-        {{ session('success') }}
-    </div>
-@endif
+@php
+    $flashTypes = [
+        'success' => 'border-green-200 bg-green-50 text-green-800',
+        'error' => 'border-red-200 bg-red-50 text-red-800',
+        'warning' => 'border-amber-200 bg-amber-50 text-amber-800',
+        'info' => 'border-blue-200 bg-blue-50 text-blue-800',
+    ];
+@endphp
 
-@if (session('error'))
-    <div
-        class="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
-        role="alert"
-        data-flash-alert
-        data-flash-auto-dismiss
-    >
-        {{ session('error') }}
-    </div>
-@endif
-
-@if (session('warning'))
-    <div
-        class="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800"
-        role="alert"
-        data-flash-alert
-        data-flash-auto-dismiss
-    >
-        {{ session('warning') }}
-    </div>
-@endif
-
-@if (session('info'))
-    <div
-        class="mb-4 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800"
-        role="alert"
-        data-flash-alert
-        data-flash-auto-dismiss
-    >
-        {{ session('info') }}
-    </div>
-@endif
+@foreach ($flashTypes as $type => $classes)
+    @if (session($type))
+        <div
+            class="mb-4 flex items-start gap-3 rounded-lg border px-4 py-3 text-sm {{ $classes }}"
+            role="alert"
+            data-flash-alert
+            data-flash-auto-dismiss
+        >
+            <p class="min-w-0 flex-1">{{ session($type) }}</p>
+            <button
+                type="button"
+                class="inline-flex shrink-0 rounded-md p-1 opacity-70 transition hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-current focus:ring-offset-1"
+                data-action="dismiss-flash"
+                aria-label="Đóng thông báo"
+            >
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+        </div>
+    @endif
+@endforeach

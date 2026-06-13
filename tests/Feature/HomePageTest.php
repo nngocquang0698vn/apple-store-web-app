@@ -46,6 +46,8 @@ class HomePageTest extends TestCase
         $response->assertOk();
         $response->assertSee('Thao tác thành công.', false);
         $response->assertSee('data-flash-auto-dismiss', false);
+        $response->assertSee('data-action="dismiss-flash"', false);
+        $response->assertSee('Đóng thông báo', false);
         $response->assertDontSee('data-flash-persistent', false);
     }
 
