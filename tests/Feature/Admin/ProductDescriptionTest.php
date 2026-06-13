@@ -128,7 +128,7 @@ class ProductDescriptionTest extends TestCase
 
         $response->assertOk();
         $response->assertJsonStructure(['url']);
-        $this->assertStringStartsWith('/storage/products/description/', $response->json('url'));
+        $this->assertStringContainsString('products/description/', $response->json('url'));
     }
 
     public function test_admin_can_save_description_with_image_table_and_youtube(): void

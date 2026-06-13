@@ -1,0 +1,110 @@
+# Virtual Hosts
+
+#
+
+# Required modules: mod_log_config
+
+
+
+# If you want to maintain multiple domains/hostnames on your
+
+# machine you can setup VirtualHost containers for them. Most configurations
+
+# use only name-based virtual hosts so the server doesn't need to worry about
+
+# IP addresses. This is indicated by the asterisks in the directives below.
+
+#
+
+# Please see the documentation at 
+
+# <URL:http://httpd.apache.org/docs/2.4/vhosts/>
+
+# for further details before you try to setup virtual hosts.
+
+#
+
+# You may use the command line option '-S' to verify your virtual host
+
+# configuration.
+
+
+
+#
+
+# VirtualHost example:
+
+# Almost any Apache directive may go into a VirtualHost container.
+
+# The first VirtualHost section is used for all requests that do not
+
+# match a ServerName or ServerAlias in any <VirtualHost> block.
+
+#
+
+# First Virtual Host must be a shallow duplicate of the main host 
+
+# in httpd.conf
+
+
+
+<VirtualHost _default_:80>
+
+  DocumentRoot "${XAMPP_LITE_ROOT}/www"
+
+ServerName 127.0.0.1:80
+
+  ErrorLog "${XAMPP_LITE_ROOT}/tmp/apache_logs/apache_error.log"
+
+  CustomLog "${XAMPP_LITE_ROOT}/tmp/apache_logs/apache_access.log" common
+
+  Include conf/extra/httpd-xampp-lite-aliases.conf
+
+</VirtualHost>
+
+
+
+# iStore Laravel app (port 8080 — khong xung dot /admin cua XAMPP tren localhost:80)
+
+<VirtualHost *:8080>
+
+    ServerName 127.0.0.1
+
+    DocumentRoot "${XAMPP_LITE_ROOT}/www/public"
+
+    <Directory "${XAMPP_LITE_ROOT}/www/public">
+
+        Options Indexes FollowSymLinks Includes ExecCGI
+
+        AllowOverride All
+
+        Require all granted
+
+    </Directory>
+
+    ErrorLog "${XAMPP_LITE_ROOT}/tmp/apache_logs/istore-error.log"
+
+    CustomLog "${XAMPP_LITE_ROOT}/tmp/apache_logs/istore-access.log" common
+
+</VirtualHost>
+
+
+
+# <VirtualHost *:80>
+
+#     ServerAdmin webmaster@dummy-host2.example.com
+
+#     DocumentRoot "${SRVROOT}/docs/dummy-host2.example.com"
+
+#     ServerName dummy-host2.example.com
+
+#     ErrorLog "${XAMPP_LITE_ROOT}/tmp/apache_logs/dummy-host2.example.com-error.log"
+
+#     CustomLog "${XAMPP_LITE_ROOT}/tmp/apache_logs/dummy-host2.example.com-access.log" common
+
+# </VirtualHost>
+
+
+
+
+

@@ -289,7 +289,12 @@ final class ProductDescriptionSanitizer
     {
         if (! self::isAllowedImage($image)) {
             $image->parentNode?->removeChild($image);
+
+            return;
         }
+
+        $src = trim((string) $image->getAttribute('src'));
+        $image->setAttribute('src', ProductImageUrl::rewriteStorageSrc($src));
     }
 
     private static function sanitizeIframe(DOMElement $iframe): void

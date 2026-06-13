@@ -18,4 +18,24 @@ final class ProductImageUrl
 
         return Storage::disk('public')->url($path);
     }
+
+    /**
+     * Đổi src dạng /storage/... sang URL đúng theo APP_URL (cần khi chạy trong subfolder /public).
+     */
+    public static function rewriteStorageSrc(string $src): string
+    {
+        $src = trim($src);
+
+        if (preg_match('#^/storage/(.+)$#', $src, $matches) === 1) {
+            return Storage::disk('public')->url($matches[1]);
+        }
+
+        $path = parse_url($src, PHP_URL_PATH);
+
+        if (is_string($path) && preg_match('#^/storage/(.+)$#', $path, $matches) === 1) {
+            return Storage::disk('public')->url($matches[1]);
+        }
+
+        return $src;
+    }
 }

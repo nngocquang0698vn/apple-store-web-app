@@ -33,4 +33,16 @@ class ProductImageUrlTest extends TestCase
         $this->assertNotNull($url);
         $this->assertStringContainsString('products/demo/iphone.webp', $url);
     }
+
+    public function test_rewrite_storage_src_uses_app_url_prefix(): void
+    {
+        config([
+            'app.url' => 'http://localhost/public',
+            'filesystems.disks.public.url' => 'http://localhost/public/storage',
+        ]);
+
+        $url = ProductImageUrl::rewriteStorageSrc('/storage/products/demo/iphone.webp');
+
+        $this->assertSame('http://localhost/public/storage/products/demo/iphone.webp', $url);
+    }
 }

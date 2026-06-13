@@ -1,0 +1,236 @@
+#
+# XAMPP-Lite settings
+#
+
+AddDefaultCharset UTF-8
+
+# <IfModule env_module>
+    # SetEnv MYSQL_HOME "${XAMPP_LITE_ROOT}/apps/mysql/bin"
+    # SetEnv OPENSSL_CONF "${SRVROOT}/bin/openssl.cnf"
+    # SetEnv PHP_PEAR_SYSCONF_DIR "${XAMPP_LITE_ROOT}/apps/php"
+    # SetEnv PHPRC "${XAMPP_LITE_ROOT}/apps/php"
+    # SetEnv TMP "${XAMPP_LITE_ROOT}/tmp"
+	# ; MySQL
+    # SetEnv TMPDIR "${XAMPP_LITE_ROOT}/tmp"
+    # SetEnv MYSQL_HOME "${XAMPP_LITE_ROOT}/apps/MySQL"
+	# ; PHP Runtime Configuration
+    # SetEnv PHPRC "${XAMPP_LITE_ROOT}/apps/php"
+	# ; Pear
+    # SetEnv PHP_PEAR_INSTALL_DIR "${XAMPP_LITE_ROOT}/apps/php/pear"
+    # SetEnv PHP_PEAR_SYSCONF_DIR "${XAMPP_LITE_ROOT}/apps/php"
+    # SetEnv PHP_PEAR_BIN_DIR "${XAMPP_LITE_ROOT}/apps/php"
+    # SetEnv PHP_PEAR_DOC_DIR "${XAMPP_LITE_ROOT}/apps/php/docs"
+    # SetEnv PHP_PEAR_EXT_DIR "${XAMPP_LITE_ROOT}/apps/php/ext"
+    # SetEnv PHP_PEAR_PHP_DIR "${XAMPP_LITE_ROOT}/apps/php/pear"
+    # SetEnv PHP_PEAR_CACHE_DIR "${XAMPP_LITE_ROOT}/tmp/pear/cache"
+    # SetEnv PHP_PEAR_CFG_DIR "${XAMPP_LITE_ROOT}/apps/php/cfg"
+    # SetEnv PHP_PEAR_DATA_DIR "${XAMPP_LITE_ROOT}/apps/php/data"
+    # SetEnv PHP_PEAR_DOWNLOAD_DIR "${XAMPP_LITE_ROOT}/tmp/pear/download"
+    # SetEnv PHP_PEAR_MAN_DIR "${XAMPP_LITE_ROOT}/apps/php/man"
+    # SetEnv PHP_PEAR_PHP_BIN "${XAMPP_LITE_ROOT}/apps/php/php.exe"
+    # SetEnv PHP_PEAR_PHP_INI "${XAMPP_LITE_ROOT}/apps/php/php.ini"
+    # SetEnv PHP_PEAR_TEMP_DIR "${XAMPP_LITE_ROOT}/tmp/pear/temp"
+    # SetEnv PHP_PEAR_TEST_DIR "${XAMPP_LITE_ROOT}/apps/php/tests"
+    # SetEnv PHP_PEAR_WWW_DIR "${XAMPP_LITE_ROOT}/apps/php/www"
+	# ; Composer
+    # SetEnv COMPOSER_HOME "${XAMPP_LITE_ROOT}/apps/php/composer/home"
+    # SetEnv COMPOSER_VENDOR_DIR "${XAMPP_LITE_ROOT}/apps/php/composer/vendor"
+    # SetEnv COMPOSER_CACHE_DIR "${XAMPP_LITE_ROOT}/apps/php/composer/cache"
+	# ; mibs
+    # SetEnv MIBDIRS "${XAMPP_LITE_ROOT}/apps/php/extras/mibs"
+	# ; TMP
+    # SetEnv TMP "${XAMPP_LITE_ROOT}/tmp"
+# </IfModule>
+
+# PHP-Module setup
+#
+
+# php 8 "Thread Safe"
+<IfFile "${XAMPP_LITE_ROOT}/apps/php/php8apache2_4.dll">
+    LoadModule php_module "${XAMPP_LITE_ROOT}/apps/php/php8apache2_4.dll"
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/php8ts.dll"
+</IfFile>
+
+# php 7 "Thread Safe"
+<IfFile "${XAMPP_LITE_ROOT}/apps/php/php7apache2_4.dll">
+    LoadModule php7_module "${XAMPP_LITE_ROOT}/apps/php/php7apache2_4.dll"
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/php7ts.dll"
+</IfFile>
+
+# php 5 "Thread Safe"
+<IfFile "${XAMPP_LITE_ROOT}/apps/php/php5apache2_4.dll">
+    LoadModule php5_module "${XAMPP_LITE_ROOT}/apps/php/php5apache2_4.dll"
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/php5ts.dll"
+</IfFile>
+
+# PostgreSQL
+<IfFile "${XAMPP_LITE_ROOT}/apps/php/libpq.dll">
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/libpq.dll"
+</IfFile>
+
+# SQLite
+<IfFile "${XAMPP_LITE_ROOT}/apps/php/libsqlite3.dll">
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/libsqlite3.dll"
+</IfFile>
+
+# cURL
+
+# Ensure to load libcrypto-*.dll and libssl-*.dll (previously known as libeay32.dll and ssleay32.dll) 
+# libssh2.dll is also required.  The cURL library (libcurl.dll) is not needed.
+
+<IfFile "${XAMPP_LITE_ROOT}/apps/php/libssh2.dll">
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/libssh2.dll"
+</IfFile>
+# --
+<IfFile "${XAMPP_LITE_ROOT}/apps/php/libcrypto-1_1.dll">
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/libcrypto-1_1.dll"
+</IfFile>
+<IfFile "${XAMPP_LITE_ROOT}/apps/php/libcrypto-1_1-x64.dll">
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/libcrypto-1_1-x64.dll"
+</IfFile>
+<IfFile "${XAMPP_LITE_ROOT}/apps/php/libcrypto-3.dll">
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/libcrypto-3.dll"
+</IfFile>
+<IfFile "${XAMPP_LITE_ROOT}/apps/php/libcrypto-3-x64.dll">
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/libcrypto-3-x64.dll"
+</IfFile>
+# -- 
+<IfFile "${XAMPP_LITE_ROOT}/apps/php/libssl-1_1-x64.dll">
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/libssl-1_1-x64.dll"
+</IfFile>
+<IfFile "${XAMPP_LITE_ROOT}/apps/php/libssl-1_1.dll">
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/libssl-1_1.dll"
+</IfFile>
+<IfFile "${XAMPP_LITE_ROOT}/apps/php/libssl-3.dll">
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/libssl-3.dll"
+</IfFile>
+<IfFile "${XAMPP_LITE_ROOT}/apps/php/libssl-3-x64.dll">
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/libssl-3-x64.dll"
+</IfFile>
+
+
+
+# ICU: International Components for Unicode (https://icu.unicode.org/)
+# https://github.com/unicode-org/icu/releases
+
+# v73
+# <IfFile "${XAMPP_LITE_ROOT}/apps/php/icudt73.dll">
+    # LoadFile "${XAMPP_LITE_ROOT}/apps/php/icudt73.dll"
+    # LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuin73.dll"
+    # LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuio73.dll"
+    # LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuuc73.dll"
+# </IfFile>
+
+# v72
+<IfFile "${XAMPP_LITE_ROOT}/apps/php/icudt72.dll">
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/icudt72.dll"
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuin72.dll"
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuio72.dll"
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuuc72.dll"
+</IfFile>
+
+# v71
+<IfFile "${XAMPP_LITE_ROOT}/apps/php/icudt71.dll">
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/icudt71.dll"
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuin71.dll"
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuio71.dll"
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuuc71.dll"
+</IfFile>
+
+
+# v70
+<IfFile "${XAMPP_LITE_ROOT}/apps/php/icudt70.dll">
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/icudt70.dll"
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuin70.dll"
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuio70.dll"
+    LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuuc70.dll"
+</IfFile>
+
+
+# v68
+# <IfFile "${XAMPP_LITE_ROOT}/apps/php/icudt68.dll">
+    # LoadFile "${XAMPP_LITE_ROOT}/apps/php/icudt68.dll"
+    # LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuin68.dll"
+    # LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuio68.dll"
+    # LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuuc68.dll"
+# </IfFile>
+
+
+# v66
+# <IfFile "${XAMPP_LITE_ROOT}/apps/php/icudt66.dll">
+    # LoadFile "${XAMPP_LITE_ROOT}/apps/php/icudt66.dll"
+    # LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuin66.dll"
+    # LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuio66.dll"
+    # LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuuc66.dll"
+# </IfFile>
+
+
+# v57
+# <IfFile "${XAMPP_LITE_ROOT}/apps/php/icudt57.dll">
+    # LoadFile "${XAMPP_LITE_ROOT}/apps/php/icudt57.dll"
+    # LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuin57.dll"
+    # LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuio57.dll"
+    # LoadFile "${XAMPP_LITE_ROOT}/apps/php/icuuc57.dll"
+# </IfFile>
+
+
+LoadFile "${XAMPP_LITE_ROOT}/apps/php/libsasl.dll"
+
+
+<FilesMatch "\.php$">
+    SetHandler application/x-httpd-php
+</FilesMatch>
+
+<FilesMatch "\.phps$">
+    SetHandler application/x-httpd-php-source
+</FilesMatch>
+
+#
+# PHP-CGI setup
+#
+#<FilesMatch "\.php$">
+#    SetHandler application/x-httpd-php-cgi
+#</FilesMatch>
+#<IfModule actions_module>
+#    Action application/x-httpd-php-cgi "/php-cgi/php-cgi.exe"
+#</IfModule>
+
+
+<IfModule php_module>
+    PHPINIDir "${XAMPP_LITE_ROOT}/apps/php"
+</IfModule>
+
+<IfModule mime_module>
+    AddType text/html .php .phps
+</IfModule>
+
+ScriptAlias /php-cgi/ "${XAMPP_LITE_ROOT}/apps/php/"
+<Directory "${XAMPP_LITE_ROOT}/apps/php">
+    AllowOverride None
+    Options None
+    Require all denied
+    <Files "php-cgi.exe">
+        Require all granted
+    </Files>
+</Directory>
+
+<Directory "${XAMPP_LITE_ROOT}/apps/cgi-bin">
+    <FilesMatch "\.php$">
+        SetHandler cgi-script
+    </FilesMatch>
+    <FilesMatch "\.phps$">
+        SetHandler None
+    </FilesMatch>
+</Directory>
+
+# Disable caching
+<IfModule headers_module>
+    Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+    FileETag None
+    Header unset ETag
+    Header set Pragma "no-cache"
+    Header set Expires "Fri, 14 Jan 2011 00:00:00 GMT"
+</IfModule>
+
+# Aliases — moved to conf/extra/httpd-xampp-lite-aliases.conf
+# (included only in localhost VirtualHost; see httpd-vhosts.conf)

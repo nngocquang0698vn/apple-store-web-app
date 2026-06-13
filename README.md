@@ -2,178 +2,224 @@
 
 Website bán iPhone, iPad và phụ kiện (đồ án học tập): **Laravel 13**, **Blade SSR**, **Tailwind CSS 4**, **jQuery**, **MySQL**.
 
----
-
-## Bắt đầu nhanh
-
-| Môi trường | Khuyến nghị | Hướng dẫn |
-| --- | --- | --- |
-| **Laragon** (Windows) | Phát triển hàng ngày | [Cài Laragon](#cài-đặt-laragon-windows) |
-| **XAMPP** (Windows) | Nộp bài / máy chỉ có XAMPP | [XAMPP.md](XAMPP.md) — copy + import SQL |
-| **macOS** | Dev trên Mac | [Cài macOS](#cài-đặt-macos) |
-| **Docker / Podman** | Demo production-like | [Docker / Podman](#docker--podman-tùy-chọn) |
-
-**Tài khoản demo** (sau seed hoặc import SQL):
-
-| Vai trò | Email | Mật khẩu |
-| --- | --- | --- |
-| Admin | `admin@istore.test` | `password` |
-| Khách | `customer1@istore.test` … `customer5@istore.test` | `password` |
+> **Sinh viên phát triển:** xem [README-DEV.md](README-DEV.md) (Laragon, test, build).
 
 ---
 
-## Giới thiệu
+## Hướng dẫn cài đặt (dành cho thầy cô chấm bài)
 
-### Mục đích
+Gói zip đã chuẩn bị sẵn — **không cần** Composer, Node.js, npm, sửa file `hosts` hay `php artisan migrate`.
 
-iStore mô phỏng cửa hàng Apple quy mô nhỏ: khách tìm kiếm/lọc sản phẩm, chọn biến thể (màu, dung lượng), giỏ hàng AJAX, đặt hàng COD, theo dõi đơn. Admin quản lý catalog, đơn hàng, khách hàng và dashboard thống kê.
-
-### Công nghệ
-
-| Thành phần | Phiên bản |
+| Đã có trong gói | Ghi chú |
 | --- | --- |
-| PHP | ^8.3 |
-| Laravel | 13.x |
-| MySQL | 8.x |
-| Tailwind CSS | 4.x (Vite) |
-| jQuery | 4.x |
-| Node.js | 22.x (chỉ cần khi build frontend) |
+| `vendor/` | Thư viện PHP |
+| `public/build/` | CSS/JS đã build |
+| `database/dumps/apple_store-demo.sql` | Dữ liệu demo (có `CREATE DATABASE`) |
+| `public/storage/` | Ảnh sản phẩm (copy sẵn) |
+| `.env` | `APP_KEY` + `APP_URL=http://127.0.0.1:8080` |
+| `xampp-lite-httpd*.example` | Cấu hình Apache mẫu |
 
-Không dùng React, Vue, Livewire, Inertia hay Alpine.
+**Yêu cầu:** Windows 64-bit, [XAMPP-Lite 8.3.30](https://sourceforge.net/projects/xampplite/files/8.3/8.3.30/x64/php-man-en/) (PHP **8.3**).
 
-### Chức năng chính
+> **Không dùng** [XAMPP Apache Friends](https://www.apachefriends.org/) — PHP quá cũ cho Laravel 13.
 
-**Khách:** đăng ký/đăng nhập, tìm kiếm & lọc AJAX, chi tiết sản phẩm (gallery, đổi màu/dung lượng), giỏ hàng, checkout COD, lịch sử đơn.
+### Bước 1 — Tải XAMPP-Lite
 
-**Admin:** dashboard, CRUD danh mục/dòng/màu/dung lượng/sản phẩm/ảnh/biến thể, quản lý đơn (đổi trạng thái, hủy + hoàn kho), khách hàng.
+[8.3.30 / x64](https://sourceforge.net/projects/xampplite/files/8.3/8.3.30/x64/php-man-en/) — khuyến nghị [portable.7z](https://sourceforge.net/projects/xampplite/files/8.3/8.3.30/x64/php-man-en/XAMPP-Lite-8.3.30.1-x64-php-man-en-portable.7z/download).
 
-### Kịch bản trình bày demo
+Kiểm tra: `php -v` → **8.3.x**.
 
-Thư mục `demo/` có resource sản phẩm mẫu và file `demo/demo.md` (kịch bản ~20 phút).
+### Bước 2 — Copy project vào `www/`
+
+Copy **toàn bộ** gói nộp vào `www/` — file `artisan` nằm **ngay trong** `www/`, không tạo subfolder.
+
+```
+C:\xampp_lite_8_3\www\artisan
+C:\xampp_lite_8_3\www\.env
+C:\xampp_lite_8_3\www\public\index.php
+```
+
+### Bước 3 — Cấu hình Apache (port 8080)
+
+App Laravel chạy trên **http://127.0.0.1:8080** — **không cần sửa file `hosts`**.
+
+**Vì sao dùng port 8080?** XAMPP-Lite trên `http://localhost` (cổng 80) đã chiếm đường dẫn `/admin` cho panel quản trị XAMPP. App Laravel cũng có `/admin`. Tách app sang cổng **8080** tránh xung đột; phpMyAdmin vẫn mở bình thường tại `http://localhost/phpmyadmin`.
+
+Giả sử XAMPP-Lite nằm tại `C:\xampp_lite_8_3`. Thư mục cấu hình Apache:
+
+```
+C:\xampp_lite_8_3\apps\apache\conf\
+C:\xampp_lite_8_3\apps\apache\conf\extra\
+```
+
+**Trước khi sửa:** Stop Apache trong XAMPP-Lite Control Panel (hoặc đóng cửa sổ Apache), sao lưu 4 file gốc nếu cần khôi phục.
 
 ---
 
-## Yêu cầu chung
+#### Cách A — Ghi đè bằng file mẫu (khuyến nghị, nhanh nhất)
 
-- PHP **8.3+** với extension: `pdo_mysql`, `mbstring`, `openssl`, `tokenizer`, `xml`, `ctype`, `json`, `fileinfo`, `gd`
-- Composer 2.x
-- MySQL 8.x
-- Node.js 22.x + npm (chỉ máy **build** frontend; người cài XAMPP theo [XAMPP.md](XAMPP.md) có thể bỏ qua nếu đã có `public/build/`)
+Trong gói nộp có sẵn 4 file đã chỉnh đúng. Copy **ghi đè** như sau:
+
+| File trong gói nộp | Copy thành file trên XAMPP-Lite |
+| --- | --- |
+| `xampp-lite-httpd.conf.example` | `apps\apache\conf\httpd.conf` |
+| `xampp-lite-httpd-vhosts.conf.example` | `apps\apache\conf\extra\httpd-vhosts.conf` |
+| `xampp-lite-httpd-xampp-lite-aliases.conf.example` | `apps\apache\conf\extra\httpd-xampp-lite-aliases.conf` *(tạo mới)* |
+| `xampp-lite-httpd-xampp-lite.conf.example` | `apps\apache\conf\extra\httpd-xampp-lite.conf` |
+
+PowerShell (chạy **sau** khi đã copy project vào `www/`):
+
+```powershell
+$X = "C:\xampp_lite_8_3"
+$W = "C:\xampp_lite_8_3\www"
+
+Copy-Item "$W\xampp-lite-httpd.conf.example" "$X\apps\apache\conf\httpd.conf" -Force
+Copy-Item "$W\xampp-lite-httpd-vhosts.conf.example" "$X\apps\apache\conf\extra\httpd-vhosts.conf" -Force
+Copy-Item "$W\xampp-lite-httpd-xampp-lite-aliases.conf.example" "$X\apps\apache\conf\extra\httpd-xampp-lite-aliases.conf" -Force
+Copy-Item "$W\xampp-lite-httpd-xampp-lite.conf.example" "$X\apps\apache\conf\extra\httpd-xampp-lite.conf" -Force
+```
+
+Sau đó nhảy tới **Bước 3.5 — Kiểm tra và khởi động lại Apache**.
 
 ---
 
-## Cài đặt Laragon (Windows)
+#### Cách B — Sửa thủ công từng file (step by step)
 
-Khuyến nghị cho phát triển. Document root trỏ `public/` — hostname mặc định:
+Dùng Notepad hoặc trình soạn thảo bất kỳ. Mở file trên XAMPP-Lite (không sửa file `.example` trong gói nộp nếu muốn giữ bản mẫu để đối chiếu).
 
-```
-http://apple-store-web-app.test
-```
+##### Bước 3.1 — `httpd.conf`: Apache lắng nghe cổng 8080
 
-### Các bước
+Mở `apps\apache\conf\httpd.conf`, tìm dòng:
 
-```powershell
-cd C:\laragon\www\apple-store-web-app
-
-composer install
-npm install
-Copy-Item .env.example .env
-php artisan key:generate
+```apache
+Listen 127.0.0.1:80
 ```
 
-Chỉnh `.env`:
+Thêm **ngay bên dưới**:
 
-```dotenv
-APP_URL=http://apple-store-web-app.test
-DB_DATABASE=apple_store
-DB_USERNAME=root
-DB_PASSWORD=
+```apache
+Listen 127.0.0.1:8080
 ```
 
-Database và chạy lần đầu:
+Kiểm tra dòng sau **không bị comment** (bật virtual host):
 
-```powershell
-mysql -u root -e "CREATE DATABASE IF NOT EXISTS apple_store CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
-php artisan migrate --seed
-php artisan storage:link
-npm run build
+```apache
+Include conf/extra/httpd-vhosts.conf
 ```
 
-Laragon → **Start All** → mở `http://apple-store-web-app.test`.
+##### Bước 3.2 — Tạo `httpd-xampp-lite-aliases.conf` (file mới)
 
-### Lệnh thường dùng
+Tạo file `apps\apache\conf\extra\httpd-xampp-lite-aliases.conf`.
 
-```powershell
-php artisan migrate:fresh --seed    # reset DB + seed
-php artisan test                    # chạy test
-npm run dev                         # Vite khi sửa CSS/JS
+Copy **toàn bộ** nội dung từ `xampp-lite-httpd-xampp-lite-aliases.conf.example` trong gói nộp (hoặc copy khối `Alias /admin`, `/phpmyadmin`, … từ file `httpd-xampp-lite.conf` gốc của XAMPP).
+
+File này chứa alias panel XAMPP và phpMyAdmin — sẽ chỉ được load trên cổng **80**, không ảnh hưởng app trên **8080**.
+
+##### Bước 3.3 — `httpd-xampp-lite.conf`: bỏ alias khỏi cấu hình chung
+
+Mở `apps\apache\conf\extra\httpd-xampp-lite.conf`.
+
+**Xóa** (hoặc comment) toàn bộ khối `<IfModule alias_module>` chứa các dòng `Alias /admin`, `Alias /phpmyadmin`, … — phần đó đã chuyển sang file ở bước 3.2.
+
+Cuối file có thể để ghi chú:
+
+```apache
+# Aliases — moved to conf/extra/httpd-xampp-lite-aliases.conf
+# (included only in localhost VirtualHost; see httpd-vhosts.conf)
 ```
 
-### Lỗi thường gặp (Laragon)
+##### Bước 3.4 — `httpd-vhosts.conf`: cổng 80 giữ XAMPP, cổng 8080 chạy Laravel
+
+Mở `apps\apache\conf\extra\httpd-vhosts.conf`.
+
+**4a.** VirtualHost mặc định cổng 80 — thêm dòng `Include` alias XAMPP (nếu chưa có):
+
+```apache
+<VirtualHost _default_:80>
+  DocumentRoot "${XAMPP_LITE_ROOT}/www"
+  ServerName 127.0.0.1:80
+  ErrorLog "${XAMPP_LITE_ROOT}/tmp/apache_logs/apache_error.log"
+  CustomLog "${XAMPP_LITE_ROOT}/tmp/apache_logs/apache_access.log" common
+  Include conf/extra/httpd-xampp-lite-aliases.conf
+</VirtualHost>
+```
+
+**4b.** Thêm **VirtualHost mới** cho app (đặt **cuối file**):
+
+```apache
+# iStore Laravel app (port 8080)
+<VirtualHost *:8080>
+    ServerName 127.0.0.1
+    DocumentRoot "${XAMPP_LITE_ROOT}/www/public"
+    <Directory "${XAMPP_LITE_ROOT}/www/public">
+        Options Indexes FollowSymLinks Includes ExecCGI
+        AllowOverride All
+        Require all granted
+    </Directory>
+    ErrorLog "${XAMPP_LITE_ROOT}/tmp/apache_logs/istore-error.log"
+    CustomLog "${XAMPP_LITE_ROOT}/tmp/apache_logs/istore-access.log" common
+</VirtualHost>
+```
+
+> `DocumentRoot` phải trỏ **`www/public`** (thư mục chứa `index.php` của Laravel), không phải `www/`.
+
+##### Bước 3.5 — Kiểm tra và khởi động lại Apache
+
+1. Start **Apache** trong XAMPP-Lite.
+2. Mở trình duyệt:
+   - http://127.0.0.1:8080 → trang chủ iStore
+   - http://localhost/phpmyadmin → phpMyAdmin (cổng 80)
+3. Nếu Apache không start: xem `tmp\apache_logs\apache_error.log` — thường do thiếu `Listen 8080` hoặc lỗi cú pháp trong `httpd-vhosts.conf`.
+
+File `.env` trong gói nộp đã có `APP_URL=http://127.0.0.1:8080` — **không đổi** trừ khi bạn đổi port khác.
+
+---
+
+#### Tóm tắt: khác gì so với XAMPP-Lite gốc?
+
+| File | Thay đổi |
+| --- | --- |
+| **`httpd.conf`** | Thêm `Listen 127.0.0.1:8080` |
+| **`httpd-vhosts.conf`** | VirtualHost `:80` + `Include` aliases; **thêm** VirtualHost `:8080` → `www/public/` |
+| **`httpd-xampp-lite.conf`** | **Xóa** block `Alias /admin`, `/phpmyadmin`, … |
+| **`httpd-xampp-lite-aliases.conf`** | **File mới** — alias XAMPP chỉ cho cổng 80 |
+
+### Bước 4 — Database
+
+1. Start **Apache** + **MySQL**.
+2. Mở `http://localhost/phpmyadmin` → **Import** → `database/dumps/apple_store-demo.sql`.
+
+Sửa `DB_PASSWORD=` trong `.env` nếu MySQL root có mật khẩu.
+
+### Bước 5 — Mở trang web
+
+| Trang | URL |
+| --- | --- |
+| Trang chủ | http://127.0.0.1:8080 |
+| Sản phẩm | http://127.0.0.1:8080/products |
+| Quản trị (app) | http://127.0.0.1:8080/admin |
+| phpMyAdmin | http://localhost/phpmyadmin |
+
+**Tài khoản demo:** Admin `admin@istore.test` / `password` · Khách `customer1@istore.test` / `password`
+
+Kịch bản trình bày: `demo/demo.md`.
+
+### Lỗi thường gặp
 
 | Triệu chứng | Cách xử lý |
 | --- | --- |
-| Ảnh `/storage/...` 404 | `php artisan storage:link` |
-| `Vite manifest not found` | `npm run build` hoặc `npm run dev` |
-| Hostname `.test` không mở | Laragon → Menu → Reload |
-| CSS không load | `APP_URL` khớp URL trình duyệt |
+| `require PHP >= 8.3.0` | Dùng XAMPP-Lite 8.3.30 |
+| Không mở được `:8080` | Đã thêm `Listen 127.0.0.1:8080` và copy đủ 4 file mẫu; restart Apache |
+| 404 mọi route | VirtualHost `:8080` phải trỏ `www/public`; bật `mod_rewrite` |
+| `/admin` mở panel XAMPP | App dùng **http://127.0.0.1:8080/admin**, không dùng `localhost` (cổng 80) |
+| Ảnh / CSS lỗi | `APP_URL=http://127.0.0.1:8080` trong `.env`; có `public/storage/` |
+| Lỗi DB | MySQL đã Start; kiểm tra `DB_*` |
 
 ---
 
-## Cài đặt macOS
+## Cách cài khác
 
-Yêu cầu: Homebrew, PHP 8.3+, MySQL, Node.js 22.x.
-
-```bash
-cd ~/Sites/apple-store-web-app
-composer install && npm install
-cp .env.example .env && php artisan key:generate
-```
-
-`.env` mẫu:
-
-```dotenv
-APP_URL=http://127.0.0.1:8000
-DB_DATABASE=apple_store
-DB_USERNAME=root
-DB_PASSWORD=
-```
-
-```bash
-mysql -u root -e "CREATE DATABASE IF NOT EXISTS apple_store CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
-php artisan migrate --seed
-php artisan storage:link
-npm run build
-```
-
-Chạy (hai terminal):
-
-```bash
-php artisan serve          # http://127.0.0.1:8000
-npm run dev                # khi sửa frontend
-```
-
----
-
-## XAMPP (Windows)
-
-**Cách đơn giản nhất** — không cần `npm`/`migrate` trên máy người chấm nếu nhóm đã chuẩn bị gói:
-
-1. Nhóm dev chạy: `.\scripts\prepare-xampp.ps1`
-2. Người cài: copy vào `C:\xampp\htdocs\apple-store-web-app` → `.env` → import `database/dumps/apple_store-demo.sql` → `storage:link`
-
-Chi tiết từng bước, virtual host và xử lý lỗi: **[XAMPP.md](XAMPP.md)**
-
----
-
-## Docker / Podman (tùy chọn)
-
-Dùng cho demo production-like, không khuyến nghị dev hàng ngày trên Windows (chậm do bind mount).
-
-| File | Mục đích |
-| --- | --- |
-| `.env.docker` | DB host `mysql` trong container |
-| `.env` | Laragon / host (`127.0.0.1`) |
+### Docker / Podman
 
 ```powershell
 Copy-Item .env.docker.example .env.docker
@@ -181,40 +227,42 @@ podman compose up -d --build
 podman compose exec app php artisan migrate --seed
 ```
 
-URL: [http://localhost:8080](http://localhost:8080) · phpMyAdmin: [http://localhost:8081](http://localhost:8081) (`apple_store` / `secret`)
+| Dịch vụ | URL |
+| --- | --- |
+| App | http://localhost:8080 |
+| phpMyAdmin | http://localhost:8081 |
 
-Reset DB:
-
-```powershell
-podman compose exec app php artisan migrate:fresh --seed --force
-```
-
-(Dùng `docker` thay `podman` nếu cần.)
-
-**Lưu ý:** Sau khi chạy container, `public/storage` trên Windows có thể bị ghi đè — trên Laragon chạy lại:
-
-```powershell
-Remove-Item public\storage -Force -ErrorAction SilentlyContinue
-php artisan storage:link
-```
+(Dùng `docker` thay `podman` nếu cần.) Cùng cổng **8080** với XAMPP-Lite — dễ demo.
 
 ---
 
-## Kiểm tra chất lượng
+## Giới thiệu dự án
 
-```bash
-php artisan test
-npm run build
-```
+iStore mô phỏng cửa hàng Apple: catalog iPhone/iPad/phụ kiện, giỏ hàng AJAX, checkout COD, khu admin.
 
-Kỳ vọng: toàn bộ test pass, build Vite thành công.
+| Thành phần | Phiên bản |
+| --- | --- |
+| PHP | ^8.3 |
+| Laravel | 13.x |
+| MySQL | 8.x |
+| Tailwind CSS | 4.x |
+| jQuery | 4.x |
 
 ---
 
-## Lưu ý chung
+## Sinh viên: chuẩn bị gói nộp
 
-- File `.env` không commit (trừ khi nộp bài demo có `APP_KEY` cố định — xem [XAMPP.md](XAMPP.md)).
-- Test PHPUnit dùng SQLite in-memory; dev dùng MySQL.
-- Ảnh demo: `storage/app/public/products/demo/` — cần `php artisan storage:link`.
+```powershell
+composer install
+.\scripts\prepare-xampp.ps1
+.\scripts\copy-submission.ps1
+```
+
+Zip thư mục `apple-store-web-app-submission` và nộp.
+
+---
+
+## Lưu ý
+
 - Dự án học tập, không phải cửa hàng Apple chính thức.
-- Thư mục `non-submission/` chứa tài liệu AI/Cursor — **không nộp** cùng bài.
+- Phát triển hàng ngày: [README-DEV.md](README-DEV.md).

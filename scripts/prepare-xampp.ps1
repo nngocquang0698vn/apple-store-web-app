@@ -1,5 +1,5 @@
-# Chuẩn bị gói cài XAMPP: build frontend, seed DB, export SQL.
-# Chạy trên máy dev (Laragon/XAMPP) trước khi nộp hoặc zip project.
+# Chuẩn bị gói cài XAMPP-Lite: build frontend, seed DB, export SQL.
+# Chạy trên máy dev (PHP 8.3+) trước khi nộp hoặc zip project.
 #
 # Usage (PowerShell, từ thư mục gốc project):
 #   .\scripts\prepare-xampp.ps1
@@ -100,6 +100,9 @@ if (-not $mysqldump) {
         "--single-transaction",
         "--default-character-set=utf8mb4",
         "--set-charset",
+        "--column-statistics=0",
+        "--databases",
+        "--add-drop-database",
         "--result-file=$dumpFile",
         $dbName
     )
@@ -109,11 +112,11 @@ if (-not $mysqldump) {
         Write-Error "mysqldump that bai (exit $LASTEXITCODE)"
     }
 
-    Write-Host "   Da luu: database/dumps/apple_store-demo.sql (utf8mb4, ghi truc tiep boi mysqldump)"
+    Write-Host "   Da luu: database/dumps/apple_store-demo.sql (utf8mb4, co CREATE DATABASE)"
 }
 
 Write-Host ""
 Write-Host "Xong. Buoc tiep theo:"
-Write-Host "  1. Copy .env.xampp.example -> .env tren may XAMPP (neu can)"
-Write-Host "  2. Doc XAMPP.md de huong dan nguoi cai dat"
+Write-Host "  1. Chay copy-submission.ps1 de tao goi co .env san"
+Write-Host "  2. Doc README.md (muc huong dan cho thay co)"
 Write-Host "  3. Zip/nop ca thu muc project (co vendor/, public/build/, database/dumps/)"

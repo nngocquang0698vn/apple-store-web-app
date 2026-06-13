@@ -1,0 +1,40 @@
+# XAMPP-Lite aliases — chi ap dung VirtualHost mac dinh (localhost)
+# Tranh xung dot /admin voi Laravel tren http://127.0.0.1:8080
+
+<IfModule alias_module>
+
+    Alias /admin "${XAMPP_LITE_ROOT}/apps/admin"
+    <Directory "${XAMPP_LITE_ROOT}/apps/admin">
+	    Options -Indexes
+        AllowOverride AuthConfig
+        Require local
+    </Directory>
+
+    Alias /phpmyadmin "${XAMPP_LITE_ROOT}/apps/admin/phpmyadmin/"
+    <Directory "${XAMPP_LITE_ROOT}/apps/admin/phpmyadmin">
+	    Options -Indexes
+        AllowOverride AuthConfig
+        Require local
+    </Directory>
+
+    Alias /adminer "${XAMPP_LITE_ROOT}/apps/admin/adminer/"
+    <Directory "${XAMPP_LITE_ROOT}/apps/admin/adminer">
+	    Options -Indexes
+        AllowOverride AuthConfig
+        Require local
+    </Directory>
+
+    Alias /phpinfo "${XAMPP_LITE_ROOT}/apps/admin/phpinfo/"
+    <Directory "${XAMPP_LITE_ROOT}/apps/admin/phpinfo">
+	    Options -Indexes
+        AllowOverride AuthConfig
+        Require local
+    </Directory>
+
+    Alias /phpmanual "${XAMPP_LITE_ROOT}/apps/php/phpmanual"
+    <Directory "${XAMPP_LITE_ROOT}/apps/php/phpmanual">
+        AllowOverride AuthConfig
+        Require local
+    </Directory>
+
+</IfModule>
