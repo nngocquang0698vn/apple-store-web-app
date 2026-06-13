@@ -24,6 +24,12 @@ class ProductImageUrlTest extends TestCase
         $this->assertNull(ProductImageUrl::resolve('https://cdn.example.com/iphone.jpg'));
     }
 
+    public function test_resolve_rejects_invalid_single_segment_path(): void
+    {
+        $this->assertNull(ProductImageUrl::resolve('0'));
+        $this->assertNull(ProductImageUrl::resolve('demo.webp'));
+    }
+
     public function test_resolve_returns_storage_url_for_local_path(): void
     {
         Storage::fake('public');
@@ -32,5 +38,17 @@ class ProductImageUrlTest extends TestCase
 
         $this->assertNotNull($url);
         $this->assertStringContainsString('products/demo/iphone.webp', $url);
+    }
+
+    public function test_rewrite_storage_src_uses_app_url_prefix(): void
+    {
+        config([
+            'app.url' => 'http://localhost/public',
+            'filesystems.disks.public.url' => 'http://localhost/public/storage',
+        ]);
+
+        $url = ProductImageUrl::rewriteStorageSrc('/storage/products/demo/iphone.webp');
+
+        $this->assertSame('http://localhost/public/storage/products/demo/iphone.webp', $url);
     }
 }

@@ -115,6 +115,8 @@ class AdminProductTest extends TestCase
         $response->assertRedirect(route('admin.products.show', $product->id));
         $this->assertNotNull($image);
         $this->assertTrue($image->is_primary);
+        $this->assertNotSame('0', $image->path);
+        $this->assertMatchesRegularExpression('#^products/\d+/.+\.(webp|png|jpe?g)$#', $image->path);
         Storage::disk('public')->assertExists($image->path);
 
         $this->actingAs($admin)->post(route('admin.products.images.store', $product->id), [
@@ -381,6 +383,7 @@ class AdminProductTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('data-image-upload', false);
+        $response->assertSee('"/admin/products/'.$product->id.'/images"', false);
         $response->assertDontSee('products/'.$product->slug.'/images', false);
         $response->assertSee('Chọn ảnh sản phẩm', false);
         $response->assertSee('Hình ảnh sản phẩm', false);

@@ -2,11 +2,11 @@
     use App\Support\AdminProductImagePayload;
 
     $imageRoutes = [
-        'upload' => route('admin.products.images.store', $product->id),
-        'update' => route('admin.product-images.update', ['image' => '__ID__']),
-        'primary' => route('admin.product-images.primary', ['image' => '__ID__']),
-        'move' => route('admin.product-images.move', ['image' => '__ID__']),
-        'destroy' => route('admin.product-images.destroy', ['image' => '__ID__']),
+        'upload' => route('admin.products.images.store', $product->id, false),
+        'update' => route('admin.product-images.update', ['image' => '__ID__'], false),
+        'primary' => route('admin.product-images.primary', ['image' => '__ID__'], false),
+        'move' => route('admin.product-images.move', ['image' => '__ID__'], false),
+        'destroy' => route('admin.product-images.destroy', ['image' => '__ID__'], false),
     ];
     $initialImages = AdminProductImagePayload::forProduct($product);
 @endphp

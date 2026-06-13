@@ -20,7 +20,7 @@
         name="{{ $name }}"
         rows="{{ $rows }}"
         data-rich-text-editor
-        data-upload-url="{{ route('admin.products.description-images.store') }}"
+        data-upload-url="{{ route('admin.products.description-images.store', absolute: false) }}"
         class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
     >{{ $value }}</textarea>
 

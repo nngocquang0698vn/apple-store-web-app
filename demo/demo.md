@@ -8,7 +8,10 @@
 
 ### Môi trường
 
-- Laragon **Start All**, URL: `http://apple-store-web-app.test`
+- **Dev (Laragon):** Start All → `http://apple-store-web-app.test` (xem [README-DEV.md](../README-DEV.md))
+- **Nộp / chấm (XAMPP-Lite):** **`http://127.0.0.1:8080`** — xem [README.md](../README.md)
+  - **Không** mở `http://localhost:8080` (CORS: CSS/JS/font bị chặn vì `APP_URL` dùng `127.0.0.1`)
+  - Bookmark sẵn: `http://127.0.0.1:8080`, `http://127.0.0.1:8080/admin`, `http://127.0.0.1:8080/products`
 - Đã chạy: `php artisan migrate:fresh --seed`, `php artisan storage:link`, `npm run build`
 - Mở sẵn 2 trình duyệt (hoặc 2 profile): **Khách** và **Admin**
 

@@ -286,7 +286,7 @@ class CatalogSeeder extends Seeder
         $html .= '</tbody></table>';
 
         if (isset($demoImages[$slug]) && is_file(storage_path('app/public/products/demo/'.$demoImages[$slug]))) {
-            $src = '/storage/products/demo/'.$demoImages[$slug];
+            $src = \Illuminate\Support\Facades\Storage::disk('public')->url('products/demo/'.$demoImages[$slug]);
             $html .= '<h3>Hình ảnh minh họa</h3>';
             $html .= '<p><img src="'.e($src).'" alt="'.e($name).'" loading="lazy"></p>';
         }
