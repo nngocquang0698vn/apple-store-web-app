@@ -154,14 +154,6 @@
                         >
                             Quay lại giỏ hàng
                         </a>
-                        <button
-                            type="button"
-                            data-action="refresh-checkout-summary"
-                            class="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50"
-                        >
-                            <i class="fa-solid fa-rotate" aria-hidden="true"></i>
-                            Cập nhật tổng tiền
-                        </button>
                     </div>
                 </form>
             </section>

@@ -31,6 +31,8 @@
         </ol>
     </nav>
 
+    <x-admin-product-toolbar :product="$product" />
+
     <div
         class="grid min-w-0 gap-8 lg:grid-cols-2 lg:gap-10"
         data-product-detail

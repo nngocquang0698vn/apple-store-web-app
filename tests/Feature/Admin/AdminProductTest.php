@@ -381,6 +381,7 @@ class AdminProductTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('data-image-upload', false);
+        $response->assertDontSee('products/'.$product->slug.'/images', false);
         $response->assertSee('Chọn ảnh sản phẩm', false);
         $response->assertSee('Hình ảnh sản phẩm', false);
     }

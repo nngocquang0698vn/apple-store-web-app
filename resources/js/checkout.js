@@ -59,7 +59,6 @@ function setSummaryLoading(isLoading) {
     const $summary = $('[data-checkout-summary]');
 
     $summary.toggleClass('opacity-60 pointer-events-none', isLoading);
-    $('[data-action="refresh-checkout-summary"]').prop('disabled', isLoading);
 }
 
 function refreshCheckoutSummary(url) {
@@ -76,10 +75,6 @@ function refreshCheckoutSummary(url) {
         .done((response) => {
             if (response?.data) {
                 applyCheckoutSummary(response.data);
-            }
-
-            if (response?.message && response.success) {
-                showFlash('Đã cập nhật tổng tiền từ hệ thống.', 'success');
             }
         })
         .fail((xhr) => {
@@ -113,10 +108,6 @@ export function initCheckoutSummary() {
     }
 
     const summaryUrl = $page.data('summaryUrl');
-
-    $page.on('click', '[data-action="refresh-checkout-summary"]', function () {
-        refreshCheckoutSummary(summaryUrl);
-    });
 
     $page.on('submit', '[data-action="place-order"]', function () {
         const $form = $(this);

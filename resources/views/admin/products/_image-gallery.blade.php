@@ -2,7 +2,7 @@
     use App\Support\AdminProductImagePayload;
 
     $imageRoutes = [
-        'upload' => route('admin.products.images.store', $product),
+        'upload' => route('admin.products.images.store', $product->id),
         'update' => route('admin.product-images.update', ['image' => '__ID__']),
         'primary' => route('admin.product-images.primary', ['image' => '__ID__']),
         'move' => route('admin.product-images.move', ['image' => '__ID__']),
@@ -88,7 +88,7 @@
     <div class="mt-8">
         <h3 class="text-sm font-semibold text-gray-900">Ảnh hiện có</h3>
         <p class="mt-1 text-sm text-gray-600">
-            Thứ tự hiển thị theo hàng ngang bên dưới: <strong>trái → phải</strong> giống trang chi tiết sản phẩm.
+            Thứ tự hiển thị: <strong>trái → phải</strong>, tự xuống dòng khi hết chỗ — giống trang chi tiết sản phẩm.
             Dùng <strong>Hiển thị trước</strong> / <strong>Hiển thị sau</strong> để đổi vị trí; số thứ tự trên ảnh sẽ cập nhật ngay.
         </p>
         <div class="mt-4" data-existing-images-root>
@@ -109,14 +109,10 @@
                 </button>
             </div>
             <div
-                class="flex gap-4 overflow-x-auto pb-3 scroll-smooth snap-x snap-mandatory"
+                class="flex flex-wrap items-start gap-4"
                 data-existing-images-grid
                 aria-label="Dãy ảnh sản phẩm theo thứ tự hiển thị"
             ></div>
         </div>
     </div>
 </section>
-
-@push('vite')
-    @vite(['resources/js/admin/product-images.js'])
-@endpush

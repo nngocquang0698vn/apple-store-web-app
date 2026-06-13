@@ -6,7 +6,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Quản trị - ' . config('app.name'))</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @stack('vite')
 </head>
 <body class="min-h-screen bg-gray-100 text-gray-900 antialiased">
     <a
@@ -130,5 +129,6 @@
             </main>
         </div>
     </div>
+    @stack('vite')
 </body>
 </html>
