@@ -84,6 +84,7 @@ async function uploadDescriptionImage(quill, uploadUrl, csrfToken) {
 
         const response = await fetch(uploadUrl, {
             method: 'POST',
+            credentials: 'same-origin',
             headers: {
                 Accept: 'application/json',
                 'X-CSRF-TOKEN': csrfToken,

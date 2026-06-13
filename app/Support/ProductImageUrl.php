@@ -16,6 +16,10 @@ final class ProductImageUrl
             return null;
         }
 
+        if (! str_contains($path, '/')) {
+            return null;
+        }
+
         return Storage::disk('public')->url($path);
     }
 

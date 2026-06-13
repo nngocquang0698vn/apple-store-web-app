@@ -284,6 +284,7 @@ function rebuildFileInput($root, previewState) {
 async function ajaxRequest(url, method, body = null) {
     const options = {
         method,
+        credentials: 'same-origin',
         headers: {
             Accept: 'application/json',
             'X-CSRF-TOKEN': csrfToken(),

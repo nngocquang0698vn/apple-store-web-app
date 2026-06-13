@@ -24,6 +24,12 @@ class ProductImageUrlTest extends TestCase
         $this->assertNull(ProductImageUrl::resolve('https://cdn.example.com/iphone.jpg'));
     }
 
+    public function test_resolve_rejects_invalid_single_segment_path(): void
+    {
+        $this->assertNull(ProductImageUrl::resolve('0'));
+        $this->assertNull(ProductImageUrl::resolve('demo.webp'));
+    }
+
     public function test_resolve_returns_storage_url_for_local_path(): void
     {
         Storage::fake('public');

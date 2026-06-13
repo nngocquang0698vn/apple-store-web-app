@@ -10,11 +10,12 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Support\AdminProductImagePayload;
 use App\Support\ProductImageOrdering;
+use App\Support\ProductPublicUpload;
+use App\Support\PublicStorageMirror;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class ProductImageController extends Controller
 {
@@ -27,8 +28,18 @@ class ProductImageController extends Controller
         $product = Product::query()->findOrFail($product);
         $data = $request->validated();
         $file = $request->file('image');
-        $filename = Str::ulid().'.'.$file->extension();
-        $path = $file->storeAs("products/{$product->id}", $filename, 'public');
+
+        try {
+            $path = ProductPublicUpload::store($file, "products/{$product->id}");
+        } catch (RuntimeException $exception) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => $exception->getMessage()], 422);
+            }
+
+            return back()->withErrors(['image' => $exception->getMessage()]);
+        }
+
+        PublicStorageMirror::mirror($path);
 
         $hasImages = $product->images()->exists();
         $isPrimary = $data['is_primary'] ?? false;
@@ -106,6 +117,7 @@ class ProductImageController extends Controller
         $wasPrimary = $image->is_primary;
 
         Storage::disk('public')->delete($image->path);
+        PublicStorageMirror::remove($image->path);
         $image->delete();
 
         if ($wasPrimary) {
