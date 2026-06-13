@@ -162,7 +162,7 @@ function renderExistingImageCard(image, productName, routes, position, total) {
         : '';
 
     return `
-        <article class="w-[240px] shrink-0 snap-start rounded-xl border bg-white p-3 shadow-sm transition-shadow duration-300" data-existing-image data-image-id="${image.id}" data-sort-order="${image.sort_order}" data-is-primary="${image.is_primary ? '1' : '0'}">
+        <article class="w-[240px] max-w-full rounded-xl border bg-white p-3 shadow-sm transition-shadow duration-300" data-existing-image data-image-id="${image.id}" data-sort-order="${image.sort_order}" data-is-primary="${image.is_primary ? '1' : '0'}">
             <div class="relative">
                 <img src="${escapeHtml(image.url)}" alt="${escapeHtml(image.alt_text || productName)}" class="aspect-square w-full rounded-lg bg-gray-50 object-contain">
                 <div class="absolute left-2 top-2 flex flex-col items-start gap-1">${primaryBadge}</div>
@@ -213,17 +213,22 @@ function renderExistingImages($root, images, movedImageId = null) {
     const parts = [];
 
     images.forEach((image, index) => {
-        if (index > 0) {
-            parts.push('<div class="flex w-6 shrink-0 items-center justify-center text-gray-300" aria-hidden="true"><i class="fa-solid fa-arrow-right-long"></i></div>');
-        }
-
-        parts.push(renderExistingImageCard(
+        const card = renderExistingImageCard(
             image,
             productName,
             routes,
             index + 1,
             images.length,
-        ));
+        );
+        const isLast = index === images.length - 1;
+
+        if (isLast) {
+            parts.push(`<div class="inline-flex max-w-full">${card}</div>`);
+        } else {
+            parts.push(
+                `<div class="inline-flex max-w-full items-center gap-4">${card}<div class="flex w-6 shrink-0 items-center justify-center self-center text-gray-300" aria-hidden="true"><i class="fa-solid fa-arrow-right-long"></i></div></div>`,
+            );
+        }
     });
 
     $grid.html(parts.join(''));
@@ -350,7 +355,11 @@ function initProductImageUpload($root) {
     }
 
     function openFilePicker() {
-        $root.find('[data-image-input]').trigger('click');
+        const input = $root.find('[data-image-input]')[0];
+
+        if (input) {
+            input.click();
+        }
     }
 
     async function uploadPreviews() {
@@ -422,7 +431,7 @@ function initProductImageUpload($root) {
     });
 
     $root.on('click', '[data-image-dropzone]', function (event) {
-        if ($(event.target).closest('[data-image-upload-trigger], [data-image-remove-preview], button').length) {
+        if ($(event.target).closest('[data-image-upload-trigger], [data-image-empty-trigger], [data-image-input], [data-image-remove-preview], button').length) {
             return;
         }
 

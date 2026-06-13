@@ -75,5 +75,5 @@
 
 <div class="admin-form-actions border-t border-gray-100 pt-6">
     <button type="submit" class="admin-btn-primary">Lưu</button>
-    <a href="{{ route('admin.products.index') }}" class="admin-btn-secondary px-4 py-2">Hủy</a>
+    <a href="{{ $product ? route('admin.products.show', $product->id) : route('admin.products.index') }}" class="admin-btn-secondary px-4 py-2">Hủy</a>
 </div>

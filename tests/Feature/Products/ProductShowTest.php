@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\ProductVariant;
 use App\Models\StorageOption;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -264,5 +265,38 @@ class ProductShowTest extends TestCase
         $response->assertSee('<h2>Điểm nổi bật</h2>', false);
         $response->assertSee('Nội dung an toàn.', false);
         $response->assertDontSee('alert(1)', false);
+    }
+
+    public function test_admin_sees_manage_link_on_storefront_product_page(): void
+    {
+        $admin = User::query()->where('email', 'admin@istore.test')->firstOrFail();
+        $product = Product::query()->where('slug', 'iphone-16-pro')->firstOrFail();
+
+        $this->actingAs($admin)
+            ->get(route('products.show', $product))
+            ->assertOk()
+            ->assertSee('Quản lý sản phẩm', false)
+            ->assertSee('admin/products/'.$product->id, false)
+            ->assertDontSee('admin/products/'.$product->id.'/edit', false);
+    }
+
+    public function test_customer_does_not_see_admin_manage_link_on_product_page(): void
+    {
+        $customer = User::query()->where('email', 'customer1@istore.test')->firstOrFail();
+        $product = Product::query()->where('slug', 'iphone-16-pro')->firstOrFail();
+
+        $this->actingAs($customer)
+            ->get(route('products.show', $product))
+            ->assertOk()
+            ->assertDontSee('admin/products/'.$product->id, false);
+    }
+
+    public function test_guest_does_not_see_admin_manage_link_on_product_page(): void
+    {
+        $product = Product::query()->where('slug', 'iphone-16-pro')->firstOrFail();
+
+        $this->get(route('products.show', $product))
+            ->assertOk()
+            ->assertDontSee('admin/products/'.$product->id, false);
     }
 }

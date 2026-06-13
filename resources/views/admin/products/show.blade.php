@@ -11,7 +11,7 @@
         </div>
         <div class="admin-form-actions shrink-0 sm:justify-end">
             <a href="{{ route('admin.products.variants.index', $product->id) }}" class="admin-btn-secondary px-4 py-2">Biến thể</a>
-            <a href="{{ route('admin.products.edit', $product->id) }}" class="admin-btn-primary">Sửa sản phẩm</a>
+            <a href="{{ route('admin.products.edit', $product->id) }}" class="admin-btn-primary">Sửa chi tiết sản phẩm</a>
         </div>
     </div>
 
@@ -26,3 +26,7 @@
 
     @include('admin.products._image-gallery', ['product' => $product])
 @endsection
+
+@push('vite')
+    @vite(['resources/js/admin/product-images.js'])
+@endpush

@@ -15,6 +15,7 @@
             <thead>
                 <tr>
                     <th class="admin-th">Tên</th>
+                    <th class="admin-th">Biến thể</th>
                     <th class="admin-th">Danh mục</th>
                     <th class="admin-th">Dòng</th>
                     <th class="admin-th">Trạng thái</th>
@@ -28,6 +29,14 @@
                         <td class="admin-td">
                             <a href="{{ route('admin.products.show', $product->id) }}" class="font-medium text-blue-700 hover:text-blue-900">{{ $product->name }}</a>
                             <p class="mt-1 text-xs text-gray-500">{{ $product->slug }}</p>
+                        </td>
+                        <td class="admin-td">
+                            <a
+                                href="{{ route('admin.products.variants.index', $product->id) }}"
+                                class="admin-btn-secondary whitespace-nowrap"
+                            >
+                                Xem biến thể
+                            </a>
                         </td>
                         <td class="admin-td text-gray-600">{{ $product->category?->name }}</td>
                         <td class="admin-td text-gray-600">{{ $product->productSeries?->name ?: '—' }}</td>
@@ -44,7 +53,6 @@
                         <td class="admin-td text-gray-600">{{ $product->variants_count }} biến thể, {{ $product->images_count }} ảnh</td>
                         <td class="admin-td">
                             <div class="admin-actions">
-                                <a href="{{ route('admin.products.variants.index', $product->id) }}" class="admin-btn-secondary">Biến thể</a>
                                 <a href="{{ route('admin.products.edit', $product->id) }}" class="admin-btn-secondary">Sửa</a>
                                 <form method="post" action="{{ route('admin.products.destroy', $product->id) }}">
                                     @csrf
@@ -56,7 +64,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="px-4 py-8 text-center text-gray-500">Chưa có sản phẩm.</td>
+                        <td colspan="7" class="px-4 py-8 text-center text-gray-500">Chưa có sản phẩm.</td>
                     </tr>
                 @endforelse
             </tbody>
