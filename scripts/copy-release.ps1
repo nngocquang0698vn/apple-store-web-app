@@ -39,9 +39,9 @@ if (-not (Test-Path (Join-Path $Source "vendor\autoload.php"))) {
     Write-Error "Thieu vendor/. Chay: composer install --no-dev (hoac composer install) roi chay lai script."
 }
 
-Write-Host "Copy file (bo qua non-submission, node_modules, .git, public/storage symlink)..."
+Write-Host "Copy file (bo qua non-submission, node_modules, .git; khong theo symlink public/storage)..."
 $robocopyExit = 0
-robocopy $Source $Destination /MIR /NFL /NDL /NJH /NJS /NC /NS /NP `
+robocopy $Source $Destination /MIR /XJ /NFL /NDL /NJH /NJS /NC /NS /NP `
     /XD non-submission node_modules .git .idea .vscode .cursor .phpunit.cache public\storage `
     /XF .env .env.docker .phpunit.result.cache
 if ($LASTEXITCODE -ge 8) { $robocopyExit = $LASTEXITCODE }

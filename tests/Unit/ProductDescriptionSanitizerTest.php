@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Support\ProductDescriptionSanitizer;
 use App\Support\ProductDescriptionYoutube;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ProductDescriptionSanitizerTest extends TestCase
@@ -69,7 +70,8 @@ class ProductDescriptionSanitizerTest extends TestCase
         $result = ProductDescriptionSanitizer::sanitize($input);
 
         $this->assertNotNull($result);
-        $this->assertStringContainsString('src="/storage/products/description/demo.webp"', $result);
+        $expectedUrl = Storage::disk('public')->url('products/description/demo.webp');
+        $this->assertStringContainsString('src="'.$expectedUrl.'"', $result);
         $this->assertStringContainsString('alt="Ảnh demo"', $result);
     }
 

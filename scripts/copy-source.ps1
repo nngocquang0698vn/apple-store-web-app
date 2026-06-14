@@ -34,14 +34,20 @@ if (Test-Path $Destination) {
 
 New-Item -ItemType Directory -Path $Destination -Force | Out-Null
 
-Write-Host "Copy source (bo qua vendor, node_modules, .git, public/build, public/storage symlink)..."
+Write-Host "Copy source (bo qua vendor, node_modules, .git, public/build; khong theo symlink public/storage)..."
 $robocopyExit = 0
-robocopy $Source $Destination /MIR /NFL /NDL /NJH /NJS /NC /NS /NP `
+robocopy $Source $Destination /MIR /XJ /NFL /NDL /NJH /NJS /NC /NS /NP `
     /XD vendor node_modules non-submission .git .idea .vscode .cursor .phpunit.cache public\storage public\build `
     /XF .phpunit.result.cache
 if ($LASTEXITCODE -ge 8) { $robocopyExit = $LASTEXITCODE }
 if ($robocopyExit -ge 8) {
     Write-Error "robocopy that bai (exit $robocopyExit)"
+}
+
+$publicStorage = Join-Path $Destination "public\storage"
+if (Test-Path $publicStorage) {
+    Write-Host "Xoa public/storage (goi source khong can - dung storage:link sau khi cai)..."
+    Remove-Item $publicStorage -Recurse -Force
 }
 
 Remove-Item (Join-Path $Destination "storage\logs\*") -Recurse -Force -ErrorAction SilentlyContinue
@@ -54,6 +60,10 @@ Remove-Item (Join-Path $Destination "public\hot") -Force -ErrorAction SilentlyCo
 
 Get-ChildItem (Join-Path $Destination "bootstrap\cache\*.php") -ErrorAction SilentlyContinue |
     Remove-Item -Force -ErrorAction SilentlyContinue
+
+if (Test-Path $publicStorage) {
+    Write-Error "Goi source khong duoc co public/storage (hay chay lai script)."
+}
 
 @'
 Huong dan source code (thay co / giao vien)

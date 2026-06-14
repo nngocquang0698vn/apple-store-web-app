@@ -383,7 +383,13 @@ class AdminProductTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('data-image-upload', false);
-        $response->assertSee('"/admin/products/'.$product->id.'/images"', false);
+        $response->assertSee('data-routes', false);
+
+        preg_match("/data-routes='([^']+)'/", $response->getContent(), $matches);
+        $this->assertNotEmpty($matches);
+        $routes = json_decode($matches[1], true);
+        $this->assertSame('/admin/products/'.$product->id.'/images', $routes['upload']);
+
         $response->assertDontSee('products/'.$product->slug.'/images', false);
         $response->assertSee('Chọn ảnh sản phẩm', false);
         $response->assertSee('Hình ảnh sản phẩm', false);
