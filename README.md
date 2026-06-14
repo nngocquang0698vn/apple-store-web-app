@@ -72,6 +72,29 @@ Trong gói nộp có sẵn 4 file đã chỉnh đúng. Copy **ghi đè** như sa
 PowerShell (chạy **sau** khi đã copy project vào `www/`):
 
 ```powershell
+# Mặc định — XAMPP tại C:\xampp_lite_8_3
+.\scripts\copy-xampp-lite-apache-conf.ps1
+```
+
+Nếu XAMPP cài ở đường dẫn khác, chỉ rõ `-XamppRoot` (thêm `-Verbose` để xem chi tiết từng bước):
+
+```powershell
+.\scripts\copy-xampp-lite-apache-conf.ps1 `
+    -XamppRoot "C:\xampp_lite_8_3" `
+    -ConfigSource "C:\xampp_lite_8_3\www\xampp-lite-conf" `
+    -Verbose
+```
+
+| Tham số | Mặc định | Ý nghĩa |
+| --- | --- | --- |
+| `-XamppRoot` | `C:\xampp_lite_8_3` | Thư mục gốc XAMPP-Lite (chứa `apps\apache\`) |
+| `-ConfigSource` | tự tìm trong `www\xampp-lite-conf` | Thư mục 4 file `.example` trong gói nộp |
+| `-Verbose` | — | In đường dẫn nguồn/đích và backup |
+| `-SkipBackup` | — | Không sao lưu file Apache cũ |
+
+Hoặc thủ công:
+
+```powershell
 $X = "C:\xampp_lite_8_3"
 $W = "C:\xampp_lite_8_3\www"
 $C = "$W\xampp-lite-conf"

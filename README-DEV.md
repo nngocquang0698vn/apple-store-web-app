@@ -84,7 +84,12 @@ Nén thủ công `apple-store-web-app-release` → **`apple-store-web-app-releas
 
 Gói `apple-store-web-app-release` dùng `.env` với `APP_URL=http://127.0.0.1:8080` — **khác** `.env` dev Laragon; đó là cố ý (xem README.md).
 
-Deploy thử trên XAMPP local: `.\scripts\copy-to-xampp-lite-www.ps1`
+Deploy thử trên XAMPP local:
+
+```powershell
+.\scripts\copy-to-xampp-lite-www.ps1
+.\scripts\copy-xampp-lite-apache-conf.ps1 -XamppRoot "C:\xampp_lite_8_3" -Verbose
+```
 
 > Trên XAMPP-Lite: luôn mở app bằng **`http://127.0.0.1:8080`**, không dùng `localhost:8080` (tránh CORS).
 
