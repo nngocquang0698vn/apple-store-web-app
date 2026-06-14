@@ -1,13 +1,13 @@
-# Copy project sang thu muc xampp-lite-web-build (khong gom non-submission, node_modules, .git, ...).
+# Copy project sang thu muc apple-store-web-app-release (khong gom non-submission, node_modules, .git, ...).
 # Bo qua public/storage tren may dev (symlink Laragon) - tao lai tu storage/app/public.
 # Tao .env san tu .env.xampp.example (co APP_KEY) de thay co nop zip.
 #
 # Usage:
-#   .\scripts\copy-build.ps1
-#   .\scripts\copy-build.ps1 -Destination "D:\nop-bai\xampp-lite-web-build"
+#   .\scripts\copy-release.ps1
+#   .\scripts\copy-release.ps1 -Destination "D:\nop-bai\apple-store-web-app-release"
 
 param(
-    [string] $Destination = (Join-Path (Split-Path -Parent $PSScriptRoot) "..\xampp-lite-web-build")
+    [string] $Destination = (Join-Path (Split-Path -Parent $PSScriptRoot) "..\apple-store-web-app-release")
 )
 
 $ErrorActionPreference = "Stop"
@@ -141,9 +141,9 @@ Tom tat:
   1. Tai XAMPP-Lite 8.3.30 (Windows x64):
      https://sourceforge.net/projects/xampplite/files/8.3/8.3.30/x64/php-man-en/
   2. Copy toan bo thu muc nay vao www/ (file artisan nam ngay trong www/)
-  3. Copy 4 file mau Apache (xampp-lite-httpd*.example) vao apps/apache/conf/
+  3. Copy 4 file mau Apache tu xampp-lite-conf/ vao apps/apache/conf/
   4. Start Apache + MySQL, import database/dumps/apple_store-demo.sql
-  5. Mo http://127.0.0.1:8080 (KHONG dung localhost:8080 — tranh loi CORS/CSS)
+  5. Mo http://127.0.0.1:8080 (KHONG dung localhost:8080 - tranh loi CORS/CSS)
      phpMyAdmin: http://localhost/phpmyadmin
 
 Anh da copy san trong public/storage/ - khong can storage:link.
@@ -158,11 +158,15 @@ $required = @(
     ".env",
     "public\build\manifest.json",
     "public\storage",
-    "database\dumps\apple_store-demo.sql"
+    "database\dumps\apple_store-demo.sql",
+    "xampp-lite-conf\httpd.conf.example",
+    "xampp-lite-conf\httpd-vhosts.conf.example",
+    "xampp-lite-conf\httpd-xampp-lite-aliases.conf.example",
+    "xampp-lite-conf\httpd-xampp-lite.conf.example"
 )
 $missing = $required | Where-Object { -not (Test-Path (Join-Path $Destination $_)) }
 if ($missing.Count -gt 0) {
-    Write-Error ("Goi build thieu: " + ($missing -join ", "))
+    Write-Error ("Goi release thieu: " + ($missing -join ", "))
 }
 
 $appKey = (Select-String -Path (Join-Path $Destination ".env") -Pattern "^APP_KEY=(.+)$").Matches.Groups[1].Value.Trim()
@@ -171,11 +175,11 @@ if ([string]::IsNullOrWhiteSpace($appKey)) {
 }
 
 Write-Host ""
-Write-Host "Xong. Thu muc build:"
+Write-Host "Xong. Thu muc release:"
 Write-Host "  $Destination"
 Write-Host ""
 Write-Host "Buoc tiep theo:"
-Write-Host "  Nen thu muc thanh xampp-lite-web-build.zip (Explorador Windows / 7-Zip) roi nop bai"
+Write-Host "  Nen thu muc thanh apple-store-web-app-release.zip (Explorador Windows / 7-Zip) roi nop bai"
 Write-Host ""
 Write-Host "Da kiem tra:"
 foreach ($item in $required) {

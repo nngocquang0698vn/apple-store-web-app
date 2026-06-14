@@ -1,33 +1,33 @@
-# Copy goi nop (hoac thu muc nguon) vao XAMPP-Lite www de chay thu local.
-# Mac dinh: chay copy-build.ps1 roi mirror sang C:\xampp_lite_8_3\www
+# Copy goi release vao XAMPP-Lite www de chay thu local.
+# Mac dinh: chay copy-release.ps1 roi mirror sang C:\xampp_lite_8_3\www
 #
 # Usage:
 #   .\scripts\copy-to-xampp-lite-www.ps1
 #   .\scripts\copy-to-xampp-lite-www.ps1 -Destination "D:\xampp\www"
-#   .\scripts\copy-to-xampp-lite-www.ps1 -SkipSubmission -PreserveEnv
+#   .\scripts\copy-to-xampp-lite-www.ps1 -SkipRelease -PreserveEnv
 
 param(
     [string] $Destination = "C:\xampp_lite_8_3\www",
     [string] $Source = "",
-    [switch] $SkipSubmission,
+    [switch] $SkipRelease,
     [switch] $PreserveEnv
 )
 
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $PSScriptRoot
-$BuildDir = [System.IO.Path]::GetFullPath((Join-Path $Root "..\xampp-lite-web-build"))
+$ReleaseDir = [System.IO.Path]::GetFullPath((Join-Path $Root "..\apple-store-web-app-release"))
 $Destination = [System.IO.Path]::GetFullPath($Destination)
 
-if (-not $SkipSubmission) {
-    Write-Host "==> Tao goi build (copy-build.ps1)..."
-    & (Join-Path $PSScriptRoot "copy-build.ps1")
+if (-not $SkipRelease) {
+    Write-Host "==> Tao goi release (copy-release.ps1)..."
+    & (Join-Path $PSScriptRoot "copy-release.ps1")
     if ($LASTEXITCODE -ne 0) {
-        Write-Error "copy-build.ps1 that bai (exit $LASTEXITCODE)"
+        Write-Error "copy-release.ps1 that bai (exit $LASTEXITCODE)"
     }
 }
 
 if ([string]::IsNullOrWhiteSpace($Source)) {
-    $Source = $BuildDir
+    $Source = $ReleaseDir
 } else {
     $Source = [System.IO.Path]::GetFullPath($Source)
 }
@@ -71,7 +71,8 @@ $required = @(
     ".env",
     "public\build\manifest.json",
     "public\storage",
-    "artisan"
+    "artisan",
+    "xampp-lite-conf\httpd.conf.example"
 )
 $missing = $required | Where-Object { -not (Test-Path (Join-Path $Destination $_)) }
 if ($missing.Count -gt 0) {

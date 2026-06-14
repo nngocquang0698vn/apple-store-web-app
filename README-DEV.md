@@ -77,12 +77,12 @@ Trên máy dev, sau khi code ổn:
 
 ```powershell
 .\scripts\prepare-xampp.ps1
-.\scripts\copy-build.ps1
+.\scripts\copy-release.ps1
 ```
 
-Nén thủ công `xampp-lite-web-build` → **`xampp-lite-web-build.zip`** rồi nộp (xem README.md).
+Nén thủ công `apple-store-web-app-release` → **`apple-store-web-app-release.zip`** rồi nộp (xem README.md).
 
-Gói `xampp-lite-web-build` dùng `.env` với `APP_URL=http://127.0.0.1:8080` — **khác** `.env` dev Laragon; đó là cố ý (xem README.md).
+Gói `apple-store-web-app-release` dùng `.env` với `APP_URL=http://127.0.0.1:8080` — **khác** `.env` dev Laragon; đó là cố ý (xem README.md).
 
 Deploy thử trên XAMPP local: `.\scripts\copy-to-xampp-lite-www.ps1`
 

@@ -117,6 +117,6 @@ if (-not $mysqldump) {
 
 Write-Host ""
 Write-Host "Xong. Buoc tiep theo:"
-Write-Host "  1. Chay copy-build.ps1 de tao thu muc xampp-lite-web-build"
-Write-Host "  2. Nen thu muc xampp-lite-web-build thanh xampp-lite-web-build.zip (manual) roi nop bai"
+Write-Host "  1. Chay copy-release.ps1 de tao thu muc apple-store-web-app-release"
+Write-Host "  2. Nen thu muc apple-store-web-app-release thanh apple-store-web-app-release.zip (manual) roi nop bai"
 Write-Host "  3. Doc README.md (muc huong dan cho thay co)"
